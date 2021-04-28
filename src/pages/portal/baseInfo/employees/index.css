@@ -1,0 +1,42 @@
+#th, #tf
+{
+    display: block;
+    width: 100%;
+    background-color: #cfe1f8;
+    border-radius: .3em;margin-top: 0;
+}
+#tb
+{
+    display: block;
+    width: 100%;
+}
+table tbody 
+{
+   /* overflow: auto; */
+   overflow-y: auto;
+   overflow-x: hidden;
+   height: 500px;
+}
+
+#user-filter{
+    border-radius: .3em;
+}
+
+/* =================================================================== */
+
+/* .table{
+    display: grid;
+    grid-template-columns: repeat(autofit, minmax(100px, 1fr));
+}
+
+#th {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+  } */
+
+#tr{
+    width: 100%;  
+    /* border: 2px dashed #f69c55; margin: 0; */
+}

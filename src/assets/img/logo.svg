@@ -1,0 +1,44 @@
+<svg width="828px" height="236px" viewBox="0 0 828 236" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Artboard" transform="translate(-101.000000, -1188.000000)" fill="#FFFFFF">
+            <g id="YourMarketHub-2" transform="translate(101.000000, 1188.000000)">
+                <g id="YourMarketHub">
+                    <g id="Market" transform="translate(260.000000, 0.000000)">
+                        <g id="M">
+                            <g id="Group-2">
+                                <polygon id="Fill-1" points="0 9.80986126e-15 89.6192732 195 113 153.330529 44 0"></polygon>
+                                <polygon id="Fill-1" transform="translate(139.706543, 125.500000) scale(-1, 1) translate(-139.706543, -125.500000) " points="83.4130859 18 173.445312 233 196 180.839844 126.349452 18"></polygon>
+                                <polygon id="Fill-2" points="44 235 1.35711188 235 0 105 44 105"></polygon>
+                            </g>
+                        </g>
+                        <text id="arket" font-family="HelveticaNeue-Medium, Helvetica Neue" font-size="72" font-weight="400">
+                            <tspan x="170" y="230">arket</tspan>
+                        </text>
+                    </g>
+                    <g id="Hub" transform="translate(622.000000, 0.000000)">
+                        <g id="Group-7">
+                            <g id="H">
+                                <polygon id="Fill-3" points="49 149.6244 115.3396 149.6244 115.3396 117 49 117"></polygon>
+                                <polygon id="Fill-5" points="2.05140072e-15 235.4788 42.234 235.4788 40.5849609 -2.84217094e-14 0 -2.84217094e-14"></polygon>
+                            </g>
+                        </g>
+                        <g id="Group-5" transform="translate(123.000000, 160.000000)" font-family="HelveticaNeue-Medium, Helvetica Neue" font-size="72" font-weight="400">
+                            <text id="ub">
+                                <tspan x="0" y="70">ub</tspan>
+                            </text>
+                        </g>
+                    </g>
+                    <g id="Your">
+                        <g id="Y">
+                            <polygon id="Fill-8" points="0 0 38.959656 125 86 125 45.1992188 0"></polygon>
+                            <polygon id="Fill-9" points="87 234 38 234 38 135.002388 87 135"></polygon>
+                        </g>
+                        <text id="our" font-family="HelveticaNeue-Medium, Helvetica Neue" font-size="72" font-weight="400">
+                            <tspan x="100" y="233">our</tspan>
+                        </text>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

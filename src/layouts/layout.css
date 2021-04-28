@@ -1,0 +1,104 @@
+
+.layout-main{
+    display:flex;
+    /* border: 2px dashed #5c402c; */
+}
+.layout-main-box{
+    float:right;
+    padding: auto;
+    margin: auto;
+    /* border: 2px dashed #f69c55; */
+}
+
+.layout-main-background{
+    background-image: url("../assets/img/portal_login.png");
+    padding: 0; 
+    margin: 0;
+    height: 100vh;
+    width: auto;
+    background-size: cover;
+    background-position: center center;
+}
+.grid-container{
+    display: grid;
+    grid-template-columns: 33.33% 38.66% 28%;
+    grid-template-rows: 40% 60%;
+    grid-gap: 0;
+    margin: 0;
+    padding: 0;
+    height: 100vh; 
+    /* border: 2px dashed #f69c55;  */
+}
+
+.item1{
+    grid-column: 1 / 2;
+    grid-row: 1 / span 1;
+    /* height: 45vh; */
+    width: 100%;
+}
+.item2{
+    grid-column: 2 / 3;
+    grid-row: 1 / span 1;
+    /* height: 45vh; */
+    width: 100%;
+}
+
+.item3{
+    grid-column: 3 / span 1;
+    grid-row: 1 / span 1;
+    /* height: 45vh; */
+    width: 100%;
+    /* border: 2px dashed #f69c55; */
+}
+.text {
+    height: 1.2em;
+    width: 13%;
+    /* 300px */
+    text-align: center;
+    padding-top: 10%;
+    /* 200px */
+    padding-right: 5%;
+    /* 100px; */
+    border: 0px;
+    font-family: "B Titr";
+    font-size:1.5em;
+    /* 15pt */
+    font-weight: bold;
+    /* border: 2px dashed #1f1c1a; */
+}
+
+.item4{
+    grid-column: 1 / 2;
+    grid-row: 2 / span 1;
+    /* height: 55vh; */
+    width: 100%;
+}
+
+.item5{
+    grid-column: 2 / 3;
+    grid-row: 2 / span 1;
+    /* border: 2px dashed #f69c55;  */
+    /* height: 55vh; */
+    width: 100%;
+}
+.item6{
+    grid-column: 3 / span 1;
+    grid-row: 2 / span 1;
+    /* height: 55vh; */
+    width: 100%;
+    /* border: 2px dashed #f69c55; */
+}
+
+.line {
+    margin-top: 3em;
+    border-right: 1.8px solid rgb(243, 89, 17);
+    height: 5em;
+    /* 100x; */
+    width: 1px;
+    display: inline-block;
+    box-shadow: -1px 0px 2px 1px  #fc9855;
+    /* box-shadow: -10px 0px 15px 0px rgba(0, 0, 0, .25); */
+    opacity: .7;
+}
+
+    /* border: 2px dashed #f69c55; */

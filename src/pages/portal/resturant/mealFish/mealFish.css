@@ -1,0 +1,34 @@
+/*.h3{
+    border: 2px dashed #30302f; 
+    margin-top: .5em;
+    margin-bottom: .5em;
+  }*/
+  
+  /* .span{
+    margin-top: .5em;
+    margin-bottom: .5em;
+  }  */
+  
+  .printableArea {
+    margin: 0 auto;
+    text-align: center;	
+    /* clear: both; */
+    /* display: none; */
+    /* width: 200px; */
+  }
+  
+  
+  @media print and (width: 3.125in) and (height: 2.75in) {     
+    .html .body {
+      margin: 0 auto; 
+    }
+    @page { 
+      /* writing-mode: horizontal-tb;
+      direction: ltr; */
+      margin: 0 auto; 
+      width: 3.125in;
+      height: 2.75in;      
+      /* float: none;
+      text-align: center; */
+    } 
+  } 

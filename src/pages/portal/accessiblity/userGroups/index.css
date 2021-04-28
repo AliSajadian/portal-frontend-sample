@@ -1,0 +1,70 @@
+/* .sticky-column {
+    position: -webkit-sticky; 
+    position: sticky;
+    top: 0
+}
+
+.container {
+    border: 1px solid #eeccee;
+    max-height: 700px;
+    overflow-y: scroll;
+    width: 100%;
+} */
+/* #card2 {display:inline-block;}
+#card1 {display:inline-block;} */
+/* .parent {
+    display: flex;
+    flex-wrap: wrap; // allow wrapping items
+} */
+
+/* .child {
+    flex-grow: 1;
+    flex-basis: 50%; // 50% for two in a row, 33% three in a row etc.    flex-wrap: wrap;     display: table; display: table-cell; height:70%vh; 
+} */
+#card-main{width: 100%; border-radius: .3em; background-color: #e8eef8; align-items: stretch;box-shadow: -10px 0px 15px 0px rgba(18, 18, 19, 0.336);}
+/* #container{display: table-row} */
+#card1 {float:right; width: 65%; border-radius: .3em; background-color: #eff3fa; margin-top: 1em; min-height:100%;}
+#card2 {float:left; width: 25%; border-radius: .3em; background-color: #eff3fa; margin-top: 1em; min-height:100%;}
+#card-header1 {border-radius: .3em; background-color: #94bdf1; margin-bottom: 0;}
+#card-header2 {border-radius: .3em; background-color: #94bdf1; margin-bottom: 0;}
+/* table tbody, table thead, table tfoot
+{
+    display: block;
+    width: 90%;
+} */
+#th1, #tf1
+{
+    display: block;
+    width: 100%;
+    background-color: #cfe1f8;
+    border-radius: .3em;margin-top: 0;
+}
+#tb1
+{
+    display: block;
+    width: 100%;
+}
+#th2, #tf2
+{
+    display: block;
+    width: 100%;
+    background-color: #cfe1f8;
+    border-radius: .3em;margin-top: 0;
+}
+#tb2
+{
+    display: block;
+    width: 100%;
+}
+
+.table .tbody 
+{
+   /* overflow: auto; */
+   overflow-y: auto;
+   overflow-x: hidden;
+   height: 500px;
+}
+
+#user-filter{
+    border-radius: .3em;
+}

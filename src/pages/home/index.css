@@ -1,0 +1,13 @@
+.line2 {
+    border-left: 1px solid #eee9e9;
+    height: 100px;
+    display: inline-block;
+    box-shadow: -10px 0px 15px 0px rgba(14, 8, 8, 0.25);
+}
+
+.line1 {
+    border-left: .7px solid #6b6666;
+    height: 100px;
+    display: inline-block;
+    box-shadow: 1px 0px 4px 2px  #9b9494;
+}

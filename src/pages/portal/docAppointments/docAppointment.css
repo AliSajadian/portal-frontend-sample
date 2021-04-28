@@ -1,0 +1,109 @@
+.card3D{
+    box-shadow: -10px 0px 15px 0px rgba(18, 18, 19, 0.336);
+    border-radius: .3em;
+}
+.card-header{
+    background-color: #94bdf1;
+}
+.card-title{
+    font-weight: bold;
+}
+.card-body{
+    background-color: #eff3fa;
+}
+/* =================================================================== */
+.card{
+     /* background-color: #eff3fc; */
+     margin: .5em 0 0 .5em;
+     border-radius: .3em;
+     /* border: 2px dashed #8f1257; */
+}
+.col{
+    margin: 0;
+}
+.row{
+    border-radius: .3em;
+    margin: .8em 0 .5em 0;
+}
+/* =================================================================== */
+#th, #tf
+{
+    display: block;
+    width: 100%;
+    background-color: #cfe1f8;
+    border-radius: .3em;margin-top: 0;
+}
+#tb
+{
+    display: block;
+    width: 100%;
+}
+#tr{
+    width: 100%;  
+}
+table tbody 
+{
+   /* overflow: auto; */
+   overflow-y: auto;
+   overflow-x: hidden;
+   height: 200px;
+}
+/* =================================================================== */
+.con-calender{
+    background-color: #d9e3f8;
+    padding: .5em 1.5em .5em 1.5em ;
+    margin: .5em 1.5em .5em 1.5em;
+    border-radius: .3em;
+    box-shadow: -10px 0px 15px 0px rgba(18, 18, 19, 0.336);
+}
+.con-calender-inner{
+    background-color: #e8edf7;
+    padding: .2em .5em .2em .5em ;
+    margin: .2em .3em .2em .3em;
+    border-radius: .3em;
+    /* box-shadow: -10px 0px 15px 0px rgba(18, 18, 19, 0.336); */
+}
+/* =================================================================== */
+.text{
+    background-color: #eaeff8;
+
+    border-radius: .3em;
+    margin-bottom: 1em;
+}
+.select{
+    background-color: #eaeff8;
+    border-radius: .3em;
+    margin-right: 2em;
+    /* border: 2px dashed #12808f;  */
+}
+/* =================================================================== */
+.card-shadule-day{
+    box-shadow: -10px 0px 15px 0px rgba(18, 18, 19, 0.336);
+    background-color: #e8edf7;
+    border-radius: .3em;
+}
+.card-doc-appointment{
+    box-shadow: -10px 0px 15px 0px rgba(18, 18, 19, 0.336);
+    background-color: #e8edf7;
+    border-radius: .3em;
+    width:12em;
+    padding: auto;
+}
+.card-patient{
+    box-shadow: -10px 0px 15px 0px rgba(18, 18, 19, 0.336);
+    background-color: #e8edf7;
+    border-radius: .3em;
+    width:12em;
+    padding: auto;
+    margin-bottom: 1em;
+}
+
+.card-patient-fade{
+    box-shadow: -10px 0px 15px 0px rgba(18, 18, 19, 0.336);
+    background-color: #f7b7b2;
+    border-radius: .3em;
+    width:12em;
+    padding: auto;
+    margin-bottom: 1em;
+    opacity: .6;
+}
