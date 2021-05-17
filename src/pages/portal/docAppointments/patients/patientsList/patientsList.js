@@ -487,7 +487,7 @@ class PatientsList extends Component {
 
   PatientFileDownload = (id, filename) => {
     // console.log('info: ', id, ' , ',  filename)
-    fetch(`http://172.20.20.45:90/api/auth/filesdownload/${id}/`).then(
+    fetch(`http://127.0.0.1:8000/api/auth/filesdownload/${id}/`).then(
       response => {
         response.blob().then(blob => {
         let url = window.URL.createObjectURL(blob);
@@ -514,7 +514,7 @@ class PatientsList extends Component {
   }
 
   // PatientFileDownload = (id, filename) => {
-  //   fetch(`http://172.20.20.45:90/api/auth/filesdownload/${id}/`).then(
+  //   fetch(`http://127.0.0.1:8000/api/auth/filesdownload/${id}/`).then(
   //     response => {
   //     //   response.blob().then(blob => {
   //     //   let url = window.URL.createObjectURL(blob);

@@ -7,7 +7,7 @@ import { toastr } from "react-redux-toastr";
 
 export const GetDepartmentsList = () => {
     return dispatch => {
-        axios.get('http://172.20.20.45:90/api/departments/')
+        axios.get('http://127.0.0.1:8000/api/departments/')
         .then((response) => {
             dispatch({
                 type : types.GET_DEPARTMENTS_LIST , 
@@ -23,7 +23,7 @@ export const GetDepartmentsList = () => {
 
 export const LoadRelatedDepartmentInfoCard = (departmentId) => {        
     return (dispatch) =>  {
-        axios.get(`http://172.20.20.45:90/api/departments/${departmentId}`)
+        axios.get(`http://127.0.0.1:8000/api/departments/${departmentId}`)
         .then((response) => {
             dispatch({
                 type : types.LOAD_RELATED_DEPARTMENT_INFO_CARD , 
@@ -38,7 +38,7 @@ export const LoadRelatedDepartmentInfoCard = (departmentId) => {
 
 export const RemoveDepartment = (id) => {
     return dispatch => {
-        axios.delete(`http://172.20.20.45:90/api/departments/${id}`)
+        axios.delete(`http://127.0.0.1:8000/api/departments/${id}`)
             .then(() => {
                 dispatch({
                     type: types.REMOVE_DEPARTMENT ,
@@ -53,7 +53,7 @@ export const RemoveDepartment = (id) => {
 
 export const AddDepartmentModel = () => {
     // return dispatch => {
-    //     axios.get('http://172.20.20.45:90/api/departments/')
+    //     axios.get('http://127.0.0.1:8000/api/departments/')
     //     .then((response) => {
     //         dispatch({
     //             type : types.START_ADD_DEPARTMENT , 
@@ -73,7 +73,7 @@ export const AddDepartmentModel = () => {
 // ADD Department
 export const AddDepartment = department => {
     return dispatch => {
-        axios.post("http://172.20.20.45:90/api/departments/", department)
+        axios.post("http://127.0.0.1:8000/api/departments/", department)
             .then(res => {
                 dispatch({
                 type: types.ADD_DEPARTMENT,
@@ -91,7 +91,7 @@ export const AddDepartment = department => {
 // GET Department MODAL
  export const GetDepartmentsModal = (id) => {
     return dispatch => {
-        axios.get(`http://172.20.20.45:90/api/departments/${id}`)
+        axios.get(`http://127.0.0.1:8000/api/departments/${id}`)
         .then((response) => {
             dispatch({
                 type : types.START_DEPARTMENT_MODAL, 
@@ -107,7 +107,7 @@ export const AddDepartment = department => {
 // EDIT Department
 export const EditDepartment = department => {
     return dispatch => {
-        axios.put(`http://172.20.20.45:90/api/departments/${department.id}/`, department)
+        axios.put(`http://127.0.0.1:8000/api/departments/${department.id}/`, department)
             .then(resonse => {
                 dispatch({
                 type: types.EDIT_DEPARTMENT,

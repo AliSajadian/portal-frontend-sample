@@ -7,7 +7,7 @@ import { toastr } from "react-redux-toastr";
 
 export const GetPermissionsList = () => {
     return dispatch => {
-        axios.get('http://172.20.20.45:90/api/permissions/')
+        axios.get('http://127.0.0.1:8000/api/permissions/')
         .then((response) => {
             dispatch({
                 type : types.GET_PERMISSIONS_LIST , 
@@ -23,7 +23,7 @@ export const GetPermissionsList = () => {
 
 export const GetContentTypeList = () => {
     return dispatch => {
-        axios.get('http://172.20.20.45:90/api/contenttypes/')
+        axios.get('http://127.0.0.1:8000/api/contenttypes/')
         .then((response) => {
             dispatch({
                 type : types.GET_CONTENTTYPES_LIST, 
@@ -38,7 +38,7 @@ export const GetContentTypeList = () => {
 
 export const GetUserPermissionsList = () => {
     return dispatch => {
-        axios.get('http://172.20.20.45:90/api/userpermissions/')
+        axios.get('http://127.0.0.1:8000/api/userpermissions/')
         .then((response) => {
             dispatch({
                 type : types.GET_USERPERMISSIONS_LIST, 
@@ -53,7 +53,7 @@ export const GetUserPermissionsList = () => {
 
 export const GetGroupPermissionsList = () => {
     return dispatch => {
-        axios.get('http://172.20.20.45:90/api/grouppermissions/')
+        axios.get('http://127.0.0.1:8000/api/grouppermissions/')
         .then((response) => {
             dispatch({
                 type : types.GET_GROUPPERMISSIONS_LIST, 
@@ -68,7 +68,7 @@ export const GetGroupPermissionsList = () => {
 
 export const LoadRelatedPermissionInfoCard = (permissionId) => {        
     return (dispatch) =>  {
-        axios.get(`http://172.20.20.45:90/api/permissions/${permissionId}`)
+        axios.get(`http://127.0.0.1:8000/api/permissions/${permissionId}`)
         .then((response) => {
             dispatch({
                 type : types.LOAD_RELATED_PERMISSION_INFO_CARD , 
@@ -83,7 +83,7 @@ export const LoadRelatedPermissionInfoCard = (permissionId) => {
 
 export const RemovePermission = (id) => {
     return dispatch => {
-        axios.delete(`http://172.20.20.45:90/api/permissions/${id}`)
+        axios.delete(`http://127.0.0.1:8000/api/permissions/${id}`)
             .then(() => {
                 dispatch({
                     type: types.REMOVE_PERMISSION ,
@@ -98,7 +98,7 @@ export const RemovePermission = (id) => {
 
 export const AddPermissionModel = () => {
     // return dispatch => {
-    //     axios.get('http://172.20.20.45:90/api/permissions/')
+    //     axios.get('http://127.0.0.1:8000/api/permissions/')
     //     .then((response) => {
     //         dispatch({
     //             type : types.START_ADD_PERMISSION , 
@@ -117,7 +117,7 @@ export const AddPermissionModel = () => {
 // ADD PERMISSION
 export const AddPermission = permission => {
     return dispatch => {
-        axios.post("http://172.20.20.45:90/api/permissions/", permission)
+        axios.post("http://127.0.0.1:8000/api/permissions/", permission)
             .then(res => {
                 dispatch({
                 type: types.ADD_PERMISSION,
@@ -135,7 +135,7 @@ export const AddPermission = permission => {
 // GET PERMISSION MODAL
  export const GetPermissionsModal = (id) => {
     return dispatch => {
-        axios.get(`http://172.20.20.45:90/api/permissions/${id}`)
+        axios.get(`http://127.0.0.1:8000/api/permissions/${id}`)
         .then((response) => {
             dispatch({
                 type : types.START_PERMISSION_MODAL, 
@@ -151,7 +151,7 @@ export const AddPermission = permission => {
 // EDIT PERMISSION
 export const EditPermission = permission => {
     return dispatch => {
-        axios.put(`http://172.20.20.45:90/api/permissions/${permission.id}/`, permission)
+        axios.put(`http://127.0.0.1:8000/api/permissions/${permission.id}/`, permission)
             .then(resonse => {
                 dispatch({
                 type: types.EDIT_PERMISSION,
@@ -167,7 +167,7 @@ export const EditPermission = permission => {
 
 export const EditUserPermission = userPermission => {
     return dispatch => {
-        axios.put(`http://172.20.20.45:90/api/auth/userpermissions/${userPermission.id}`, userPermission)
+        axios.put(`http://127.0.0.1:8000/api/auth/userpermissions/${userPermission.id}`, userPermission)
         .then((response) => {
             dispatch({
                 type : types.EDIT_USERPERMISSION, 
@@ -182,7 +182,7 @@ export const EditUserPermission = userPermission => {
 
 export const EditGroupPermission = groupPermission => {
     return dispatch => {
-        axios.put(`http://172.20.20.45:90/api/auth/grouppermissions/${groupPermission.id}`, groupPermission)
+        axios.put(`http://127.0.0.1:8000/api/auth/grouppermissions/${groupPermission.id}`, groupPermission)
         .then((response) => {
             dispatch({
                 type : types.EDIT_GROUPPERMISSION, 

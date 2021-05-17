@@ -7,7 +7,7 @@ import { toastr } from "react-redux-toastr";
 
 export const GetGroupsList = () => {
     return dispatch => {
-        axios.get('http://172.20.20.45:90/api/groups/')
+        axios.get('http://127.0.0.1:8000/api/groups/')
         .then((response) => {
             dispatch({
                 type : types.GET_GROUPS_LIST , 
@@ -22,7 +22,7 @@ export const GetGroupsList = () => {
 
 export const GetUserGroupsList = () => {
     return dispatch => {
-        axios.get('http://172.20.20.45:90/api/usergroups/')
+        axios.get('http://127.0.0.1:8000/api/usergroups/')
         .then((response) => {
             dispatch({
                 type : types.GET_USERGROUPS_LIST , 
@@ -37,7 +37,7 @@ export const GetUserGroupsList = () => {
 
 export const LoadRelatedGroupInfoCard = (groupId) => {        
     return (dispatch) =>  {
-        axios.get(`http://172.20.20.45:90/api/groups/${groupId}`)
+        axios.get(`http://127.0.0.1:8000/api/groups/${groupId}`)
         .then((response) => {
             dispatch({
                 type : types.LOAD_RELATED_GROUP_INFO_CARD , 
@@ -52,7 +52,7 @@ export const LoadRelatedGroupInfoCard = (groupId) => {
 
 export const RemoveGroup = (id) => {
     return dispatch => {
-        axios.delete(`http://172.20.20.45:90/api/groups/${id}`)
+        axios.delete(`http://127.0.0.1:8000/api/groups/${id}`)
             .then(() => {
                 dispatch({
                     type: types.REMOVE_GROUP ,
@@ -67,7 +67,7 @@ export const RemoveGroup = (id) => {
 
 export const AddGroupModel = () => {
     // return dispatch => {
-    //     axios.get('http://172.20.20.45:90/api/groups/')
+    //     axios.get('http://127.0.0.1:8000/api/groups/')
     //     .then((response) => {
     //         dispatch({
     //             type : types.START_ADD_GROUP , 
@@ -86,7 +86,7 @@ export const AddGroupModel = () => {
 // ADD GROUP
 export const AddGroup = group => {
     return dispatch => {
-        axios.post("http://172.20.20.45:90/api/groups/", group)
+        axios.post("http://127.0.0.1:8000/api/groups/", group)
             .then(res => {
                 dispatch({
                 type: types.ADD_GROUP,
@@ -104,7 +104,7 @@ export const AddGroup = group => {
 // GET GROUP MODAL
  export const GetGroupsModal = (id) => {
     return dispatch => {
-        axios.get(`http://172.20.20.45:90/api/groups/${id}`)
+        axios.get(`http://127.0.0.1:8000/api/groups/${id}`)
         .then((response) => {
             dispatch({
                 type : types.START_GROUP_MODAL, 
@@ -120,7 +120,7 @@ export const AddGroup = group => {
 // EDIT GROUP
 export const EditGroup = group => {
     return dispatch => {
-        axios.put(`http://172.20.20.45:90/api/groups/${group.id}/`, group)
+        axios.put(`http://127.0.0.1:8000/api/groups/${group.id}/`, group)
             .then(resonse => {
                 dispatch({
                 type: types.EDIT_GROUP,
@@ -136,7 +136,7 @@ export const EditGroup = group => {
 
   export const EditUserGroup = userGroup => {
     return dispatch => {
-        axios.put(`http://172.20.20.45:90/api/auth/usergroups/${userGroup.id}`, userGroup)
+        axios.put(`http://127.0.0.1:8000/api/auth/usergroups/${userGroup.id}`, userGroup)
         .then((response) => {
             dispatch({
                 type : types.EDIT_USERGROUP, 

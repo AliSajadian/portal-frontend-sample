@@ -6,7 +6,7 @@ import { toastr } from "react-redux-toastr";
 export const AddUserAnswer = userAnswer => { 
   return dispatch => {
     axios
-      .post("http://172.20.20.45:90/api/userAnswers/", userAnswer)
+      .post("http://127.0.0.1:8000/api/userAnswers/", userAnswer)
       .then(res => {
         dispatch({
           type: types.ADD_USERANSWERS,
@@ -24,7 +24,7 @@ export const AddUserAnswer = userAnswer => {
 export const GetUserAnswers = () => {
   return dispatch => {
     axios
-      .get("http://172.20.20.45:90/api/userAnswers/")
+      .get("http://127.0.0.1:8000/api/userAnswers/")
       .then(res => {
         dispatch({
           type: types.GET_USERANSWERS_LIST,
@@ -41,7 +41,7 @@ export const GetUserAnswers = () => {
 export const GetUserAnswer = id => {
   return dispatch => {
     axios
-      .get(`http://172.20.20.45:90/api/optionalQuestions/${id}`)
+      .get(`http://127.0.0.1:8000/api/optionalQuestions/${id}`)
       .then(res => {
         dispatch({
           type: types.GET_OPTIONALQUESTION,
@@ -57,7 +57,7 @@ export const GetUserAnswer = id => {
 // // EDIT OPTIONALQUESTION
 // export const EditOptionalQuestion = optionalQuestion => {
 //     return dispatch => {
-//         axios.put(`http://172.20.20.45:90/api/optionalQuestions/${optionalQuestion.id}/`, optionalQuestion)
+//         axios.put(`http://127.0.0.1:8000/api/optionalQuestions/${optionalQuestion.id}/`, optionalQuestion)
 //             .then(res => {
 //                 dispatch({
 //                 type: types.EDIT_OPTIONALQUESTION,
@@ -75,7 +75,7 @@ export const GetUserAnswer = id => {
 export const GetOptionalQuestionsAnswer = () => {
   return dispatch => {
     axios
-      .get("http://172.20.20.45:90/api/optionalAnswers/")
+      .get("http://127.0.0.1:8000/api/optionalAnswers/")
       .then(res => {
         dispatch({
           type: types.GET_OPTIONALQUESTIONSANSWER_LIST,
@@ -92,7 +92,7 @@ export const GetOptionalQuestionsAnswer = () => {
 export const GetOptionalQuestionAnswer = id => {
   return dispatch => {
     axios
-      .get(`http://172.20.20.45:90/api/optionalAnswers/${id}`)
+      .get(`http://127.0.0.1:8000/api/optionalAnswers/${id}`)
       .then(res => {
         dispatch({
           type: types.GET_OPTIONALQUESTIONANSWER,

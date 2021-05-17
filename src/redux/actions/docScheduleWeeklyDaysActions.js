@@ -7,7 +7,7 @@ import { toastr } from "react-redux-toastr";
 
 export const GetDocScheduleWeeklyDaysList = () => {
     return dispatch => {
-        axios.get('http://172.20.20.45:90/api/scheduleweeklydays/')
+        axios.get('http://127.0.0.1:8000/api/scheduleweeklydays/')
         .then((response) => {
             dispatch({
                 type : types.GET_DOCSCHEDULEWEEKLYDAYS_LIST , 
@@ -23,7 +23,7 @@ export const GetDocScheduleWeeklyDaysList = () => {
 
 export const LoadRelatedDocScheduleWeeklyDayInfoCard = (docScheduleWeeklyDayId) => {        
     return (dispatch) =>  {
-        axios.get(`http://172.20.20.45:90/api/scheduleweeklydays/${docScheduleWeeklyDayId}`)
+        axios.get(`http://127.0.0.1:8000/api/scheduleweeklydays/${docScheduleWeeklyDayId}`)
         .then((response) => {
             dispatch({
                 type : types.LOAD_RELATED_DOCSCHEDULEWEEKLYDAY_INFO_CARD , 
@@ -38,7 +38,7 @@ export const LoadRelatedDocScheduleWeeklyDayInfoCard = (docScheduleWeeklyDayId) 
 
 export const RemoveDocScheduleWeeklyDay = (id) => {
     return dispatch => {
-        axios.delete(`http://172.20.20.45:90/api/scheduleweeklydays/${id}`)
+        axios.delete(`http://127.0.0.1:8000/api/scheduleweeklydays/${id}`)
             .then(() => {
                 dispatch({
                     type: types.REMOVE_DOCSCHEDULEWEEKLYDAY ,
@@ -54,7 +54,7 @@ export const RemoveDocScheduleWeeklyDay = (id) => {
 // ADD DocScheduleWeeklyDay
 export const AddDocScheduleWeeklyDay = docScheduleWeeklyDay => {
     return dispatch => {     
-        axios.post("http://172.20.20.45:90/api/scheduleweeklydays/", docScheduleWeeklyDay)
+        axios.post("http://127.0.0.1:8000/api/scheduleweeklydays/", docScheduleWeeklyDay)
             .then(res => {
                 dispatch({
                 type: types.ADD_DOCSCHEDULEWEEKLYDAY,
@@ -72,7 +72,7 @@ export const AddDocScheduleWeeklyDay = docScheduleWeeklyDay => {
 // EDIT DocScheduleWeeklyDay
 export const EditDocScheduleWeeklyDay = docScheduleWeeklyDay => {
     return dispatch => {
-        axios.put(`http://172.20.20.45:90/api/scheduleweeklydays/${docScheduleWeeklyDay.id}/`, docScheduleWeeklyDay)
+        axios.put(`http://127.0.0.1:8000/api/scheduleweeklydays/${docScheduleWeeklyDay.id}/`, docScheduleWeeklyDay)
             .then(resonse => {
                 dispatch({
                 type: types.EDIT_DOCSCHEDULEWEEKLYDAY,

@@ -7,7 +7,7 @@ import { toastr } from "react-redux-toastr";
 
 export const GetPersonelMealDaysExList = (employee_id) => {
     return dispatch => {
-        axios.get(`http://172.20.20.45:90/api/personelmealdaysex/${employee_id}`)
+        axios.get(`http://127.0.0.1:8000/api/personelmealdaysex/${employee_id}`)
         .then((response) => {
             dispatch({
                 type : types.GET_PERSONELMEALDAYSEx_LIST , 
@@ -22,7 +22,7 @@ export const GetPersonelMealDaysExList = (employee_id) => {
 
 export const GetPersonelMealOneDayList  = () => {
     return dispatch => {
-        axios.get(`http://172.20.20.45:90/api/personelmealsoneday/`)
+        axios.get(`http://127.0.0.1:8000/api/personelmealsoneday/`)
         .then((response) => {
             dispatch({
                 type : types.GET_PERSONELMEALONEDAYS_LIST , 
@@ -37,7 +37,7 @@ export const GetPersonelMealOneDayList  = () => {
 
 export const GetPersonelMealDaysList = () => {
     return dispatch => {
-        axios.get('http://172.20.20.45:90/api/personelmealdays/')
+        axios.get('http://127.0.0.1:8000/api/personelmealdays/')
         .then((response) => {
             dispatch({
                 type : types.GET_PERSONELMEALDAYS_LIST , 
@@ -52,7 +52,7 @@ export const GetPersonelMealDaysList = () => {
 
 export const GetServedMealsList = () => {
     return dispatch => {
-        axios.get('http://172.20.20.45:90/api/servedmeals/')
+        axios.get('http://127.0.0.1:8000/api/servedmeals/')
         .then((response) => {
             dispatch({
                 type : types.GET_SERVEDMEALS_LIST , 
@@ -67,7 +67,7 @@ export const GetServedMealsList = () => {
 
 export const LoadRelatedPersonelMealDayInfoCard = (personelMealDayId) => {        
     return (dispatch) =>  {
-        axios.get(`http://172.20.20.45:90/api/personelmealdays/${personelMealDayId}`)
+        axios.get(`http://127.0.0.1:8000/api/personelmealdays/${personelMealDayId}`)
         .then((response) => {
             dispatch({
                 type : types.LOAD_RELATED_PERSONELMEALDAY_INFO_CARD , 
@@ -81,7 +81,7 @@ export const LoadRelatedPersonelMealDayInfoCard = (personelMealDayId) => {
 
 export const RemovePersonelMealDay = (id) => {
     return dispatch => {
-        axios.delete(`http://172.20.20.45:90/api/personelmealdays/${id}`)
+        axios.delete(`http://127.0.0.1:8000/api/personelmealdays/${id}`)
             .then(() => {
                 dispatch({
                     type: types.REMOVE_PERSONELMEALDAY ,
@@ -97,7 +97,7 @@ export const RemovePersonelMealDay = (id) => {
 // ADD PERSONELMEALDAY
 export const AddPersonelMealDay = personelMealDay => {
     return dispatch => {
-        axios.post("http://172.20.20.45:90/api/personelmealdays/", personelMealDay)
+        axios.post("http://127.0.0.1:8000/api/personelmealdays/", personelMealDay)
             .then(res => {
                 dispatch({
                 type: types.ADD_PERSONELMEALDAY,
@@ -114,7 +114,7 @@ export const AddPersonelMealDay = personelMealDay => {
 // EDIT PERSONELMEALDAY
 export const EditPersonelMealDay = personelMealDay => {
     return dispatch => {
-        axios.put(`http://172.20.20.45:90/api/personelmealdays/${personelMealDay.id}/`, personelMealDay)
+        axios.put(`http://127.0.0.1:8000/api/personelmealdays/${personelMealDay.id}/`, personelMealDay)
             .then(resonse => {
                 dispatch({
                 type: types.EDIT_PERSONELMEALDAY,

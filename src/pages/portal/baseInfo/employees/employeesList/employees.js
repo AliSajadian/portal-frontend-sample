@@ -28,7 +28,7 @@ class employeesList extends Component {
   }
     
   getEmployeePic = (id) => {
-    fetch(`http://172.20.20.45:90/api/auth/employeeimagedownload/${id}/`).then(
+    fetch(`http://127.0.0.1:8000/api/auth/employeeimagedownload/${id}/`).then(
       response => {
         response.blob().then(blob => {
         const url = window.URL.createObjectURL(blob);

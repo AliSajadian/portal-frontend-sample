@@ -7,7 +7,7 @@ import { toastr } from "react-redux-toastr";
 
 export const GetGuestMealDaysExList = (employee_id) => {
     return dispatch => {
-        axios.get(`http://172.20.20.45:90/api/guestmealdaysex/${employee_id}`)
+        axios.get(`http://127.0.0.1:8000/api/guestmealdaysex/${employee_id}`)
         .then((response) => {
             dispatch({
                 type : types.GET_GUESTMEALDAYSEx_LIST , 
@@ -22,7 +22,7 @@ export const GetGuestMealDaysExList = (employee_id) => {
 
 export const GetGuestMealOneDayList  = () => {
     return dispatch => {
-        axios.get(`http://172.20.20.45:90/api/guestmealsoneday/`)
+        axios.get(`http://127.0.0.1:8000/api/guestmealsoneday/`)
         .then((response) => {
             dispatch({
                 type : types.GET_GUESTMEALONEDAYS_LIST , 
@@ -37,7 +37,7 @@ export const GetGuestMealOneDayList  = () => {
 
 export const GetGuestMealDaysList = () => {
     return dispatch => {
-        axios.get('http://172.20.20.45:90/api/guestmealdays/')
+        axios.get('http://127.0.0.1:8000/api/guestmealdays/')
         .then((response) => {
             dispatch({
                 type : types.GET_GUESTMEALSDAY_LIST , 
@@ -52,7 +52,7 @@ export const GetGuestMealDaysList = () => {
 
 export const GetServedMealsList = () => {
     return dispatch => {
-        axios.get('http://172.20.20.45:90/api/servedmeals/')
+        axios.get('http://127.0.0.1:8000/api/servedmeals/')
         .then((response) => {
             dispatch({
                 type : types.GET_SERVEDMEALS_LIST , 
@@ -67,7 +67,7 @@ export const GetServedMealsList = () => {
 
 export const LoadRelatedGuestMealDayInfoCard = (guestMealDayId) => {        
     return (dispatch) =>  {
-        axios.get(`http://172.20.20.45:90/api/guestmealdays/${guestMealDayId}`)
+        axios.get(`http://127.0.0.1:8000/api/guestmealdays/${guestMealDayId}`)
         .then((response) => {
             dispatch({
                 type : types.LOAD_RELATED_GUESTMEALDAY_INFO_CARD , 
@@ -81,7 +81,7 @@ export const LoadRelatedGuestMealDayInfoCard = (guestMealDayId) => {
 
 export const GetGuestMealsDayList = (date, departmentID) => {
     return dispatch => {
-        axios.get(`http://172.20.20.45:90/api/guestmealsday/${date}/${departmentID}`)
+        axios.get(`http://127.0.0.1:8000/api/guestmealsday/${date}/${departmentID}`)
         .then((response) => {
             dispatch({
                 type : types.GET_GUESTMEALSDAY_LIST, 
@@ -96,7 +96,7 @@ export const GetGuestMealsDayList = (date, departmentID) => {
 
 export const RemoveGuestMealDay = (id) => {
     return dispatch => {
-        axios.delete(`http://172.20.20.45:90/api/guestmealdays/${id}`)
+        axios.delete(`http://127.0.0.1:8000/api/guestmealdays/${id}`)
             .then(() => {
                 dispatch({
                     type: types.REMOVE_GUESTMEALDAY ,
@@ -112,7 +112,7 @@ export const RemoveGuestMealDay = (id) => {
 // ADD GUESTMEALDAY
 export const AddGuestMealDay = guestMealDay => {
     return dispatch => {
-        axios.post("http://172.20.20.45:90/api/guestmealdays/", guestMealDay)
+        axios.post("http://127.0.0.1:8000/api/guestmealdays/", guestMealDay)
             .then(res => {
                 dispatch({
                 type: types.ADD_GUESTMEALDAY,
@@ -142,7 +142,7 @@ export const EditGuestMealDay = guestMealDay => {
     description
     });
     return dispatch => {
-        axios.post(`http://172.20.20.45:90/api/guestmealsday/`, body, config)
+        axios.post(`http://127.0.0.1:8000/api/guestmealsday/`, body, config)
             .then(resonse => {
                 dispatch({
                 type: types.EDIT_GUESTMEALDAY,

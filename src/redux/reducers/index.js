@@ -32,6 +32,10 @@ import docScheduleDays from "./docScheduleDaysReducer";
 import docAppointments from "./docAppointmentsReducer";
 import docAppointmentTimes from "./docAppointmentsReducer";
 import patientsFiles from "./patientsReducer";
+import rooms from "./meetingRoomsReducer";
+import caterTypes from "./meetingCaterTypeReducer";
+import equipments from "./meetingEquipmentReducer";
+import requests from "./meetingRequestReducer";
 import meals from "./mealsReducer";
 import mealsDays from "./mealsDayReducer";
 import personelMealDay from "./personelMealDayReducer";
@@ -86,6 +90,10 @@ export default combineReducers({
   docAppointments,
   docAppointmentTimes,
   patientsFiles,
+  rooms,
+  caterTypes,
+  equipments,
+  requests,
   meals,
   mealsDays,
   personelMealDay,

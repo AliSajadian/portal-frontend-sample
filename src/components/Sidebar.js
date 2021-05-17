@@ -417,7 +417,7 @@ class Sidebar extends React.Component {
                   /> */}
                 <img
                   style={{ width: '3vw', height: '7vh' }}
-                  src={'http://172.20.20.45:90/files/' + sessionStorage.getItem('pic')}
+                  src={'http://127.0.0.1:8000/files/' + sessionStorage.getItem('pic')}
                   className="avatar img-fluid rounded-circle mr-1"
                   alt={sessionStorage.getItem("username")}
                 />

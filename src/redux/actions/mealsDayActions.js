@@ -135,7 +135,7 @@ export const GetCurrentMonthDates = () => {
 
 export const GetMealDaysList = () => { 
     return dispatch => {
-        axios.get('http://172.20.20.45:90/api/mealdays/')
+        axios.get('http://127.0.0.1:8000/api/mealdays/')
         .then((response) => {
             dispatch({
                 type : types.GET_MEALDAYS_LIST , 
@@ -151,7 +151,7 @@ export const GetMealDaysList = () => {
 
 export const GetMealDaysExList = () => { 
   return dispatch => {
-      axios.get('http://172.20.20.45:90/api/mealdaysex/')
+      axios.get('http://127.0.0.1:8000/api/mealdaysex/')
       .then((response) => {
           dispatch({
               type : types.GET_MEALDAYS_LIST , 
@@ -167,7 +167,7 @@ export const GetMealDaysExList = () => {
 
 export const GetMealsDayList = (date, departmentID) => {
   return dispatch => {
-      axios.get(`http://172.20.20.45:90/api/mealsday/${date}/${departmentID}`)
+      axios.get(`http://127.0.0.1:8000/api/mealsday/${date}/${departmentID}`)
       .then((response) => {
           dispatch({
               type : types.GET_MEALSDAY_LIST, 
@@ -183,7 +183,7 @@ export const GetMealsDayList = (date, departmentID) => {
 
 export const LoadRelatedMealDayInfoCard = (mealDayId) => {        
     return (dispatch) =>  {
-        axios.get(`http://172.20.20.45:90/api/mealdays/${mealDayId}`)
+        axios.get(`http://127.0.0.1:8000/api/mealdays/${mealDayId}`)
         .then((response) => {
             dispatch({
                 type : types.LOAD_RELATED_MEALDAY_INFO_CARD, 
@@ -198,7 +198,7 @@ export const LoadRelatedMealDayInfoCard = (mealDayId) => {
 // ADD MEALDAY
 export const RemoveMealDay = (id) => {
     return dispatch => {
-        axios.delete(`http://172.20.20.45:90/api/mealdays/${id}`)
+        axios.delete(`http://127.0.0.1:8000/api/mealdays/${id}`)
             .then(() => {
                 dispatch({
                     type: types.REMOVE_MEALDAY ,
@@ -215,7 +215,7 @@ export const RemoveMealDay = (id) => {
 export const AddMealDay = mealDay => { 
   // console.log("ADD ACTION BEFORE MealDay")
     return dispatch => {
-        axios.post("http://172.20.20.45:90/api/mealdays/", mealDay)
+        axios.post("http://127.0.0.1:8000/api/mealdays/", mealDay)
             .then(res => {
                 dispatch({
                 type: types.ADD_MEALDAY,
@@ -233,7 +233,7 @@ export const AddMealDay = mealDay => {
 // EDIT MEALDAY
 export const EditMealDay = mealDay => {        
     return dispatch => {
-        axios.put(`http://172.20.20.45:90/api/mealdays/${mealDay.id}/`, mealDay)
+        axios.put(`http://127.0.0.1:8000/api/mealdays/${mealDay.id}/`, mealDay)
             .then(resonse => {
                 dispatch({
                 type: types.EDIT_MEALDAY,
@@ -270,7 +270,7 @@ export const EditMealDay = mealDay => {
     });
     console.log('body: ', body)
     return dispatch => {
-        axios.post(`http://172.20.20.45:90/api/guestmealdayjunction/`, body, config)
+        axios.post(`http://127.0.0.1:8000/api/guestmealdayjunction/`, body, config)
             .then(resonse => {
                 dispatch({
                 type: types.EDIT_GUESTMEALDAYJUNCTION,

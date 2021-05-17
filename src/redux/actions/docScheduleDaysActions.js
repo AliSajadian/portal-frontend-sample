@@ -7,7 +7,7 @@ import { toastr } from "react-redux-toastr";
 
 export const GetDocScheduleDaysList = () => {
     return dispatch => {
-        axios.get('http://172.20.20.45:90/api/scheduledays/')
+        axios.get('http://127.0.0.1:8000/api/scheduledays/')
         .then((response) => {
             dispatch({
                 type : types.GET_DOCSCHEDULEDAYS_LIST , 
@@ -23,7 +23,7 @@ export const GetDocScheduleDaysList = () => {
 
 export const LoadRelatedDocScheduleDayInfoCard = (docScheduleDayId) => {        
     return (dispatch) =>  {
-        axios.get(`http://172.20.20.45:90/api/scheduledays/${docScheduleDayId}`)
+        axios.get(`http://127.0.0.1:8000/api/scheduledays/${docScheduleDayId}`)
         .then((response) => {
             dispatch({
                 type : types.LOAD_RELATED_DOCSCHEDULEDAY_INFO_CARD , 
@@ -38,7 +38,7 @@ export const LoadRelatedDocScheduleDayInfoCard = (docScheduleDayId) => {
 
 export const RemoveDocScheduleDay = (id) => {
     return dispatch => {
-        axios.delete(`http://172.20.20.45:90/api/scheduledays/${id}`)
+        axios.delete(`http://127.0.0.1:8000/api/scheduledays/${id}`)
             .then(() => {
                 dispatch({
                     type: types.REMOVE_DOCSCHEDULEDAY ,
@@ -54,7 +54,7 @@ export const RemoveDocScheduleDay = (id) => {
 // ADD DocScheduleDay
 export const AddDocScheduleDay = docScheduleDay => {
     return dispatch => {     
-        axios.post("http://172.20.20.45:90/api/scheduledays/", docScheduleDay)
+        axios.post("http://127.0.0.1:8000/api/scheduledays/", docScheduleDay)
             .then(res => {
                 dispatch({
                 type: types.ADD_DOCSCHEDULEDAY,
@@ -72,7 +72,7 @@ export const AddDocScheduleDay = docScheduleDay => {
 // EDIT DocScheduleDay
 export const EditDocScheduleDay = docScheduleDay => {
     return dispatch => {
-        axios.put(`http://172.20.20.45:90/api/scheduledays/${docScheduleDay.id}/`, docScheduleDay)
+        axios.put(`http://127.0.0.1:8000/api/scheduledays/${docScheduleDay.id}/`, docScheduleDay)
             .then(resonse => {
                 dispatch({
                 type: types.EDIT_DOCSCHEDULEDAY,

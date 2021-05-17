@@ -134,110 +134,89 @@ const Home = async(() => import("../pages/home/index"));
 
 //User
 const Users = async(() => import("../pages/portal/accessiblity/users/index"));
-
 // Group
 const Groups = async(() => import("../pages/portal/accessiblity/groups/index"));
-
 // Permission
 const Permissions = async(() => import("../pages/portal/accessiblity/permissions/index"));
-
 // User Group
 const UserGroups = async(() => import("../pages/portal/accessiblity/userGroups/index"));
-
 // Group
 const GroupPermissions = async(() => import("../pages/portal/accessiblity/groupPermissions/index"));
-
 // Permission
 const UserPermissions = async(() => import("../pages/portal/accessiblity/userPermissions/index"));
-
 // Change Password
 const ChangePassword = async(() => import("../pages/auth/changePassword"));
 
 // Companies
 const Companies = async(() => import("../pages/portal/baseInfo/companies/index"));
-
 // Projects
 const CompanyProjects = async(() => import("../pages/portal/baseInfo/projects/index"));
-
 // Departments
 const Departments = async(() => import("../pages/portal/baseInfo/departments/index"));
-
 // JobPositions
 const JobPositions = async(() => import("../pages/portal/baseInfo/jobPositions/index"));
-
 // Employee
 const Employees = async(() => import("../pages/portal/baseInfo/employees/index"));
-
 // SurveyTypes
 const DoctorTypes = async(() => import("../pages/portal/baseInfo/doctorTypes/index"));
-
 // Doctors
 const Doctors = async(() => import("../pages/portal/baseInfo/doctors/index"));
-
 // SurveyTypes
 const SurveyTypes = async(() => import("../pages/portal/baseInfo/surveyTypes/index"));
 
 // DocScheduleWeeklyDays
 const DocScheduleWeeklyDays = async(() => import("../pages/portal/docAppointments/docScheduleWeeklyDays/index"));
-
 // DocScheduleDays
 const DocScheduleDays = async(() => import("../pages/portal/docAppointments/docScheduleDays/index"));
-
 // DocAppointments
 const DocAppointments = async(() => import("../pages/portal/docAppointments/docAppointments/index"));
-
 // DocAppointmentConfirmation
 const DocAppointmentConfirmation = async(() => import("../pages/portal/docAppointments/docAppointmentConfirmation/index"));
-
 // Patients
 const Patients = async(() => import("../pages/portal/docAppointments/patients/index"));
 
+// RoomRoutes
+const Rooms = async(() => import("../pages/portal/meetingRequest/meetingRooms/index"));
+// CaterTypeRoutes
+const CaterTypes = async(() => import("../pages/portal/meetingRequest/caterTypes/index"));
+// EquipmentRoutes
+const Equipments = async(() => import("../pages/portal/meetingRequest/necessaryEquipments/index"));
+// RequestRoutes
+const Requests = async(() => import("../pages/portal/meetingRequest/requests/index"));
+
 // ResturantRoutes
 const Meals = async(() => import("../pages/portal/resturant/mealList/index"));
-
 // ResturantRoutes ServedMeals
 const MealsDay = async(() => import("../pages/portal/resturant/mealsDay/index"));
-
 // ServedMeals
 const ServedMeals = async(() => import("../pages/portal/resturant/serveMeals/index"));
-
 // MealFish
 const MealFish = async(() => import("../pages/portal/resturant/mealFish/index"));
-
 // PersonelMealsDayRoutes
 const PersonelMealsDay = async(() => import("../pages/portal/resturant/personelMealDay/index"));
-
 // GuestMealsDayRoutes
 const GuestMealsDay = async(() => import("../pages/portal/resturant/guestMealDay/index"));
 
 // Surveys
 const Surveys = async(() => import("../pages/portal/surveys/surveys/index"));
-
 // OptionalQuestions
 const OptionalQuestions = async(() => import("../pages/portal/surveys/optionalQuestions/index"));
-
 // UserAnswers
 const UserSurvey = async(() => import("../pages/portal/surveys/userSurvey/index"));
-
 // surveyReport
 const SurveyReport = async(() => import("../pages/portal/surveys/surveyReport/index"));
 
-// surveyReport
+// companyLinks
 const AsftLinks = async(() => import("../pages/portal/systemLinks/asftLinks/index"));
-
-// surveyReport
+// companyLinks
 const BahavandbaradLinks = async(() => import("../pages/portal/systemLinks/bahavandLinks/index"));
-
-// surveyReport
+// companyLinks
 const EhdasLinks = async(() => import("../pages/portal/systemLinks/ehdasLinks/index"));
-
-// surveyReport
+// companyLinks
 const AstoLinks = async(() => import("../pages/portal/systemLinks/astoLinks/index"));
-
-// surveyReport
+// companyLinks
 const FalatparsLinks = async(() => import("../pages/portal/systemLinks/falatparsLinks/index"));
-
-// surveyReport
+// companyLinks
 const JivarsanatLinks = async(() => import("../pages/portal/systemLinks/jivarsanatLinks/index"));
 
 //****************************************************
@@ -870,8 +849,40 @@ const HomeRoutes = {
       }
     ]
   };
+//*******************************************************/
+  const MeetingRequestRoutes = {
+    path: "/meetingRequest",
+    name: "درخواست کنفرانس",
+    icon: docappointmentIcon,
+    children: [
+      {
+        path: "/meetingRequest/rooms",
+        name: "اطاق کنفرانس",
+        icon: SlidersIcon,
+        component: Rooms
+      },
+      {
+        path: "/meetingRequest/caterTypes",
+        name: "خدمات پذیرائی",
+        icon: SlidersIcon,
+        component: CaterTypes
+      },
+      {
+        path: "/meetingRequest/equipments",
+        name: "تجهیزات لازم",
+        icon: SlidersIcon,
+        component: Equipments
+      },
+      {
+        path: "/meetingRequest/requests",
+        name: "درخواست اطاق کنفرانس",
+        icon: SlidersIcon,
+        component: Requests
+      }
+    ]
+  };
 //*******************************************************/  
-const SystemLinks = {
+  const SystemLinks = {
   path: "/systemLink",
   name: "لینک سامانه ها",
   icon: SlidersIcon,
@@ -913,7 +924,7 @@ const SystemLinks = {
       component: JivarsanatLinks
     }
   ]
-};
+  };
 //*******************************************************/
 //     // dashboardRoutes,
 //     // pageRoutes,
@@ -935,6 +946,7 @@ const SystemLinks = {
     DoctorAppointmentRoutes,
     DoctorRoutes,
     ResturantRoutes,
+    MeetingRequestRoutes,
     // SystemLinks,
     SecurityRoutes];
   
@@ -952,5 +964,6 @@ const SystemLinks = {
     DoctorAppointmentRoutes,
     DoctorRoutes,
     ResturantRoutes,
+    MeetingRequestRoutes,
     // SystemLinks,
     SecurityRoutes];

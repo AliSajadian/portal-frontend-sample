@@ -7,7 +7,7 @@ import { toastr } from "react-redux-toastr";
 
 export const GetNotificationsList = () => {
     return dispatch => {
-        axios.get('http://172.20.20.45:90/api/notifications/')
+        axios.get('http://127.0.0.1:8000/api/notifications/')
         .then((response) => {
             dispatch({
                 type : types.GET_NOTIFICATIONS_LIST , 
@@ -30,11 +30,11 @@ export const GetFilteredNotifications = (id) => { console.log('action GetFiltere
     }
 
     const instance = axios.create({
-        baseURL : "http://172.20.20.45:90/api/",
+        baseURL : "http://127.0.0.1:8000/api/",
         headers : config
     }) 
     return (dispatch) =>  {
-    instance.get(`http://172.20.20.45:90/api/filterednotifications/${id}`)
+    instance.get(`http://127.0.0.1:8000/api/filterednotifications/${id}`)
         .then((response) => {
             dispatch({
                 type : types.GET_FILTERED_NOTIFICATIONS_LIST , 
@@ -49,7 +49,7 @@ export const GetFilteredNotifications = (id) => { console.log('action GetFiltere
 
 export const RemoveNotification = (id) => {
     return dispatch => {
-        axios.delete(`http://172.20.20.45:90/api/notifications/${id}`)
+        axios.delete(`http://127.0.0.1:8000/api/notifications/${id}`)
             .then(() => {
                 dispatch({
                     type: types.REMOVE_NOTIFICATION ,
@@ -73,11 +73,11 @@ export const AddNotification = notification => {
     }
 
     const instance = axios.create({
-        baseURL : "http://172.20.20.45:90/api/",
+        baseURL : "http://127.0.0.1:8000/api/",
         headers : config
     }) 
     return dispatch => {
-        instance.post("http://172.20.20.45:90/api/notifications/", notification)
+        instance.post("http://127.0.0.1:8000/api/notifications/", notification)
             .then(res => {
                 dispatch({
                 type: types.ADD_NOTIFICATION,
@@ -102,11 +102,11 @@ export const EditNotification = notification => {
     }
 
     const instance = axios.create({
-        baseURL : "http://172.20.20.45:90/api/",
+        baseURL : "http://127.0.0.1:8000/api/",
         headers : config
     }) 
     return dispatch => {
-        instance.put(`http://172.20.20.45:90/api/notifications/${notification.id}/`, notification)
+        instance.put(`http://127.0.0.1:8000/api/notifications/${notification.id}/`, notification)
             .then(resonse => {
                 dispatch({
                 type: types.EDIT_NOTIFICATION,

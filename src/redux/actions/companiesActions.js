@@ -7,7 +7,7 @@ import { toastr } from "react-redux-toastr";
 
 export const GetCompaniesList = () => {
     return dispatch => {
-        axios.get('http://172.20.20.45:90/api/companies/')
+        axios.get('http://127.0.0.1:8000/api/companies/')
         .then((response) => {
             dispatch({
                 type : types.GET_COMPANIES_LIST , 
@@ -23,7 +23,7 @@ export const GetCompaniesList = () => {
 
 export const LoadRelatedCompanyInfoCard = (companyId) => {        
     return (dispatch) =>  {
-        axios.get(`http://172.20.20.45:90/api/companies/${companyId}`)
+        axios.get(`http://127.0.0.1:8000/api/companies/${companyId}`)
         .then((response) => {
             dispatch({
                 type : types.LOAD_RELATED_COMPANY_INFO_CARD , 
@@ -38,7 +38,7 @@ export const LoadRelatedCompanyInfoCard = (companyId) => {
 
 export const RemoveCompany = (id) => {
     return dispatch => {
-        axios.delete(`http://172.20.20.45:90/api/companies/${id}`)
+        axios.delete(`http://127.0.0.1:8000/api/companies/${id}`)
             .then(() => {
                 dispatch({
                     type: types.REMOVE_COMPANY ,
@@ -53,7 +53,7 @@ export const RemoveCompany = (id) => {
 
 export const AddCompanyModel = () => {
     // return dispatch => {
-    //     axios.get('http://172.20.20.45:90/api/companies/')
+    //     axios.get('http://127.0.0.1:8000/api/companies/')
     //     .then((response) => {
     //         dispatch({
     //             type : types.START_ADD_COMPANY , 
@@ -73,7 +73,7 @@ export const AddCompanyModel = () => {
 // ADD Company
 export const AddCompany = company => {
     return dispatch => {
-        axios.post("http://172.20.20.45:90/api/companies/", company)
+        axios.post("http://127.0.0.1:8000/api/companies/", company)
             .then(res => {
                 dispatch({
                 type: types.ADD_COMPANY,
@@ -91,7 +91,7 @@ export const AddCompany = company => {
 // GET Company MODAL
  export const GetCompaniesModal = (id) => {
     return dispatch => {
-        axios.get(`http://172.20.20.45:90/api/companies/${id}`)
+        axios.get(`http://127.0.0.1:8000/api/companies/${id}`)
         .then((response) => {
             dispatch({
                 type : types.START_COMPANY_MODAL, 
@@ -107,7 +107,7 @@ export const AddCompany = company => {
 // EDIT Company
 export const EditCompany = company => {
     return dispatch => {
-        axios.put(`http://172.20.20.45:90/api/companies/${company.id}/`, company)
+        axios.put(`http://127.0.0.1:8000/api/companies/${company.id}/`, company)
             .then(resonse => {
                 dispatch({
                 type: types.EDIT_COMPANY,

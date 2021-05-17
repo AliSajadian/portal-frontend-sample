@@ -7,7 +7,7 @@ import { toastr } from "react-redux-toastr";
 
 export const GetSurveysList = () => {
     return dispatch => {
-        axios.get('http://172.20.20.45:90/api/surveys/')
+        axios.get('http://127.0.0.1:8000/api/surveys/')
         .then((response) => {
             dispatch({
                 type : types.GET_SURVEYS_LIST , 
@@ -22,7 +22,7 @@ export const GetSurveysList = () => {
 
 export const GetUsedSurveysList = (userID) => {     
     return (dispatch) =>  {
-        axios.get(`http://172.20.20.45:90/api/usedsurveys/${userID}`)
+        axios.get(`http://127.0.0.1:8000/api/usedsurveys/${userID}`)
         .then((response) => {
             dispatch({
                 type : types.GET_USED_SURVEYS_LIST , 
@@ -36,7 +36,7 @@ export const GetUsedSurveysList = (userID) => {
 
 export const GetUnusedSurveysList = (userID) => { 
     return (dispatch) =>  {
-        axios.get(`http://172.20.20.45:90/api/unusedsurveys/${userID}`)
+        axios.get(`http://127.0.0.1:8000/api/unusedsurveys/${userID}`)
         .then((response) => {
             dispatch({
                 type : types.GET_UNUSED_SURVEYS_LIST , 
@@ -50,7 +50,7 @@ export const GetUnusedSurveysList = (userID) => {
 
 export const LoadRelatedSurveyInfoCard = (surveyId) => {        
     return (dispatch) =>  {
-        axios.get(`http://172.20.20.45:90/api/surveys/${surveyId}`)
+        axios.get(`http://127.0.0.1:8000/api/surveys/${surveyId}`)
         .then((response) => {
             dispatch({
                 type : types.LOAD_RELATED_SURVEY_INFO_CARD , 
@@ -65,7 +65,7 @@ export const LoadRelatedSurveyInfoCard = (surveyId) => {
 
 export const RemoveSurvey = (id) => {
     return dispatch => {
-        axios.delete(`http://172.20.20.45:90/api/surveys/${id}`)
+        axios.delete(`http://127.0.0.1:8000/api/surveys/${id}`)
             .then(() => {
                 dispatch({
                     type: types.REMOVE_SURVEY ,
@@ -80,7 +80,7 @@ export const RemoveSurvey = (id) => {
 
 export const AddSurveyModal = () => {
     // return dispatch => {
-    //     axios.get('http://172.20.20.45:90/api/surveys/')
+    //     axios.get('http://127.0.0.1:8000/api/surveys/')
     //     .then((response) => {
     //         dispatch({
     //             type : types.START_ADD_SURVEY , 
@@ -99,7 +99,7 @@ export const AddSurveyModal = () => {
 // ADD SURVEY
 export const AddSurvey = survey => {
     return dispatch => {
-        axios.post("http://172.20.20.45:90/api/surveys/", survey)
+        axios.post("http://127.0.0.1:8000/api/surveys/", survey)
             .then(res => {
                 dispatch({
                 type: types.ADD_SURVEY,
@@ -117,7 +117,7 @@ export const AddSurvey = survey => {
 // GET SURVEY MODAL
  export const GetSurveysModal = (id) => {
     return dispatch => {
-        axios.get(`http://172.20.20.45:90/api/surveys/${id}`)
+        axios.get(`http://127.0.0.1:8000/api/surveys/${id}`)
         .then((response) => {
             dispatch({
                 type : types.START_SURVEY_MODAL, 
@@ -133,7 +133,7 @@ export const AddSurvey = survey => {
 // EDIT SURVEY
 export const EditSurvey = survey => {
     return dispatch => {
-        axios.put(`http://172.20.20.45:90/api/surveys/${survey.id}/`, survey)
+        axios.put(`http://127.0.0.1:8000/api/surveys/${survey.id}/`, survey)
             .then(resonse => {
                 dispatch({
                 type: types.EDIT_SURVEY,

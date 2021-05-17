@@ -29,7 +29,7 @@ export const AuthStart = (username, password, history) => {
             type: types.AUTH_START
         });
 
-        axios.post("http://172.20.20.45:90/api/auth/login", body, config)
+        axios.post("http://127.0.0.1:8000/api/auth/login", body, config)
             .then((response) => {
                 if(response.data && response.data.error && response.data.error !== ''){
                     throw new Error('Info is not complited')
@@ -74,7 +74,7 @@ export const AuthStart = (username, password, history) => {
 
 export const UserRegister = (user) => {
     return dispatch => {
-        axios.post("http://172.20.20.45:90/api/auth/register/", user)
+        axios.post("http://127.0.0.1:8000/api/auth/register/", user)
             .then(res => {
                 dispatch({
                 type: types.USER_REGISTER,
@@ -103,7 +103,7 @@ export const ChangeUsernamePassword = (userid, username, currentpassword, newpas
         newpassword
     });
     return dispatch => {
-        axios.put("http://172.20.20.45:90/api/auth/change_password/", body, config)
+        axios.put("http://127.0.0.1:8000/api/auth/change_password/", body, config)
             .then(res => {
                 dispatch({
                 type: types.USERNAME_PASSWORD_CHANGE,
