@@ -17,6 +17,7 @@ import {
   AddRoomModel
 } from "../../../../../redux/actions/meetingRoomsActions";
 import * as types from "../../../../../redux/constants";
+import "../../meetingRequest.css"
 
  
 

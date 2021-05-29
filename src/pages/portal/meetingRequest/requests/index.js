@@ -6,14 +6,21 @@ import {
   Row,
 } from "reactstrap";
 
-import RoomsList from "./requestsList/roomsList";
+import RequestsList from "./requestsList/requestsList";
+import { GetCompaniesList } from "../../../../redux/actions/companiesActions";
+import { GetDepartmentsList } from "../../../../redux/actions/departmentsActions";
 import { GetRoomsList } from "../../../../redux/actions/meetingRoomsActions";
-import RoomModal from "./requestsModal/roomsModal";
+import { GetCaterTypesList } from "../../../../redux/actions/meetingCaterTypesActions";
+import { GetEquipmentsList } from "../../../../redux/actions/meetingEquipmentsActions";
 
 
 const Index = (props) => {
   useEffect(() => {
-    props.getRoomsList();
+    props.getCompanies();
+    props.getDepartments();
+    props.getRooms();
+    props.getCaterTypes();
+    props.getEquipments();
   }, []);
 
   return (
@@ -22,18 +29,21 @@ const Index = (props) => {
 
       <Row>
         <Col >
-          <RoomsList></RoomsList>
+          <RequestsList></RequestsList>
         </Col>
       </Row>
       
-      <RoomModal></RoomModal>
     </Container>
   )
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getRoomsList: () => dispatch(GetRoomsList())
+    getCompanies: () => dispatch(GetCompaniesList()),
+    getDepartments: () => dispatch(GetDepartmentsList()),
+    getRooms: () => dispatch(GetRoomsList()),
+    getCaterTypes: () => dispatch(GetCaterTypesList()),
+    getEquipments: () => dispatch(GetEquipmentsList()),
   }
 }
 

@@ -2,6 +2,8 @@ import * as types from "../constants";
 
 const initialState = {
   requests: [],
+  requestCaterTypes: [],
+  dateRequests: [],
   requestInfo: null,
   isModalOpen: false,
   requestInEditStage: null
@@ -14,6 +16,16 @@ const reducer = (state = initialState, actions) => {
         ...state,
         requests: actions.requests
       };
+    case types.GET_DATEREQUESTS_LIST:
+      return {
+        ...state,
+        dateRequests: actions.requests
+      };
+    case types.GET_DATEREQUESTCATERTYPES_LIST:
+      return {
+        ...state,
+        requestCaterTypes: actions.payload
+      }
     case types.LOAD_RELATED_REQUEST_INFO_CARD:
       return {
         ...state,

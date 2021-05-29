@@ -20,6 +20,35 @@ export const GetRequestsList = () => {
     }
 }
 
+export const GetDateRequestsList = (date) => {
+    return dispatch => {
+        axios.get(`http://127.0.0.1:8000/api/daterequests/${date}`)
+        .then((response) => {
+            dispatch({
+                type : types.GET_DATEREQUESTS_LIST , 
+                requests : response.data
+            })
+            console.log('end action: ', response.data)
+        })
+        .catch(() => {
+            toastr.error('Fail!');
+        })
+    }
+}
+
+export const GetDateRequestCaterTypesList = (date) => {
+    return (dispatch) =>  {
+        axios.get(`http://127.0.0.1:8000/api/requestcatertypes/${date}`)
+        .then((response) => {
+            dispatch({
+                type : types.GET_DATEREQUESTCATERTYPES_LIST , 
+                payload : response.data
+            })
+        }).catch (() => {
+            toastr.error('Fail!');
+        })
+    }
+}
 
 export const LoadRelatedRequestInfoCard = (requestId) => {        
     return (dispatch) =>  {
@@ -34,7 +63,6 @@ export const LoadRelatedRequestInfoCard = (requestId) => {
         })
     }
 }
-
 
 export const RemoveRequest = (id) => {
     return dispatch => {

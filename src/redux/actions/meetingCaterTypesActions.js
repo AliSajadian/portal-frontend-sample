@@ -21,6 +21,20 @@ export const GetCaterTypesList = () => {
     }
 }
 
+export const GetRequestCaterTypesList = (date) => {
+    return dispatch => {
+        axios.get(`http://127.0.0.1:8000/api/requestcatertypes/${date}`)
+        .then((response) => {
+            dispatch({
+                type : types.GET_REQUESTCATERTYPES_LIST , 
+                requestCaterTypes : response.data
+            })
+        })
+        .catch(() => {
+            toastr.error('Fail!');
+        })
+    }
+}
 
 export const LoadRelatedCaterTypeInfoCard = (caterTypeId) => {        
     return (dispatch) =>  {
@@ -122,7 +136,22 @@ export const EditCaterType = caterType => {
             });
     }
   };
-  
+
+export const EditRequestCaterType = requestCaterType => {
+    return dispatch => {
+        axios.put(`http://127.0.0.1:8000/api/auth/requestcatertypes/${requestCaterType.id}`, requestCaterType)
+        .then((response) => {
+            dispatch({
+                type : types.EDIT_REQUESTCATERTYPE, 
+                payload : response.data
+            })
+        })
+        .catch(() => {
+            toastr.error('Fail!');
+        })
+    }
+}
+
 export const CaterTypeModalToggler = () => {
     return {
         type: types.TOGGLE_CATERTYPE_MODAL

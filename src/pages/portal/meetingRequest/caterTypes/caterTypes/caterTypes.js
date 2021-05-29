@@ -16,6 +16,7 @@ import {
   AddCaterTypeModel
 } from "../../../../../redux/actions/meetingCaterTypesActions";
 import * as types from "../../../../../redux/constants";
+import "../../meetingRequest.css"
 
  
 
