@@ -14,7 +14,7 @@ import {
   RoomTypeModalToggler,
   AddRoomType,
   EditRoomType
-} from "../../../../../redux/actions/meetingRoomTypesActions";
+} from "../../../../../redux/actions/meetingRoomTypesAction";
 
 
 

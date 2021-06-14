@@ -1,7 +1,9 @@
+import { type } from "jquery";
 import * as types from "../constants";
 
 const initialState = {
   rooms: [],
+  roomEquipments: [],
   roomInfo: null,
   isModalOpen: false,
   roomInEditStage: null
@@ -19,6 +21,11 @@ const reducer = (state = initialState, actions) => {
         ...state,
         roomInfo: actions.roomInfo
       };
+    case types.GET_ROOMEQUIPMENTS_LIST:
+      return {
+        ...state,
+        roomEquipments: actions.payload
+      }
     case types.START_ROOM_MODAL:
       return {
         ...state,

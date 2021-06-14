@@ -32,7 +32,7 @@ import docScheduleDays from "./docScheduleDaysReducer";
 import docAppointments from "./docAppointmentsReducer";
 import docAppointmentTimes from "./docAppointmentsReducer";
 import patientsFiles from "./patientsReducer";
-import roomTypes from "./meetingRoomTypesReducer";
+import roomTypes from "./meetingRoomTypeReducer";
 import rooms from "./meetingRoomsReducer";
 import caterTypes from "./meetingCaterTypeReducer";
 import equipments from "./meetingEquipmentReducer";

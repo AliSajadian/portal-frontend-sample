@@ -21,6 +21,9 @@ import {
   AddRequest,
   EditRequest,
 } from "../../../../../redux/actions/meetingRequestsActions";
+import {
+  GetRoomFixEquipmentsList,
+} from "../../../../../redux/actions/meetingRoomsActions";
 import "../../meetingRequest.css"
 
 
@@ -35,6 +38,7 @@ class RequestList extends Component {
       month: 1,
       year: 1400,
       requestId: 0,
+      roomType: 1,
       room: 1,
       startHour: 7,
       endHour: 8,
@@ -300,11 +304,16 @@ class RequestList extends Component {
 
     
   }
-  
-  render = () => {     
-    // console.log('***props RequestCaterTypes***: ', this.props.requestCaterTypes)
 
-    const {company, department, year, month, day, requestID, room, startHour, endHour, editMood, description} = this.state
+  handleRoomChange = (e) => {
+    this.props.getRoomFixEquipmentsList(Number(e.target.value))
+    this.setState({ room: Number(e.target.value)} )
+  }
+
+  render = () => {     
+    console.log('***props roomEquipments***: ', this.props.roomEquipments)
+    const {companys, departments, roomTypes, rooms, roomEquipments, dateRequests, caterTypes, requestCaterTypes, equipments} = this.props
+    const {company, department, year, month, day, requestID, room, roomType, startHour, endHour, editMood, description} = this.state
     return (
       <Card style={{direction:'rtl'}}>
         <Container>
@@ -314,7 +323,7 @@ class RequestList extends Component {
               <Col xl="2" style={{ textAlign:'center' }}>
                 <select value={company} style={{backgroundColor: "whitesmoke"}} 
                   onChange={(e) => this.setState({ company: Number(e.target.value)} )}>
-                  {this.props.companys ? this.props.companys.map((company) => 
+                  {companys ? companys.map((company) => 
                     <option key={company.id} value={company.id}>{company.name}</option>
                   ) : ''}
                 </select>
@@ -322,12 +331,60 @@ class RequestList extends Component {
               <Col xl="2" style={{ textAlign:'center' }}>
                 <select value={department} style={{backgroundColor: "whitesmoke"}}
                   onChange={(e) => this.setState({ department: Number(e.target.value)} )}>
-                  {this.props.departments ? this.props.departments.filter(department => Number(department.company) === Number(company)).map((department) => 
+                  {departments ? departments.filter(department => Number(department.company) === Number(company)).map((department) => 
                     <option key={department.id} value={department.id}>{department.name}</option>
                   ) : ''}
                 </select>
               </Col>
               <Col xl="4"></Col>
+            </Row>
+          </Card>
+          <Card>
+            <Row>
+              <Col xl="4" style={{ textAlign:'center' }}>نوع سالن:</Col>
+              <Col xl="8">
+                <select value={roomType} style={{backgroundColor: "whitesmoke"}} 
+                  onChange={(e) => this.setState({ roomType: Number(e.target.value)} )}>
+                  {roomTypes ? roomTypes.map((roomType) => 
+                    <option key={roomType.id} value={roomType.id}>{roomType.name}</option>
+                  ) : ''}
+                </select>
+              </Col>
+            </Row>
+          </Card>
+          <Card>
+          {/* {console.log('=======================================================================')}
+          {rooms ? rooms.map(room => console.log('room.room_type_id:', Number(room.room_type), ', roomType:', Number(roomType))) :''}
+          {console.log('=======================================================================')} */}
+            <Row>
+              <Col xl="4" style={{ textAlign:'center' }}>سالن:</Col>
+              <Col xl="4">
+                <select value={room} style={{backgroundColor: "whitesmoke"}} 
+                  onChange={(e) => this.handleRoomChange(e)}>
+                  {rooms ? rooms.filter(room => Number(room.room_type) === Number(roomType)).map((room) => 
+                    <option key={room.id} value={room.id}>{room.name}</option>
+                  ) : ''}
+                </select>
+              </Col>
+              <Col xl="4">
+              {rooms && rooms.filter(room => Number(room.id) === Number(room)) && 
+                      rooms.filter(room => Number(room.id) === Number(room)).length > 0 ? (
+                <Card>
+                  <Row>
+                    <Col xl="4">ظرفیت: </Col>
+                    <Col xl="8">{rooms.filter(room => Number(room.id) === Number(room))[0].capacity}
+                    </Col>
+                  </Row>
+                  {roomEquipments && roomEquipments.length > 0 ?
+                  roomEquipments.map((equipment, index) => (
+                    <Row key={index}>
+                      <Col xl="4">تجهیزات: </Col>
+                      <Col xl="8">{equipment.equipment__name}</Col>
+                    </Row>
+                  )) :''}
+                </Card>
+              ): ''}
+              </Col>
             </Row>
           </Card>
           <Card style={{textAlign:'center', marginTop:".3em", marginBottom:".3em"}}>
@@ -436,8 +493,8 @@ class RequestList extends Component {
                         </tr>
                       </thead>
                       <tbody id="tb">
-                      {this.props.dateRequests && this.props.dateRequests.length > 0 ? (
-                        this.props.dateRequests.map((request, index) => {
+                      {dateRequests && dateRequests.length > 0 ? (
+                        dateRequests.map((request, index) => {
                             return ( 
                               <tr key={index}>
                                 <td style={{ width: "3%"}}>{index + 1}</td>
@@ -483,7 +540,7 @@ class RequestList extends Component {
                 <Col xl="4"></Col>
                 <Col xl="2">
                   <select value={room} style={{backgroundColor: "whitesmoke"}} onChange={(e) => this.setState({ room: Number(e.target.value)} )}>
-                    {this.props.rooms ? this.props.rooms.map((room) => 
+                    {rooms ? rooms.map((room) => 
                       <option key={room.id} value={room.id}>{room.name}</option>
                     ) : ''}
                   </select>
@@ -542,8 +599,8 @@ class RequestList extends Component {
                       </tr>
                     </thead>
                     <tbody id="tb">
-                      {this.props.caterTypes && this.props.caterTypes.length > 0 ? (
-                        this.props.caterTypes.map((caterType, index) => {
+                      {caterTypes && caterTypes.length > 0 ? (
+                        caterTypes.map((caterType, index) => {
                           return ( 
                             <tr key={index}>
                               <td style={{ width: "5%", textAlign:'center'}}>{index+1}</td>
@@ -553,9 +610,9 @@ class RequestList extends Component {
                                     type="checkbox"
                                     value={caterType.id}
                                     checked={
-                                      (this.props.requestCaterTypes &&  
-                                      this.props.requestCaterTypes.filter(rct => Number(rct.id) === Number(requestID) && Number(rct.cater_types__id) === Number(caterType.id)) &&
-                                      this.props.requestCaterTypes.filter(rct => Number(rct.id) === Number(requestID) && Number(rct.cater_types__id) === Number(caterType.id)).length > 0)}
+                                      (requestCaterTypes &&  
+                                      requestCaterTypes.filter(rct => Number(rct.id) === Number(requestID) && Number(rct.cater_types__id) === Number(caterType.id)) &&
+                                      requestCaterTypes.filter(rct => Number(rct.id) === Number(requestID) && Number(rct.cater_types__id) === Number(caterType.id)).length > 0)}
                                     onChange={this.requestCaterTypesChanged()}
                                   />
                               </td>
@@ -578,8 +635,8 @@ class RequestList extends Component {
                       </tr>
                     </thead>
                     <tbody id="tb">
-                      {this.props.equipments && this.props.equipments.length > 0 ? (
-                        this.props.equipments.map((equipment, index) => {
+                      {equipments && equipments.length > 0 ? (
+                        equipments.map((equipment, index) => {
                           return ( 
                             <tr key={index}>
                               <td style={{ width: "5%", textAlign:'center'}}>{index+1}</td>
@@ -589,9 +646,9 @@ class RequestList extends Component {
                                     type="checkbox"
                                     value={equipment.id}
                                     checked={
-                                      (this.props.requestEquipments && 
-                                      this.props.requestEquipments.filter(re => Number(re.id) === Number(requestID) && Number(re.id) === Number(equipment.id)) &&
-                                      this.props.requestEquipments.filter(re => Number(re.id) === Number(requestID) && Number(re.id) === Number(equipment.id)).length > 0)}
+                                      (roomEquipments && 
+                                        roomEquipments.filter(re => Number(re.id) === Number(requestID) && Number(re.id) === Number(equipment.id)) &&
+                                        roomEquipments.filter(re => Number(re.id) === Number(requestID) && Number(re.id) === Number(equipment.id)).length > 0)}
                                     onChange={this.requestEquipmentsChanged()}
                                   />
                               </td>
@@ -640,12 +697,13 @@ const mapStateToProps = store => {
   return {
     companys: store.companies.companies,
     departments: store.departments.departments,
+    roomTypes: store.roomTypes.roomTypes,
     rooms: store.rooms.rooms,
-    caterTypes: store.caterTypes.caterTypes,
-    requestCaterTypes: store.requests.requestCaterTypes,
     equipments: store.equipments.equipments,
-    requestEquipments: store.requests.requestEquipments,
+    roomEquipments: store.rooms.roomEquipments,
+    caterTypes: store.caterTypes.caterTypes,
     requests: store.requests.requests,
+    requestCaterTypes: store.requests.requestCaterTypes,
     dateRequests: store.requests.dateRequests
   };
 };
@@ -656,6 +714,8 @@ const mapDispatchToProps = dispatch => {
       dispatch(GetDateRequestsList(date))}, 
     getDateRequestCaterTypesList: date => {
       dispatch(GetDateRequestCaterTypesList(date))},
+    getRoomFixEquipmentsList: id => {
+      dispatch(GetRoomFixEquipmentsList(id))}, 
     addRequest: model => {
       dispatch(AddRequest(model))
     },

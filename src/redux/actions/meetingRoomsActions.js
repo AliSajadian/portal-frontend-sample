@@ -34,6 +34,20 @@ export const LoadRelatedRoomInfoCard = (roomId) => {
     }
 }
 
+export const GetRoomFixEquipmentsList = (roomId) => {
+    return (dispatch) =>  {
+        axios.get(`http://127.0.0.1:8000/api/roomfixequipments/${roomId}`)
+        .then((response) => {
+            dispatch({
+                type : types.GET_ROOMEQUIPMENTS_LIST , 
+                payload : response.data
+            })
+        }).catch (() => {
+            toastr.error('Fail!');
+        })
+    }
+}
+
 export const RemoveRoom = (id) => {
     let url = `http://127.0.0.1:8000/api/rooms/${id}`
     return dispatch => {

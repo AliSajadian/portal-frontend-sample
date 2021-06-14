@@ -5,9 +5,9 @@ import {
   Container,
   Row,
 } from "reactstrap";
-import RoomTypesList from "./roomsList/roomsList";
-import { GetRoomTypesList } from "../../../../redux/actions/meetingRoomTypesActions";
-import RoomModal from "./roomsModal/roomsModal";
+import RoomTypesList from "./roomTypes/roomTypes";
+import { GetRoomTypesList } from "../../../../redux/actions/meetingRoomTypesAction";
+import RoomModal from "./roomTypeModel/roomTypeModel";
 
 
 const Index = (props) => {

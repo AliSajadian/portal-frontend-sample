@@ -42,7 +42,7 @@ table tbody
    /* overflow: auto; */
    overflow-y: auto;
    overflow-x: hidden;
-   height: 150px;
+   height: 300px;
 }
 
 #user-filter{

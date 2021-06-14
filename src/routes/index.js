@@ -176,6 +176,8 @@ const DocAppointmentConfirmation = async(() => import("../pages/portal/docAppoin
 const Patients = async(() => import("../pages/portal/docAppointments/patients/index"));
 
 // RoomRoutes
+const RoomTypes = async(() => import("../pages/portal/meetingRequest/roomTypes/index"));
+// RoomRoutes
 const Rooms = async(() => import("../pages/portal/meetingRequest/meetingRooms/index"));
 // CaterTypeRoutes
 const CaterTypes = async(() => import("../pages/portal/meetingRequest/caterTypes/index"));
@@ -856,6 +858,11 @@ const HomeRoutes = {
     icon: docappointmentIcon,
     children: [
       {
+        path: "/meetingRequest/roomTypes",
+        name: "نوع سالن",
+        icon: SlidersIcon,
+        component: RoomTypes
+      },      {
         path: "/meetingRequest/rooms",
         name: "اطاق کنفرانس",
         icon: SlidersIcon,

@@ -11,10 +11,10 @@ import { Edit2, Trash, PlusCircle } from "react-feather";
 import { connect } from "react-redux";
 
 import {
-  RemoveroomType,
-  GetroomTypesModal,
-  AddroomTypeModel
-} from "../../../../../redux/actions/meetingroomTypesActions";
+  RemoveRoomType,
+  GetRoomTypesModal,
+  AddRoomTypeModel
+} from "../../../../../redux/actions/meetingRoomTypesAction";
 import * as types from "../../../../../redux/constants";
 import "../../meetingRequest.css"
 
@@ -49,7 +49,7 @@ class roomTypesList extends Component {
                       <td style={{ width: "3%"}} className="table-action">
                         <Edit2
                           onClick={() =>
-                            this.props.getroomTypesModal(roomType.id)
+                            this.props.getRoomTypesModal(roomType.id)
                           }
                           className="align-middle mr-1"
                           size={18}
@@ -58,7 +58,7 @@ class roomTypesList extends Component {
                       <td style={{ width: "3%"}} className="table-action">
                         <Trash 
                           onClick={() =>
-                            this.props.removeroomType(roomType.id)
+                            this.props.removeRoomType(roomType.id)
                           }
                           className="align-middle "
                           size={18}
@@ -76,7 +76,7 @@ class roomTypesList extends Component {
         <CardFooter>
           <PlusCircle
                 onClick={() =>
-                  this.props.addroomTypeModel()
+                  this.props.addRoomTypeModel()
                   // this.generateCode()
                 }
                 className="align-middle"
@@ -96,19 +96,19 @@ const mapStateToProps = store => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    removeroomType: id => {
+    removeRoomType: id => {
       if (window.confirm("آیا مطمئن هستید ?")) {
-        dispatch(RemoveroomType(id));
+        dispatch(RemoveRoomType(id));
       }
     },
     toggleModal: () =>
       dispatch({
-        type: types.TOGGLE_COMPANY_MODAL
+        type: types.TOGGLE_ROOMTYPE_MODAL
       }),
-    getroomTypesModal: id => {
-      dispatch(GetroomTypesModal(id))}, 
-    addroomTypeModel: () => {
-      dispatch(AddroomTypeModel())}
+    getRoomTypesModal: id => {
+      dispatch(GetRoomTypesModal(id))}, 
+    addRoomTypeModel: () => {
+      dispatch(AddRoomTypeModel())}
   };
 };
 
