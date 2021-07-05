@@ -495,9 +495,9 @@ class PatientsList extends Component {
         a.href = url;
 
 
-        console.log('url: ', url);
-        console.log('file: ', filename);
-        console.log('download: ', filename.substring(filename.lastIndexOf('/')+ 1));
+        // console.log('url: ', url);
+        // console.log('file: ', filename);
+        // console.log('download: ', filename.substring(filename.lastIndexOf('/')+ 1));
         a.download = filename.substring(filename.lastIndexOf('/')+ 1);
         document.body.appendChild(a);
         let event = new MouseEvent('click');

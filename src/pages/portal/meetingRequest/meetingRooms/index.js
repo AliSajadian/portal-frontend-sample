@@ -6,6 +6,7 @@ import {
   Row,
 } from "reactstrap";
 import RoomsList from "./roomsList/roomsList";
+import { GetRoomTypesList } from "../../../../redux/actions/meetingRoomTypesAction";
 import { GetRoomsList } from "../../../../redux/actions/meetingRoomsActions";
 import RoomModal from "./roomsModal/roomsModal";
 
@@ -14,6 +15,7 @@ const Index = (props) => {
 
   useEffect(() => {
     props.getRoomsList();
+    props.getRoomTypesList();
   }, []);
 
   return (
@@ -33,7 +35,8 @@ const Index = (props) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getRoomsList: () => dispatch(GetRoomsList())
+    getRoomsList: () => dispatch(GetRoomsList()),
+    getRoomTypesList: () => dispatch(GetRoomTypesList())
   }
 }
 

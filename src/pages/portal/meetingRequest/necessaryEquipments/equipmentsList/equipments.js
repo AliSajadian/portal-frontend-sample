@@ -7,7 +7,7 @@ import {
   CardFooter,
   Table
 } from "reactstrap";
-import { Edit2, Trash, PlusCircle } from "react-feather";
+import { Edit2, Trash, PlusCircle, Check, X } from "react-feather";
 import { connect } from "react-redux";
 
 import {
@@ -33,10 +33,11 @@ class EquipmentsList extends Component {
           <Table style={{direction:'rtl'}} hover striped responsive>
             <thead id="th">
               <tr id="tr">
-                <th >#</th>
-                <th style={{ width: "100%", textAlign:'center' }}>نام تجهیز</th>
-                <th />
-                <th />
+                <th style={{ width: "4%"}}>#</th>
+                <th style={{ width: "55%", textAlign:'center' }}>نام تجهیز</th>
+                <th style={{ width: "45%", textAlign:'center' }}>ثابت در سالن</th>
+                <th style={{ width: "3%"}}/>
+                <th style={{ width: "3%"}}/>
               </tr>
             </thead>
             <tbody id="tb">
@@ -45,7 +46,14 @@ class EquipmentsList extends Component {
                   return ( 
                     <tr key={index}>
                       <td style={{ width: "4%"}}>{index+1}</td>
-                      <td style={{ width: "90%", textAlign:'center' }}>{equipment.name}</td>
+                      <td style={{ width: "50%", textAlign:'center' }}>{equipment.name}</td>
+                      <td style={{ width: "30%", textAlign:'center' }}>
+                        { equipment.fixed ? (
+                            <Check/>
+                          ) : (
+                            <X/>
+                          )}
+                      </td>
                       <td style={{ width: "3%"}} className="table-action">
                         <Edit2
                           onClick={() =>

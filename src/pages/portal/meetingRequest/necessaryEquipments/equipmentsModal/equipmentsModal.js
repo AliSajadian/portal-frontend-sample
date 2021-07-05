@@ -22,6 +22,7 @@ class EquipmentModal extends Component {
     super(props);
     this.state = {
       name: "",
+      fixed: false,
       isFormValid: true,
       flag: true,
       flag2: true
@@ -31,12 +32,13 @@ class EquipmentModal extends Component {
   componentDidUpdate() {
     if(this.props.isOpen){
       if (this.props.EquipmentInEditStage){
-        console.log('this.props.EquipmentInEditStage.name: ', this.props.EquipmentInEditStage.name)
-        console.log('this.state.name: ', this.state.name)
+        // console.log('this.props.EquipmentInEditStage.name: ', this.props.EquipmentInEditStage.name)
+        // console.log('this.state.name: ', this.state.name)
 
         if(this.state.flag2 && this.props.EquipmentInEditStage.name !== this.state.name) { 
           this.setState({
             name: this.props.EquipmentInEditStage.name, 
+            fixed: this.props.EquipmentInEditStage.fixed, 
             flag: false,
             flag2: true
           });
@@ -45,6 +47,7 @@ class EquipmentModal extends Component {
       else if(!this.state.flag && this.state.name !== ''){
         this.setState({
           name: '',
+          fixed: false,
           flag: true
         });        
       }
@@ -58,11 +61,30 @@ class EquipmentModal extends Component {
     });
   };
 
+  onChangeHandler = event => { 
+    switch(event.target.name)
+    {
+      case 'fixed':
+        this.setState({
+          fixed: !this.state.fixed
+        });
+        return;
+      case 'name':
+        this.setState({
+          name: event.target.value, 
+          flag2: this.props.EmployeeInEditStage ? false : true
+        });
+        return;
+      default:
+        return;
+    }
+  }
+
   SubmitFormHandler = event => {
     event.preventDefault();
 
-    const { name } = this.state;
-    const equipment_Add = { name};
+    const { name, fixed } = this.state;
+    const equipment_Add = { name, fixed};
 
     if (!this.props.EquipmentInEditStage) {
       this.props.addEquipment(equipment_Add);
@@ -71,7 +93,7 @@ class EquipmentModal extends Component {
       });
     } else {
       const id = this.props.EquipmentInEditStage.id
-      const equipment_Edit = { id, name};
+      const equipment_Edit = { id, name, fixed};
 
       this.props.editEquipment(equipment_Edit);
       this.setState({
@@ -95,12 +117,27 @@ class EquipmentModal extends Component {
           <Card>
             <CardBody>
               <Form onSubmit={this.SubmitFormHandler}>
-                <input
+              <label>تجهیز: </label>
+                <br/>                <input
                   type="text"
                   name="name"
                   value={this.state.name}
-                  onChange={this.InputChangeHandler}
+                  onChange={this.onChangeHandler}
                 ></input>
+                <br/>
+                <label>ثابت در اطاق: </label>
+                <br/>
+                <label>
+                  <input 
+                    type="checkbox"
+                    name="fixed"
+                    checked={this.state.fixed}
+                    onChange={this.onChangeHandler}
+                  />
+                  <span>   </span>
+                </label>
+                <br/>
+                <br/>
                 <Button
                   disabled={!this.state.isFormValid}
                   type="submit"

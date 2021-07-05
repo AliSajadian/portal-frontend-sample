@@ -34,10 +34,12 @@ class RoomsList extends Component {
           <Table style={{direction:'rtl'}} hover striped responsive>
             <thead id="th">
               <tr id="tr">
-                <th >#</th>
-                <th style={{ width: "100%", textAlign:'center' }}>شماره اطاق</th>
-                <th />
-                <th />
+                <th style={{ width: "4%"}}>#</th>
+                <th style={{ width: "30%", textAlign:'center' }}>شماره اطاق</th>
+                <th style={{ width: "30%", textAlign:'center' }}>ظرفیت اطاق</th>
+                <th style={{ width: "30%", textAlign:'center' }}>نوع سالن</th>
+                <th style={{ width: "3%"}}/>
+                <th style={{ width: "3%"}}/>
               </tr>
             </thead>
             <tbody id="tb">
@@ -46,7 +48,10 @@ class RoomsList extends Component {
                   return ( 
                     <tr key={index}>
                       <td style={{ width: "4%"}}>{index+1}</td>
-                      <td style={{ width: "90%", textAlign:'center' }}>{room.name}</td>
+                      <td style={{ width: "30%", textAlign:'center' }}>{room.name}</td>
+                      <td style={{ width: "30%", textAlign:'center' }}>{room.capacity}</td>
+                      <td style={{ width: "30%", textAlign:'center' }}>{(this.props.roomTypes && this.props.roomTypes.length) > 0 ? (
+                                            this.props.roomTypes.filter(roomType => roomType.id === room.room_type)[0]["name"]) : ""}</td> 
                       <td style={{ width: "3%"}} className="table-action">
                         <Edit2
                           onClick={() =>
@@ -78,7 +83,6 @@ class RoomsList extends Component {
           <PlusCircle
                 onClick={() =>
                   this.props.addRoomModel()
-                  // this.generateCode()
                 }
                 className="align-middle"
                 size={18}
@@ -91,7 +95,8 @@ class RoomsList extends Component {
 
 const mapStateToProps = store => {
   return {
-    rooms: store.rooms.rooms
+    rooms: store.rooms.rooms,
+    roomTypes: store.roomTypes.roomTypes,
   };
 };
 

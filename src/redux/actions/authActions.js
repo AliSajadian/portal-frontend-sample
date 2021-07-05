@@ -47,14 +47,16 @@ export const AuthStart = (username, password, history) => {
                 sessionStorage.setItem("permissions", JSON.stringify(response.data.permissions))
                 sessionStorage.setItem("groups", JSON.stringify(response.data.groups))
 
-                sessionStorage.setItem("baseinfoAdmin", JSON.stringify(['13', '25', '29', '33', '37', '41', '45', '49']))
-                sessionStorage.setItem("surveysAdmin", JSON.stringify(['53', '57', '61', '65']))
-                sessionStorage.setItem("surveysUser", JSON.stringify(['69']))
-                sessionStorage.setItem("docappointmentAdmin", JSON.stringify(['77', '89', '93', '97']))
-                sessionStorage.setItem("docappointmentUser", JSON.stringify(['73']))
-                sessionStorage.setItem("restaurantAdmin", JSON.stringify(['101', '109']))
-                sessionStorage.setItem("restaurantUser", JSON.stringify(['105']))
-                sessionStorage.setItem("doctor", JSON.stringify(['81', '85']))
+                sessionStorage.setItem("baseinfoAdmin", JSON.stringify(['13', '25', '29', '33', '37', '41', '45', '49', '53']))
+                sessionStorage.setItem("surveysAdmin", JSON.stringify(['153', '157', '161', '165', '169']))
+                sessionStorage.setItem("surveysUser", JSON.stringify(['165']))
+                sessionStorage.setItem("docappointmentAdmin", JSON.stringify(['57', '61', '65', '69', '73', '77', '81']))
+                sessionStorage.setItem("docappointmentUser", JSON.stringify(['57', '73', '77']))
+                sessionStorage.setItem("restaurantAdmin", JSON.stringify(['133', '137', '141', '145', '149']))
+                sessionStorage.setItem("restaurantUser", JSON.stringify(['149']))
+                sessionStorage.setItem("meetingRequestAdmin", JSON.stringify(['105', '109', '113', '115', '117', '121', '125', '129', '177']))
+                sessionStorage.setItem("meetingRequestUser", JSON.stringify(['113']))
+                sessionStorage.setItem("doctor", JSON.stringify(['73', '77']))
 
                 dispatch({
                     type: types.AUTH_SUCCESS,

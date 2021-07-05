@@ -34,9 +34,9 @@ export const LoadRelatedRoomInfoCard = (roomId) => {
     }
 }
 
-export const GetRoomFixEquipmentsList = (roomId) => {
+export const GetRoomFixedEquipmentsList = (roomId) => {
     return (dispatch) =>  {
-        axios.get(`http://127.0.0.1:8000/api/roomfixequipments/${roomId}`)
+        axios.get(`http://127.0.0.1:8000/api/roomfixedequipments/${roomId}`)
         .then((response) => {
             dispatch({
                 type : types.GET_ROOMEQUIPMENTS_LIST , 

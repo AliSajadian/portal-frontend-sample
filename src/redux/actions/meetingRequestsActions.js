@@ -11,7 +11,7 @@ export const GetRequestsList = () => {
         .then((response) => {
             dispatch({
                 type : types.GET_REQUESTS_LIST , 
-                requests : response.data
+                payload : response.data
             })
         })
         .catch(() => {
@@ -20,15 +20,26 @@ export const GetRequestsList = () => {
     }
 }
 
-export const GetDateRequestsList = (date) => {
+export const GetDateRequestsList = (object) => {
+    const config = {
+        headers: {
+            "Content-Type": "application/json"
+        }
+    };
+    const requester = object.requester;
+    const date = object.date;
+
+    const body = JSON.stringify({
+        requester,
+        date
+    });
     return dispatch => {
-        axios.get(`http://127.0.0.1:8000/api/daterequests/${date}`)
+        axios.post(`http://127.0.0.1:8000/api/daterequests`, body, config)
         .then((response) => {
             dispatch({
                 type : types.GET_DATEREQUESTS_LIST , 
-                requests : response.data
+                payload : response.data
             })
-            console.log('end action: ', response.data)
         })
         .catch(() => {
             toastr.error('Fail!');
@@ -36,16 +47,32 @@ export const GetDateRequestsList = (date) => {
     }
 }
 
-export const GetDateRequestCaterTypesList = (date) => {
+export const GetRequestCaterTypesList = (requestId) => {
     return (dispatch) =>  {
-        axios.get(`http://127.0.0.1:8000/api/requestcatertypes/${date}`)
+        axios.get(`http://127.0.0.1:8000/api/requestcatertypesex/${requestId}`)
         .then((response) => {
             dispatch({
-                type : types.GET_DATEREQUESTCATERTYPES_LIST , 
+                type : types.GET_REQUESTCATERTYPES_LIST , 
                 payload : response.data
             })
         }).catch (() => {
             toastr.error('Fail!');
+        })
+    }
+}
+
+export const GetRequestEquipmentsList = (requestId) => {
+    return dispatch => {
+        axios.get(`http://127.0.0.1:8000/api/requestequipmentsex/${requestId}`)
+        .then((response) => {
+            dispatch({
+                type : types.GET_REQUESTEQUIPMENTS_LIST , 
+                payload : response.data
+            })
+        })
+        .catch((error) => {
+            toastr.error('Fail!');
+            console.log(error);
         })
     }
 }
@@ -56,7 +83,7 @@ export const LoadRelatedRequestInfoCard = (requestId) => {
         .then((response) => {
             dispatch({
                 type : types.LOAD_RELATED_REQUEST_INFO_CARD , 
-                requestInfo : response.data
+                payload : response.data
             })
         }).catch (() => {
             toastr.error('Fail!');
@@ -79,35 +106,113 @@ export const RemoveRequest = (id) => {
     }
 }
 
-export const AddRequestModel = () => {
-    // return dispatch => {
-    //     axios.get('http://127.0.0.1:8000/api/requests/')
-    //     .then((response) => {
-    //         dispatch({
-    //             type : types.START_ADD_REQUEST , 
-    //             requests : response.data
-    //         })
-    //     })
-    //     .catch(() => {
-    //         toastr.error('Fail!');
-    //     })
-    // }
-    return {
-        type: types.START_ADD_REQUEST
+// Remove Request CaterType (CheckBox)
+export const RemoveRequestCaterType = (id) => {
+    return dispatch => {
+        axios.delete(`http://127.0.0.1:8000/api/requestcatertypes/${id}`)
+            .then(() => {
+                dispatch({
+                    type: types.REMOVE_REQUESTCATERTYPE ,
+                    id: id
+                })
+            }).catch((error) => {
+                console.log(error);
+            })
     }
+}
 
+export const AddRequestCaterTypeModel = () => {
+    return {
+        type: types.START_ADD_REQUESTCATERTYPE
+    }
+}
+
+export const AddRequestEquipmentModel = () => {
+    return {
+        type: types.START_ADD_REQUESTEQUIPMENT
+    }
+}
+
+export const EditRequestCaterTypeModel = (requestCaterType) => {
+    return dispatch => {
+        dispatch({
+            type: types.START_REQUESTCATERTYPE_MODAL,
+            payload : requestCaterType
+        });
+    }
+}
+
+export const EditRequestEquipmentModel = (requestEquipment) => {
+    return dispatch => {
+        dispatch({
+            type: types.START_REQUESTEQUIPMENT_MODAL,
+            payload : requestEquipment
+        });
+    }
+}
+
+export const CheckAuthState = (history) => {   
+    return dispatch => {
+        let token = sessionStorage.getItem("token");
+        if (token) {
+            dispatch({
+                type : types.AUTH_SUCCESS ,
+                token : token ,
+                user : JSON.parse(sessionStorage.getItem("user"))
+            });
+            history.push("/")
+        }
+    }
 }
 
 // ADD Request
-export const AddRequest = request => {
+export const SaveMeetingRequest = request => {
+    const config = {
+        headers: {
+            "Content-Type": "application/json"
+        }
+    };
+    const request_id = request.request_id;
+    const title = request.title;
+    const date = request.date;
+    const start_hour = request.start_hour;
+    const end_hour = request.end_hour;
+    const description = request.description;
+    const confirm = request.confirm;
+    const department = request.department;
+    const meeting_room = request.meeting_room;
+    const requester = request.requesterId;
+    const meeting_member_no = request.meeting_member_no;
+    const requestCaterTypes = request.requestCaterTypes;
+    const requestEquipments = request.requestEquipments;
+    const editMood = request.editMood;
+
+    const body = JSON.stringify({
+        request_id,
+        title, 
+        date, 
+        start_hour, 
+        end_hour, 
+        description, 
+        confirm, 
+        department, 
+        meeting_room, 
+        requester, 
+        meeting_member_no, 
+        requestCaterTypes, 
+        requestEquipments,
+        editMood
+    });
+    // console.log('&&& body: ', body)
+
     return dispatch => {
-        axios.post("http://127.0.0.1:8000/api/requests/", request)
-            .then(res => {
+        axios.post(`http://127.0.0.1:8000/api/saverequest`, body, config)
+            .then(resonse => {
                 dispatch({
                 type: types.ADD_REQUEST,
-                payload: res.data
+                payload: resonse.data
                 });
-                toastr.success("Request Type add succesfuly")
+                toastr.success("Request add succesfuly")
             })
             .catch((error) => {
                 console.log(error);
@@ -115,22 +220,22 @@ export const AddRequest = request => {
     }
   };
 
-
-// GET Request MODAL
- export const GetRequestsModal = (id) => {
+// ADD Request CaterType (CheckBox)
+export const AddRequestCaterType = requestCaterType => {
     return dispatch => {
-        axios.get(`http://127.0.0.1:8000/api/requests/${id}`)
-        .then((response) => {
-            dispatch({
-                type : types.START_REQUEST_MODAL, 
-                payload : response.data
+        axios.post("http://127.0.0.1:8000/api/requestcatertypes/", requestCaterType)
+            .then(res => {
+                dispatch({
+                type: types.ADD_REQUESTCATERTYPE,
+                payload: res.data
+                });
+                // toastr.success("Request Cater Type add succesfuly")
             })
-        })
-        .catch(() => {
-            toastr.error('Fail!');
-        })
+            .catch((error) => {
+                console.log(error);
+            });
     }
-} 
+  };
 
 // EDIT Request
 export const EditRequest = request => {
@@ -149,10 +254,22 @@ export const EditRequest = request => {
     }
   };
   
-export const RequestModalToggler = () => {
+
+export const RequestCaterTypeModalToggler = () => {
     return {
-        type: types.TOGGLE_REQUEST_MODAL
+        type: types.TOGGLE_REQUESTCATERTYPE_MODAL,
+    }
+}
+export const RequestEquipmentModalToggler = () => {
+    return {
+        type: types.TOGGLE_REQUESTEQUIPMENT_MODAL,
     }
 }
 
+
+export const ClearDateRequests = () => {
+    return {
+        type: types.CLEAR_REQUESTS,
+    }
+}
 
