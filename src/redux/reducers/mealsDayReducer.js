@@ -18,7 +18,7 @@ const reducer = (state = initialState, actions) => {
     case types.GET_MEALSDAY_LIST:
       return {
         ...state,
-        MealsDay: actions.MealsDay
+        MealsDay: actions.payload
       };      
     case types.GET_CURRENTMONTHDATES:
       return {
@@ -44,7 +44,7 @@ const reducer = (state = initialState, actions) => {
     case types.EDIT_GUESTMEALDAYJUNCTION:
       return {
         ...state,
-        MealsDay: actions.MealsDay
+        MealsDay: actions.payload
       };          
     case types.REMOVE_MEALDAY:
       return {

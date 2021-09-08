@@ -31,8 +31,8 @@ class CompanyModal extends Component {
   componentDidUpdate() {
     if(this.props.isOpen){
       if (this.props.CompanyInEditStage){
-        console.log('this.props.CompanyInEditStage.name: ', this.props.CompanyInEditStage.name)
-        console.log('this.state.name: ', this.state.name)
+        // console.log('this.props.CompanyInEditStage.name: ', this.props.CompanyInEditStage.name)
+        // console.log('this.state.name: ', this.state.name)
 
         if(this.state.flag2 && this.props.CompanyInEditStage.name !== this.state.name) { 
           this.setState({

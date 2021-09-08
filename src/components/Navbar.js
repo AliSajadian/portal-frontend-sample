@@ -209,7 +209,7 @@ const NavbarComponent = ({ toggleSidebar, user, logOut , notifications, getFilte
             <span className="d-none d-sm-inline-block">
               <DropdownToggle nav caret>
                 <img
-                  src={'http://127.0.0.1:8000/files/' + sessionStorage.getItem('pic')}
+                  src={'http://portalapi.asft.co/files/' + sessionStorage.getItem('pic')}
                   className="avatar img-fluid rounded-circle mr-1"
                   alt={sessionStorage.getItem("username")}
                 />

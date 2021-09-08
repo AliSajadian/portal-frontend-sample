@@ -56,7 +56,7 @@ class UsersList extends Component {
                 {/* <th style={{ width: "20%", textAlign:'center' }}>نام کاربری</th> */}
                 <th style={{ width: "10%", textAlign:'center' }}>نام</th>
                 <th style={{ width: "10%", textAlign:'center' }}>نام خانوادگی</th>
-                <th style={{ width: "22%", textAlign:'center' }}>پست الکترونیک</th>
+                {/* <th style={{ width: "22%", textAlign:'center' }}>کد پرسنلی</th> */}
                 <th style={{ width: "4%", textAlign:'right' }}>فعال</th>
                 <th style={{ width: "3%" }}/>
                 <th style={{ width: "3%" }}/>
@@ -71,10 +71,11 @@ class UsersList extends Component {
                           <td style={{ width: "20%", textAlign:'center' }}>{user.username}</td>
                           <td style={{ width: "15%", textAlign:'center' }}>{user.first_name}</td>
                           <td style={{ width: "15%", textAlign:'center' }}>{user.last_name}</td>
-                          <td style={{ width: "32%", textAlign:'center' }}>{user.email}</td>
-                          <td style={{ width: "6%", textAlign:'center' }}>{Boolean(user.is_active) ? 'بله' : 'خیر'}</td>
+                          <td style={{ width: "32%", textAlign:'center' }}>{user.personel_code}</td>
+                          {/* <td style={{ width: "6%", textAlign:'center' }}>{Boolean(user.is_active) ? 'بله' : 'خیر'}</td> */}
                           <td className="table-action" style={{ width: "3%", textAlign:'center' }}>
-                            {(user.username && user.username.match(/[a-z|A-Z]+\_[a-z|A-Z|\s]+/g) !== null) ? (
+                            {(user.username && (user.username.match(/[a-z|A-Z]+\_[a-z|A-Z|\s]+/g) !== null || 
+                                  user.username.match(/[a-z|A-Z]+\-[a-z|A-Z|\s]+/g) !== null)) ? (
                             <Edit2
                               onClick={() =>
                                 this.props.getUsersModal(user.id)
@@ -84,7 +85,8 @@ class UsersList extends Component {
                             />):''}
                           </td>
                           <td className="table-action" style={{ width: "3%", textAlign:'center' }}>
-                            {(user.username && user.username.match(/[a-z|A-Z]+\_[a-z|A-Z|\s]+/g) !== null) ? (
+                            {(user.username && (user.username.match(/[a-z|A-Z]+\_[a-z|A-Z|\s]+/g) !== null || 
+                                  user.username.match(/[a-z|A-Z]+\-[a-z|A-Z|\s]+/g) !== null)) ? (
                             <Trash
                               onClick={() =>
                                 this.props.removeUser(user.id)
@@ -104,10 +106,11 @@ class UsersList extends Component {
                           <td style={{ width: "20%", textAlign:'center' }}>{user.username}</td>
                           <td style={{ width: "15%", textAlign:'center' }}>{user.first_name}</td>
                           <td style={{ width: "15%", textAlign:'center' }}>{user.last_name}</td>
-                          <td style={{ width: "32%", textAlign:'center' }}>{user.email}</td>
+                          {/* <td style={{ width: "32%", textAlign:'center' }}>{user.email}</td> */}
                           <td style={{ width: "6%", textAlign:'center' }}>{Boolean(user.is_active) ? 'بله' : 'خیر'}</td>
                           <td className="table-action" style={{ width: "3%", textAlign:'center' }}>
-                            {(user.username && user.username.match(/[a-z|A-Z]+\_[a-z|A-Z|\s]+/g) !== null) ? (
+                            {(user.username && (user.username.match(/[a-z|A-Z]+\_[a-z|A-Z|\s]+/g) !== null || 
+                                  user.username.match(/[a-z|A-Z]+\-[a-z|A-Z|\s]+/g) !== null)) ? (
                             <Edit2
                               onClick={() =>
                                 this.props.getUsersModal(user.id)
@@ -117,7 +120,8 @@ class UsersList extends Component {
                               />):''}
                           </td>
                           <td className="table-action" style={{ width: "3%", textAlign:'center' }}>
-                            {(user.username && user.username.match(/[a-z|A-Z]+\_[a-z|A-Z|\s]+/g) !== null) ? (
+                            {(user.username && (user.username.match(/[a-z|A-Z]+\_[a-z|A-Z|\s]+/g) !== null || 
+                            user.username.match(/[a-z|A-Z]+\-[a-z|A-Z|\s]+/g) !== null)) ? (
                             <Trash
                               onClick={() =>
                                 this.props.removeUser(user.id)

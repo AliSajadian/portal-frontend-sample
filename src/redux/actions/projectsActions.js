@@ -7,7 +7,7 @@ import { toastr } from "react-redux-toastr";
 
 export const GetProjectsList = () => {
     return dispatch => {
-        axios.get('http://127.0.0.1:8000/api/projects/')
+        axios.get('http://portalapi.asft.co/api/projects/')
         .then((response) => {
             dispatch({
                 type : types.GET_PROJECTS_LIST , 
@@ -23,7 +23,7 @@ export const GetProjectsList = () => {
 
 export const LoadRelatedProjectInfoCard = (projectId) => {        
     return (dispatch) =>  {
-        axios.get(`http://127.0.0.1:8000/api/projects/${projectId}`)
+        axios.get(`http://portalapi.asft.co/api/projects/${projectId}`)
         .then((response) => {
             dispatch({
                 type : types.LOAD_RELATED_PROJECT_INFO_CARD , 
@@ -38,7 +38,7 @@ export const LoadRelatedProjectInfoCard = (projectId) => {
 
 export const RemoveProject = (id) => {
     return dispatch => {
-        axios.delete(`http://127.0.0.1:8000/api/projects/${id}`)
+        axios.delete(`http://portalapi.asft.co/api/projects/${id}`)
             .then(() => {
                 dispatch({
                     type: types.REMOVE_PROJECT ,
@@ -53,7 +53,7 @@ export const RemoveProject = (id) => {
 
 export const AddProjectModel = () => {
     // return dispatch => {
-    //     axios.get('http://127.0.0.1:8000/api/projects/')
+    //     axios.get('http://portalapi.asft.co/api/projects/')
     //     .then((response) => {
     //         dispatch({
     //             type : types.START_ADD_PROJECT , 
@@ -73,7 +73,7 @@ export const AddProjectModel = () => {
 // ADD Project
 export const AddProject = project => {
     return dispatch => {
-        axios.post("http://127.0.0.1:8000/api/projects/", project)
+        axios.post("http://portalapi.asft.co/api/projects/", project)
             .then(res => {
                 dispatch({
                 type: types.ADD_PROJECT,
@@ -91,7 +91,7 @@ export const AddProject = project => {
 // GET Project MODAL
  export const GetProjectsModal = (id) => {
     return dispatch => {
-        axios.get(`http://127.0.0.1:8000/api/projects/${id}`)
+        axios.get(`http://portalapi.asft.co/api/projects/${id}`)
         .then((response) => {
             dispatch({
                 type : types.START_PROJECT_MODAL, 
@@ -107,7 +107,7 @@ export const AddProject = project => {
 // EDIT Project
 export const EditProject = project => {
     return dispatch => {
-        axios.put(`http://127.0.0.1:8000/api/projects/${project.id}/`, project)
+        axios.put(`http://portalapi.asft.co/api/projects/${project.id}/`, project)
             .then(resonse => {
                 dispatch({
                 type: types.EDIT_PROJECT,

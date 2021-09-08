@@ -6,26 +6,30 @@ import {
   Row,
 } from "reactstrap";
 import MealsDayList from "../mealsDay/mealsDay";
-// import { GetMealDaysList } from "../../../../redux/actions/mealsDayActions";
-import { GetMealDaysExList } from "../../../../redux/actions/mealsDayActions";
-import { GetMealsList } from "../../../../redux/actions/mealsActions";
-import { GetCurrentMonthDates } from "../../../../redux/actions/mealsDayActions";
-
+import { 
+  GetMealsList, 
+} from "../../../../redux/actions/mealsActions";
+import { 
+  GetMealDaysExList, 
+  GetMonthDatesEx 
+} from "../../../../redux/actions/mealsDayActions";
 
 
 const Index = (props) => {
   useEffect(() => {
-    // console.log("start useEffect Mealls Days---------------------")
+    let date = new Date()
+    let y = date.getFullYear(); 
+    let month = date.getMonth()+1;
+    let day = date.getDate();
+    let currentDate = String(y) + '-' + (month > 9 ? String(month) : '0' + String(month)) + '-' + (day > 9 ? String(day) : '0' + String(day))
+
     props.getMealsList();
-    // props.getMealDaysList();
-    props.getMealDaysExList()
-    props.getCurrentMonthDates();
-    // console.log("End useEffect Mealls Days---------------------")
+    props.getMealDaysExList(currentDate)
+    props.getMonthDatesEx(date)
   }, []);
 
   return (
     <Container className="p-0">
-      {/* <h1 className="h3 mb-3">غذاهای ماهیانه</h1> */}
       <Row>
         <Col >
           <MealsDayList></MealsDayList>
@@ -38,9 +42,8 @@ const Index = (props) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     getMealsList: () => dispatch(GetMealsList()),
-    // getMealDaysList: () => dispatch(GetMealDaysList()),
-    getMealDaysExList: () => dispatch(GetMealDaysExList()),    
-    getCurrentMonthDates: () => dispatch(GetCurrentMonthDates())
+    getMealDaysExList: (date) => dispatch(GetMealDaysExList(date)),    
+    getMonthDatesEx: (selectedDate) => dispatch(GetMonthDatesEx(selectedDate)),    
 }}
 
 export default connect(null, mapDispatchToProps)(Index);

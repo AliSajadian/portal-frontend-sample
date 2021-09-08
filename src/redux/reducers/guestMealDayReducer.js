@@ -22,10 +22,10 @@ const reducer = (state = initialState, actions) => {
         ...state,
         guestMealsDays: actions.payload
       };
-    case types.GET_GUESTMEALSDAY_LIST:
+    case types.GET_GUESTMEALSDAY_LIST: 
       return {
         ...state,
-        guestMealsDay: actions.guestMealsDay
+        guestMealsDay: actions.payload
       };
     case types.GET_SERVEDMEALS_LIST:
       return {

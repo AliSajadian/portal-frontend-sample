@@ -12,13 +12,17 @@ import {
 } from "reactstrap";
 import { connect } from "react-redux";
 import {
-  GetMealsDayList,
+  GetDepartmentMealsDayList,
+  GetProjectMealsDayList,
   EditGuestMealDayJunction,
   // EditGuestMealDay_Junction,
  } from "../../../../redux/actions/mealsDayActions";
 import {
   GetGuestMealsDayList,
-  EditGuestMealDay
+  GetDepartmentGuestMealDayList,
+  GetProjectGuestMealDayList,
+  EditGuestMealDay,
+  SaveGuestsMealsDay,
 } from "../../../../redux/actions/guestMealDayActions";
 import '../restaurant.css'
 // import Label from "reactstrap/lib/Label";
@@ -37,8 +41,12 @@ class GuestMealDayList extends Component {
       date: '',
       company: 0,
       department: 0,
+      project: 1,
+      projectCheck: false,
+      mealsNo: [],
       mealsDay: [],
       guestMealsDay: [],
+      description: '',
     };
   }
 
@@ -64,7 +72,8 @@ class GuestMealDayList extends Component {
     }
     if(this.props.guestMealsDay && this.props.guestMealsDay !== this.state.guestMealsDay){
       this.setState({
-        guestMealsDay: this.props.guestMealsDay
+        guestMealsDay: this.props.guestMealsDay,
+        description: this.props.guestMealsDay.length > 0 ? String(this.props.guestMealsDay[0]['description']) : ''
       })
     }    
 
@@ -219,7 +228,7 @@ class GuestMealDayList extends Component {
           }
           else{
             g_month = '04'
-            g_day = String(day - 11)
+            g_day = ((day - 11) < 10 ? '0' : '') + String(day - 11)
           }
           break
       case 2:
@@ -229,7 +238,7 @@ class GuestMealDayList extends Component {
             }
           else{
               g_month = '05';
-              g_day = String(day - 10)
+              g_day =  ((day - 10) < 10 ? '0' : '') + String(day - 10)
             }
           break
       case 3:
@@ -239,7 +248,7 @@ class GuestMealDayList extends Component {
           }
           else{
             g_month = '06';
-            g_day = String(day - 10)
+            g_day = ((day - 10) < 10 ? '0' : '') + String(day - 10)
           }
           break
       case 4:
@@ -249,7 +258,7 @@ class GuestMealDayList extends Component {
           }
           else{
             g_month = '07';
-            g_day = String(day - 9)          
+            g_day = ((day - 9) < 10 ? '0' : '') + String(day - 9)          
           }
           break
       case 5:
@@ -259,7 +268,7 @@ class GuestMealDayList extends Component {
           }
           else{
             g_month = '08';
-            g_day = String(day - 9)       
+            g_day = ((day - 9) < 10 ? '0' : '') + String(day - 9)       
           }
           break
       case 6:
@@ -269,7 +278,7 @@ class GuestMealDayList extends Component {
           }
           else{
             g_month = '09';
-            g_day = String(day - 9)           
+            g_day = ((day - 9) < 10 ? '0' : '') + String(day - 9)           
           }
           break
       case 7:
@@ -279,7 +288,7 @@ class GuestMealDayList extends Component {
           }
           else{
             g_month = '10';
-            g_day = String(day - 8)         
+            g_day = ((day - 8) < 10 ? '0' : '') + String(day - 8)         
           }
           break
       case 8:
@@ -289,7 +298,7 @@ class GuestMealDayList extends Component {
           }
           else{
             g_month = '11';
-            g_day = String(day - 9)          
+            g_day = ((day - 9) < 10 ? '0' : '') + String(day - 9)          
           }
           break
       case 9:
@@ -299,7 +308,7 @@ class GuestMealDayList extends Component {
           }
           else{
             g_month = '12';
-            g_day = String(day - 9)
+            g_day = ((day - 9) < 10 ? '0' : '') + String(day - 9)
           }
           break
       case 10:
@@ -309,7 +318,7 @@ class GuestMealDayList extends Component {
           }
           else{
             g_month = '01';
-            g_day = String(day - 10)
+            g_day = ((day - 10) < 10 ? '0' : '') + String(day - 10)
           }
           break
       case 11:
@@ -319,7 +328,7 @@ class GuestMealDayList extends Component {
           }
           else{
             g_month = '02';
-            g_day = String(day - 11)
+            g_day = ((day - 11) < 10 ? '0' : '') + String(day - 11)
           }
           break
       case 12:
@@ -329,7 +338,7 @@ class GuestMealDayList extends Component {
           }
           else{
             g_month = '03';
-            g_day = String(day - 9)
+            g_day = ((day - 9) < 10 ? '0' : '') + String(day - 9)
           }
           break
       default:
@@ -338,7 +347,7 @@ class GuestMealDayList extends Component {
   };
 
   handleDayChange = (e) => {
-    let day = e.target.value
+    let day = Number(e.target.value)
     this.setState({day})
   }  
   handleMonthChange = () => e => {
@@ -378,23 +387,30 @@ class GuestMealDayList extends Component {
     this.setState({year})
   }
   
-  showMealsDay = (day, month, year, department) => {
+  showMealsDay = (day, month, year, department, project) => {
+    // console.log('+++department: ', this.state.department)
     let date = this.getGregorianDateEx(year, month, day)
-    this.props.getMealsDayList(date, department)
-    this.props.getGuestMealsDayList(date, department)
+    if(!this.state.projectCheck){
+      this.props.getDepartmentMealsDayList(date, department)
+      this.props.getDepartmentGuestMealDayList(date, department)
+    }
+    else{
+      this.props.getProjectMealsDayList(date, project)
+      this.props.getProjectGuestMealDayList(date, project)
+    }
 
     this.setState({ 
       mealsDay: this.props.mealsDay,
       guestMealsDay: this.props.guestMealsDay 
     })
-    // console.log('**************************Button***************************')
-    // console.log('***props mealsDay***: ', this.props.mealsDay)
-    // console.log('***state mealsDay***: ', this.state.mealsDay)
-    // console.log('***********************************************************')
   }
 
-  handleMealChange = (mealDay) => (e) => {
+  saveGuestMeals = (mealDay) => (e) => {
+
     e.preventDefault();
+    const { department, project, description, mealsNo } = this.state
+    const object_add = {department, project, description, mealsNo}
+    this.props.saveGuestsMeals(object_add)
 
     let guestMealDayId = this.props.guestMealsDay && this.props.guestMealsDay.length > 0 ? Number(this.props.guestMealsDay[0]['id']) : 0
     // console.log('-------------------------------')
@@ -405,13 +421,17 @@ class GuestMealDayList extends Component {
       if(guestMealDayId === 0){
         // console.log('=========================');console.log('mood 1');
         const addGuestJunction = {
-          department_id: this.state.department,
+          department_id: department,
+          project_id: project,
           id: mealDay.ResturantDayMeal_ResturantGuestDayMealJunction__id !== null ? mealDay.ResturantDayMeal_ResturantGuestDayMealJunction__id : 0,
-          resturant_day_mea_id: mealDay.id,
-          resturant_guest_day_meal_id: guestMealDayId,
+          resturaunt_day_mea_id: mealDay.id,
+          resturaunt_guest_day_meal_id: guestMealDayId,
           qty: e.target.value,
           mood: 1
         }
+
+        const object_add = {department, project, description, mealsNo}
+        this.props.saveGuestsMeals(object_add)
 
         let mealsDay = this.state.mealsDay
         mealsDay.map(md => md.id === mealDay.id ?
@@ -421,6 +441,7 @@ class GuestMealDayList extends Component {
         const { year, month, day, department} = this.state
         let date = this.getGregorianDateEx(year, month, day)
 
+        console.log('addGuestJunction', addGuestJunction)
         this.props.editGuestMealDayJunction(addGuestJunction)
         this.props.getGuestMealsDayList(date, department)
 
@@ -434,8 +455,8 @@ class GuestMealDayList extends Component {
         const addJunction = {
           department_id: 0,
           id: mealDay.ResturantDayMeal_ResturantGuestDayMealJunction__id !== null ? mealDay.ResturantDayMeal_ResturantGuestDayMealJunction__id : 0,
-          resturant_day_mea_id: mealDay.id,
-          resturant_guest_day_meal_id: guestMealDayId,
+          resturaunt_day_mea_id: mealDay.id,
+          resturaunt_guest_day_meal_id: guestMealDayId,
           qty: e.target.value,
           mood: 2
         }
@@ -455,8 +476,8 @@ class GuestMealDayList extends Component {
       const editJunction = {
         department_id: 0,
         id: mealDay.ResturantDayMeal_ResturantGuestDayMealJunction__id !== null ? mealDay.ResturantDayMeal_ResturantGuestDayMealJunction__id : 0,
-        resturant_day_mea_id: mealDay.id,
-        resturant_guest_day_meal_id: guestMealDayId,
+        resturaunt_day_mea_id: mealDay.id,
+        resturaunt_guest_day_meal_id: guestMealDayId,
         qty: e.target.value,
         mood: 3
       }
@@ -472,32 +493,37 @@ class GuestMealDayList extends Component {
     }
   }
 
-  handleDescriptionEdit = (guestMealsDayId) => e =>  {
-    e.preventDefault()
+  handleDescriptionEdit = (e) => e =>  {
+    // e.preventDefault()
 
-    if(guestMealsDayId > 0){
-      let filteredguestMealDay = null
+    // if(guestMealsDayId > 0){
+    //   let filteredguestMealDay = null
 
-      let guestMealsDay = this.state.guestMealsDay
-      guestMealsDay.map(guestMealDay => (guestMealDay.id === guestMealsDayId) ?
-      (
-        guestMealDay.description = e.target.value,
-        filteredguestMealDay = guestMealDay
-      ) : "")
+    //   let guestMealsDay = this.state.guestMealsDay
+    //   guestMealsDay.map(guestMealDay => (guestMealDay.id === guestMealsDayId) ?
+    //   (
+    //     guestMealDay.description = e.target.value,
+    //     filteredguestMealDay = guestMealDay
+    //   ) : "")
 
-      this.props.editGuestMealDay(filteredguestMealDay)
+    //   this.props.editGuestMealDay(filteredguestMealDay)
 
-      this.setState({ guestMealsDay })
+    //   this.setState({ guestMealsDay })
+    // }
+    if (this.state.mealsNo && this.state.mealsNo.length === 0){
+      alert('ابتدا تعداد سفارشات را تعیین کنید.')
     }
-    else if (this.state.mealsDay && this.state.mealsDay.length > 0){
-      alert('ابتدا تعداد سفارشات زا تعیین کنید.')
+    else{
+      this.setState({
+        description: String(e.target.value)
+      })
     }
   }
 
   handleDepartmentEdit = (guestMealsDayId) => e =>  {
     e.preventDefault()
 
-    console.log('guestMealsDayId: ', guestMealsDayId)
+    // console.log('guestMealsDayId: ', guestMealsDayId)
     if(guestMealsDayId > 0){
       let filteredguestMealDay = null
 
@@ -521,14 +547,34 @@ class GuestMealDayList extends Component {
       })
   }
 
-  render() { 
+  handleProjectEdit = () => {
+
+  }
+
+  onChangeHandeling = (mealDay) => e => {
+    let mealsDay = this.state.mealsDay
+    mealsDay.filter(md => md.id === mealDay.id).map(md => 
+      md.ResturauntDayMeal_ResturauntGuestDayMealJunction__qty = Number(e.target.value)
+    )
+    this.setState({mealsDay})
+  }
+
+  getMealNoValue = (mealName) => {
+    let mealsNo = this.state.mealsNo;
+    let mNo = 0;
+    mealsNo.filter(mealNo => mealNo.mealName === mealName).map(mealNo => mNo = mealNo.mealNo);
+    return mNo;
+  }
+
+   render() {     //console.log('props.projects: ', this.props.mealsDay)
+
     // console.log('=================================RENDER=================================')
-    // console.log('props.mealsDay: ', this.props.mealsDay)
-    // console.log('state.mealsDay: ', this.state.mealsDay)
-    // console.log('props.guestMealsDay: ', this.props.guestMealsDay)
-    // console.log('state.guestMealsDay: ', this.state.guestMealsDay)
-    // console.log('========================================================================')
-    const {day, month, year, company, department} = this.state;
+    console.log('props.mealsDay: ', this.props.mealsDay)
+    console.log('state.mealsDay: ', this.state.mealsDay)
+    console.log('props.guestMealsDay: ', this.props.guestMealsDay)
+    console.log('state.guestMealsDay: ', this.state.guestMealsDay)
+    console.log('========================================================================')
+    const {day, month, year, company, department, project, projectCheck, description} = this.state;
     return (
       <Card style={{direction:'rtl'}}>
         <Container>
@@ -536,7 +582,7 @@ class GuestMealDayList extends Component {
             <Row>
               <Col xl="4"></Col>
               <Col xl="1">
-                <select style={{width:'6em', backgroundColor: "whitesmoke"}} value={day}
+                <select style={{width:'7em', backgroundColor: "whitesmoke"}} value={day}
                 onChange={(e) => this.handleDayChange(e)}>
                   <option value={1}>1</option>
                   <option value={2}>2</option>
@@ -572,7 +618,7 @@ class GuestMealDayList extends Component {
                 </select>
                 </Col>
               <Col xl="1">
-                <select style={{width:'6em', backgroundColor: "whitesmoke"}} value={month}
+                <select style={{width:'7em', backgroundColor: "whitesmoke"}} value={month}
                 onChange={this.handleMonthChange()}>
                   <option value={1}>فروردین</option>
                   <option value={2}>اردیبهشت</option>
@@ -589,7 +635,7 @@ class GuestMealDayList extends Component {
                 </select>
                 </Col>
               <Col xl="1">
-                <select style={{width:'6em', backgroundColor: "whitesmoke"}} value={year}
+                <select style={{width:'7em', backgroundColor: "whitesmoke"}} value={year}
                 onChange={(e) => this.handleYearChange(e)}>
                   <option value={1400}>1400</option>
                   <option value={1401}>1401</option>
@@ -606,7 +652,7 @@ class GuestMealDayList extends Component {
               <Col xl="4"></Col>
             </Row>
             <Row>
-              <Col xl="4"></Col>
+              <Col xl="3"></Col>
               <Col xl="2">
                 <select value={company} style={{backgroundColor: "whitesmoke"}} onChange={(e) => this.setState({ company: Number(e.target.value)} )}>
                   {this.props.companys ? this.props.companys.map((company) => 
@@ -615,19 +661,36 @@ class GuestMealDayList extends Component {
                 </select>
               </Col>
               <Col xl="2">
-                <select value={department} style={{backgroundColor: "whitesmoke"}}
-                  onChange={this.handleDepartmentEdit(this.state.guestMealsDay && this.state.guestMealsDay.length > 0 ? Number(this.state.guestMealsDay[0]['id']) : 0)}>
-                  {/* onChange={(e) => this.setState({ department: Number(e.target.value)} )} */}
+                <select value={department} style={{backgroundColor: "whitesmoke"}} disabled={projectCheck}
+                  // onChange={this.handleDepartmentEdit(this.state.guestMealsDay && this.state.guestMealsDay.length > 0 ? Number(this.state.guestMealsDay[0]['id']) : 0)}
+                  onChange={(e) => this.setState({ department: Number(e.target.value)} )}>
                   {this.props.departments ? this.props.departments.filter(department => department.company === company).map((department) => 
                     <option key={department.id} value={department.id}>{department.name}</option>
                   ) : ''}
                 </select>
               </Col>
-              <Col xl="4"></Col>
+              <Col xl="2">
+                <label>
+                  <input 
+                    type="checkbox"
+                    name="project_check"
+                    checked={projectCheck}
+                    onChange={() => this.setState({projectCheck: !this.state.projectCheck})}
+                  />
+                  <span>   </span>
+                </label>
+                <select value={project ? project : ""} style={{backgroundColor: "whitesmoke"}} disabled={!projectCheck}
+                  onChange={(e) => this.setState({project: Number(e.target.value)} )}>
+                  {this.props.projects ? this.props.projects.filter(project => project.company === company).map((project) => 
+                    <option key={project.id} value={project.id}>{project.name}</option>
+                  ) : ''}
+                </select>
+              </Col>              
+              <Col xl="3"></Col>
             </Row>
             <Row>
               <Col xl="12" style={{testAlign:'center'}}>
-                <Button color="primary" style={{margin:"1em auto 1em auto", width:'100px'}} onClick={() => this.showMealsDay(day, month, year, department)} >تائید</Button>
+                <Button color="primary" style={{margin:"1em auto 1em auto", width:'100px'}} onClick={() => this.showMealsDay(day, month, year, department, project)} >جستجو</Button>
               </Col>
             </Row>
           </Card>
@@ -637,19 +700,22 @@ class GuestMealDayList extends Component {
               this.state.mealsDay.map((mealDay, index) =>
               <Row key={index}>
                 <Col xl="8">
-                  {/* {console.log('*** mealDay.resturant_meal__name: ', mealDay.resturant_meal__name)} */}
-                  <Label>{mealDay.resturant_meal__name}</Label>
+                  {/* {console.log('*** mealDay.resturaunt_meal__name: ', mealDay.resturaunt_meal__name)} */}
+                  <Label>{mealDay.resturaunt_meal__name}</Label>
                 </Col>
                 <Col style={{textAlign:'right'}} xl="4">    
                   <span>
                   <label> 
-                  <AutosizeInput 
-                      color="primary" 
-                      // style={{backgroundColor: 'blue'}}
+                  <input 
+                      // color="primary" 
+                      style={{width: '30px'}}
                       type="text"
-                      onChange={this.handleMealChange(mealDay)}
-                      value={mealDay.ResturantDayMeal_ResturantGuestDayMealJunction__qty !== null ? mealDay.ResturantDayMeal_ResturantGuestDayMealJunction__qty : 0}
-                      placeholderIsMinWidth
+                      onChange={this.onChangeHandeling(mealDay)}
+                      //this.setState({mealsNo: [...this.state.mealsNo, {resturaunt_day_meal_id:mealDay.id, qty:e.target.value}]})
+                      value={mealDay.ResturauntDayMeal_ResturauntGuestDayMealJunction__qty ? mealDay.ResturauntDayMeal_ResturauntGuestDayMealJunction__qty : ''}
+                      //{this.getMealNoValue(mealDay.id)}
+                      
+                      // placeholderIsMinWidth    resturaunt_meal__name
                   /> تعداد 
                   </label>  
                   </span>                                                          
@@ -662,13 +728,24 @@ class GuestMealDayList extends Component {
               <Col x="12">
                 <textarea 
                     style={{width:'50%', height:'100px', textAlign:'right', fontSize:'1em', backgroundColor: "whitesmoke"}}  
-                    value={this.state.guestMealsDay && this.state.guestMealsDay.length > 0 ? this.state.guestMealsDay[0]['description'] : ''} 
-                    onChange={this.handleDescriptionEdit(this.state.guestMealsDay && this.state.guestMealsDay.length > 0 ? Number(this.state.guestMealsDay[0]['id']) : 0)}
+                    value={description} 
+                    //this.state.guestMealsDay && this.state.guestMealsDay.length > 0 ? this.state.guestMealsDay[0]['description'] : ''
+                    onChange={this.handleDescriptionEdit()}
+                    //this.state.guestMealsDay && this.state.guestMealsDay.length > 0 ? Number(this.state.guestMealsDay[0]['id']) : 0
                     >
                 </textarea>
               </Col>
             </Row>
           : ''}
+          </Card>
+          <Card>
+          {this.state.mealsDay && this.state.mealsDay.length > 0 ?
+            <Row>
+              <Col xl="12" style={{testAlign:'center'}}>
+                <Button color="primary" style={{margin:"1em auto 1em auto", width:'100px'}} onClick={() => this.saveGuestMeals()} >تائید</Button>
+              </Col>
+          </Row>            
+          : ''}            
           </Card>
         </Container>      
       </Card>
@@ -680,6 +757,7 @@ const mapStateToProps = store => {
   return {
     companys: store.companies.companies,
     departments: store.departments.departments,
+    projects: store.projects.projects,
     mealsDay: store.mealsDays.MealsDay,
     guestMealsDay: store.guestMealsDays.guestMealsDay,
   };
@@ -687,15 +765,29 @@ const mapStateToProps = store => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getMealsDayList: (date, departmentId) => {
-      dispatch(GetMealsDayList(date, departmentId))}, 
+    getDepartmentMealsDayList: (date, departmentId) => {
+      dispatch(GetDepartmentMealsDayList(date, departmentId))}, 
+    getProjectMealsDayList: (date, projectId) => {
+      dispatch(GetProjectMealsDayList(date, projectId))},       
+       
     getGuestMealsDayList: (date, departmentId) => {
-      dispatch(GetGuestMealsDayList(date, departmentId))},       
+      dispatch(GetGuestMealsDayList(date, departmentId))}, 
+
+    getDepartmentGuestMealDayList: (date, departmentId) => {
+      dispatch(GetDepartmentGuestMealDayList(date, departmentId))},  
+    getProjectGuestMealDayList: (date, projectId) => {
+      dispatch(GetProjectGuestMealDayList(date, projectId))},     
+
     editGuestMealDayJunction: (model) => {
       dispatch(EditGuestMealDayJunction(model))}, 
+      
     editGuestMealDay: (model) => {
-      dispatch(EditGuestMealDay(model))}
-  };
+      dispatch(EditGuestMealDay(model))},
+
+    saveGuestsMeals: (object) => {
+      dispatch(SaveGuestsMealsDay(object))},
+    }
 };
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(GuestMealDayList);

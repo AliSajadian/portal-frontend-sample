@@ -7,7 +7,7 @@ import { toastr } from "react-redux-toastr";
 
 export const GetDoctorTypesList = () => {
     return dispatch => {
-        axios.get('http://127.0.0.1:8000/api/doctorTypes/')
+        axios.get('http://portalapi.asft.co/api/doctorTypes/')
         .then((response) => {
             dispatch({
                 type : types.GET_DOCTORTYPES_LIST , 
@@ -23,7 +23,7 @@ export const GetDoctorTypesList = () => {
 
 export const LoadRelatedDoctorTypeInfoCard = (doctorTypeId) => {        
     return (dispatch) =>  {
-        axios.get(`http://127.0.0.1:8000/api/doctorTypes/${doctorTypeId}`)
+        axios.get(`http://portalapi.asft.co/api/doctorTypes/${doctorTypeId}`)
         .then((response) => {
             dispatch({
                 type : types.LOAD_RELATED_DOCTORTYPE_INFO_CARD , 
@@ -38,7 +38,7 @@ export const LoadRelatedDoctorTypeInfoCard = (doctorTypeId) => {
 
 export const RemoveDoctorType = (id) => {
     return dispatch => {
-        axios.delete(`http://127.0.0.1:8000/api/doctorTypes/${id}`)
+        axios.delete(`http://portalapi.asft.co/api/doctorTypes/${id}`)
             .then(() => {
                 dispatch({
                     type: types.REMOVE_DOCTORTYPE ,
@@ -53,7 +53,7 @@ export const RemoveDoctorType = (id) => {
 
 export const AddDoctorTypeModel = () => {
     // return dispatch => {
-    //     axios.get('http://127.0.0.1:8000/api/doctorTypes/')
+    //     axios.get('http://portalapi.asft.co/api/doctorTypes/')
     //     .then((response) => {
     //         dispatch({
     //             type : types.START_ADD_DOCTORTYPE , 
@@ -72,7 +72,7 @@ export const AddDoctorTypeModel = () => {
 // ADD DOCTORTYPE
 export const AddDoctorType = doctorType => {
     return dispatch => {
-        axios.post("http://127.0.0.1:8000/api/doctorTypes/", doctorType)
+        axios.post("http://portalapi.asft.co/api/doctorTypes/", doctorType)
             .then(res => {
                 dispatch({
                 type: types.ADD_DOCTORTYPE,
@@ -90,7 +90,7 @@ export const AddDoctorType = doctorType => {
 // GET DOCTORTYPE MODAL
  export const GetDoctorTypesModal = (id) => {
     return dispatch => {
-        axios.get(`http://127.0.0.1:8000/api/doctorTypes/${id}`)
+        axios.get(`http://portalapi.asft.co/api/doctorTypes/${id}`)
         .then((response) => {
             dispatch({
                 type : types.START_DOCTORTYPE_MODAL, 
@@ -106,7 +106,7 @@ export const AddDoctorType = doctorType => {
 // EDIT DOCTORTYPE
 export const EditDoctorType = doctorType => {
     return dispatch => {
-        axios.put(`http://127.0.0.1:8000/api/doctorTypes/${doctorType.id}/`, doctorType)
+        axios.put(`http://portalapi.asft.co/api/doctorTypes/${doctorType.id}/`, doctorType)
             .then(resonse => {
                 dispatch({
                 type: types.EDIT_DOCTORTYPE,

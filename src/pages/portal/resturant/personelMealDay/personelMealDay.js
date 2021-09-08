@@ -12,8 +12,11 @@ import {
 import { connect } from "react-redux";
 import {
   EditPersonelMealDay,
-  AddPersonelMealDay
+  AddPersonelMealDay,
+  BulkAddPersonelMealDays,
+  BulkEditPersonelMealDays,
 } from "../../../../redux/actions/personelMealDayActions";
+import WeeklyMealsDay from "./components/weeklyMealsDay"
 import '../restaurant.css'
 
 
@@ -21,78 +24,64 @@ import '../restaurant.css'
 class PrsonelMealDayList extends Component {
   constructor(props){
     super(props)
-
+    const currentDate = new Date();
+    let y = currentDate.getFullYear(); 
+    let month = currentDate.getMonth();
+    let day = currentDate.getDate();
+    
     this.state = {
       isSaved: false,
       flag: true,
-      selectedMealDays: [{
-        employee: 0,
-        resturant_day_meal: 0,
-        resturant_meal: 0,
-        date: ''
-      }],
+      selectedMealDays: [],
+      next3DaysDate: new Date(y, month, day + 3)
     };
   }
 
-  componentDidUpdate() {
-    let selectedMealDays = [];
-
-    if(!this.state.isSaved && this.props.personelMealDay && this.props.personelMealDay.length > 0)
-    {
-      // && 
-      // this.props.personelMealDay.filter(pmd => Number(pmd.resturant_day_meal.id) === Number(md.id)) &&
-      // this.props.personelMealDay.filter(pmd => Number(pmd.resturant_day_meal.id) === Number(md.id)).length > 0
-
-      this.setState({
-        isSaved: true
-      })
-    }
-    else if(!this.state.isSaved && this.state.flag && this.props.currentMonthDates && this.props.currentMonthDates.length > 0 && 
-      this.props.mealsDays && this.props.mealsDays.length > 0 &&
-      this.state.selectedMealDays && this.state.selectedMealDays.length <= this.props.currentMonthDates.length){
-      this.props.currentMonthDates.map(cmd => (
-        (this.props.mealsDays.filter(md => (md.date === cmd.date.toLocaleDateString('pt-br').split( '/' ).reverse( ).join( '-' )
-        //   (String(cmd.date.getFullYear()) + '-' + 
-        // (String(cmd.date.getMonth()+1).length < 2 ? ('0' + String(cmd.date.getMonth()+1)) : 
-        // String(cmd.date.getMonth()+1)) + '-' + (String(cmd.date.getDate()).length < 2 ? 
-        // ('0' + String(cmd.date.getDate())) : String(cmd.date.getDate())))
-        )) ? (
-          this.props.mealsDays.filter(md => (md.date === cmd.date.toLocaleDateString('pt-br').split( '/' ).reverse( ).join( '-' )
-          //   (String(cmd.date.getFullYear()) + '-' + 
-          // (String(cmd.date.getMonth()+1).length < 2 ? ('0' + String(cmd.date.getMonth()+1)) : 
-          // String(cmd.date.getMonth()+1)) + '-' + (String(cmd.date.getDate()).length < 2 ? 
-          // ('0' + String(cmd.date.getDate())) : String(cmd.date.getDate())))
-          )).map((md, index) => (index === 0) ? (
-            selectedMealDays.push({
-              employee: sessionStorage.getItem('employeeid'),
-              resturant_day_meal: md.id,
-              resturant_meal: md.resturant_meal,
-              date: md.date
-            })
-            // ,console.log("this.props.mealsDays.filter: ", md)
-          ) : "")
-        ) : "")
-      ));
-      // if(!this.state.isSaved){
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.personelMealDays && nextProps.personelMealDays.length > 0 && 
+        nextProps.personelMealDays !== this.props.personelMealDays) {
         this.setState({
-          selectedMealDays: selectedMealDays,
-          flag: false
-        })        
-      }
-    // }
-    // console.log('DIDUPDATE ***this.state.isSaved: ', this.state.isSaved)
-  }
+            selectedMealDays: nextProps.personelMealDays
+        });
+    }
 
+    let selectedMealDays = [];
+    if(nextProps.personelMealDays && nextProps.personelMealDays.length === 0 && 
+        this.props.currentMonthDates && this.props.currentMonthDates.length > 0 && 
+        this.props.mealsDays && this.props.mealsDays.length > 0 && this.state.selectedMealDays && 
+         (this.props.personelMealDays && this.props.personelMealDays.length === 0)){
+
+        this.props.currentMonthDates.filter(cmd => this.state.next3DaysDate < cmd.date).map(cmd => (
+          (this.props.mealsDays.filter(md => (md.date === cmd.date.toLocaleDateString('pt-br').split( '/' ).reverse( ).join( '-' )
+          )) ? (
+            this.props.mealsDays.filter(md => (md.date === cmd.date.toLocaleDateString('pt-br').split( '/' ).reverse( ).join( '-' )
+            )).map((md, index) => (index === 0) ? (
+
+              selectedMealDays.push({
+                employee: Number(sessionStorage.getItem('employeeid')),
+                resturaunt_day_meal: md.id,
+              })
+
+            ) : "")
+          ) : "")
+        ));
+          this.setState({
+            selectedMealDays: selectedMealDays,
+          })        
+    }
+
+    // console.log('selectedMealDays: ', selectedMealDays)
+  }
 
   getPersianMonthWeekNo = date => {
     const day = this.getPersianDay(date)
     const weekDay = date.getDay()
-    
     switch(weekDay)
     {
-      case 0:
-        if(day < 3)
+      case 0://Sunday
+        if(day < 3){
           return 1
+        }
         else if(day >= 3 && day < 10)
           return 2
         else if(day >= 10 && day < 17)
@@ -103,9 +92,10 @@ class PrsonelMealDayList extends Component {
           return 5
         else
           return 6
-      case 1:
-        if(day < 4)
+      case 1://Monday
+        if(day < 4){
           return 1
+        }
         else if(day >= 4 && day < 11)
           return 2
         else if(day >= 11 && day < 18)
@@ -114,9 +104,10 @@ class PrsonelMealDayList extends Component {
           return 4
         else 
           return 5
-      case 2:
-        if(day < 5)
+      case 2://tusday
+        if(day < 5){
           return 1
+        }
         else if(day >= 5 && day < 12)
           return 2
         else if(day >= 12 && day < 19)
@@ -125,9 +116,10 @@ class PrsonelMealDayList extends Component {
           return 4
         else 
           return 5
-      case 3:
-        if(day < 6)
+      case 3://Wedensday
+        if(day < 6){
           return 1
+        }
         else if(day >= 6 && day < 13)
           return 2
         else if(day >= 13 && day < 20)
@@ -136,9 +128,10 @@ class PrsonelMealDayList extends Component {
           return 4
         else 
           return 5
-      case 4:
-        if(day < 7)
+      case 4://Thursday
+        if(day < 7){
           return 1
+        }
         else if(day >= 7 && day < 14)
           return 2
         else if(day >= 14 && day < 21)
@@ -147,9 +140,10 @@ class PrsonelMealDayList extends Component {
           return 4
         else 
           return 5
-      case 5:
-        if(day < 8)
+      case 5: //Friday
+        if(day < 8){
           return 1
+        }
         else if(day >= 8 && day < 15)
           return 2
         else if(day >= 15 && day < 22)
@@ -158,9 +152,10 @@ class PrsonelMealDayList extends Component {
           return 4
         else 
           return 5
-      case 6:
-        if(day < 2)
+      case 6: //Satureday
+        if(day < 2){
           return 1
+        }
         else if(day >= 2 && day < 9)
           return 2
         else if(day >= 9 && day < 16)
@@ -174,6 +169,97 @@ class PrsonelMealDayList extends Component {
       default:
     }
   }
+  getPersianDay = date => {
+    let month = date.getUTCMonth()+1; 
+    let day = date.getUTCDate()+1;
+    switch(month){
+        case 1:
+            if(day < 21){
+                return (day + 10);
+            }
+            else{
+                return  (day - 20);
+            }
+        case 2:
+            if(day < 20){
+                return (day + 11);
+            }
+            else{
+                return (day - 19);
+            }
+        case 3:
+            if(day < 20){
+                return (day + 9);
+            }
+            else{
+                return (day - 20);
+            }
+        case 4:
+            if(day < 21){
+                return (day + 11);
+            }
+            else{
+                return (day - 20);
+            }
+        case 5:
+            if(day < 22){
+                return (day + 10);
+            }
+            else{
+                return (day - 21);
+            }
+        case 6:
+            if(day < 22){
+                return (day + 10);
+            }
+            else{
+                return (day - 21);
+            }
+        case 7:
+            if(day < 23){
+                return (day + 9);
+            }
+            else{
+                return (day - 22);
+            }
+        case 8:
+            if(day < 23){
+                return (day + 9);
+            }
+            else{
+                return (day - 22);
+            }
+        case 9:
+            if(day < 23){
+                return (day + 9);
+            }
+            else{
+                return (day - 22);
+            }
+        case 10:
+            if(day < 23){
+                return (day + 8);
+            }
+            else{
+                return (day - 22);
+            }
+        case 11:
+            if(day < 22){
+                return (day + 9);
+            }
+            else{
+                return (day - 21);
+            }
+        case 12:
+            if(day < 22){
+                return (day + 9);
+            }
+            else{
+                return (day - 21);
+            }
+        default:
+    }
+  };
 
   getPersianWeekDay = date => {
     var weekday = new Array(7);
@@ -186,251 +272,157 @@ class PrsonelMealDayList extends Component {
     weekday[6] = "شنبه";
     return weekday[date.getDay()];
   }
-
-  getPersianDay = date => {
-    let month = date.getUTCMonth()+1; 
-    let day = date.getUTCDate()+1;
-    switch(month){
-        case 1:
-            if(day < 20){
-                return (day + 11);
-            }
-            else{
-                return  (day - 19);
-            }
-        case 2:
-            if(day < 19){
-                return (day + 12);
-            }
-            else{
-                return (day - 18);
-            }
-        case 3:
-            if(day < 20){
-                return (day + 10);
-            }
-            else{
-                return (day - 19);
-            }
-        case 4:
-            if(day < 20){
-                return (day + 12);
-            }
-            else{
-                return (day - 19);
-            }
-        case 5:
-            if(day < 21){
-                return (day + 11);
-            }
-            else{
-                return (day - 20);
-            }
-        case 6:
-            if(day < 21){
-                return (day + 11);
-            }
-            else{
-                return (day - 20);
-            }
-        case 7:
-            if(day < 22){
-                return (day + 10);
-            }
-            else{
-                return (day - 21);
-            }
-        case 8:
-            if(day < 22){
-                return (day + 10);
-            }
-            else{
-                return (day - 21);
-            }
-        case 9:
-            if(day < 22){
-                return (day + 10);
-            }
-            else{
-                return (day - 21);
-            }
-        case 10:
-            if(day < 22){
-                return (day + 9);
-            }
-            else{
-                return (day - 21);
-            }
-        case 11:
-            if(day < 21){
-                return (day + 10);
-            }
-            else{
-                return (day - 20);
-            }
-        case 12:
-            if(day < 21){
-                return (day + 10);
-            }
-            else{
-                return (day - 20);
-            }
-        default:
-    }
-  };
-
   getPersianMonth = date => {
     let month = date.getUTCMonth()+1; 
     let day = date.getUTCDate()+1;
-    const weekDay = this.getPersianWeekDay(date)
+    const weekDay = this.getPersianWeekDay(date);
     switch(month){
         case 1:
-            if(day < 20){
-                return weekDay + ' ' + (day + 11) + ' دی ';
+            if(day < 21){
+                return weekDay + ' ' + (day + 10) + ' دی ';
             }
             else{
-                return  weekDay + ' ' + (day - 19) + ' بهمن ';
+                return  weekDay + ' ' + (day - 20) + ' بهمن ';
             }
         case 2:
-            if(day < 19){
-                return weekDay + ' ' + (day + 12) + ' بهمن ';
+            if(day < 20){
+                return weekDay + ' ' + (day + 11) + ' بهمن ';
             }
             else{
-                return weekDay + ' ' + (day - 18) + ' اسفند ';
+                return weekDay + ' ' + (day - 19) + ' اسفند ';
             }
         case 3:
-            if(day < 20){
-                return weekDay + ' ' + (day + 10) + ' اسفند ';
+            if(day < 21){
+                return weekDay + ' ' + (day + 9) + ' اسفند ';
             }
             else{
-                return weekDay + ' ' + (day - 19) + ' فروردین ';
+                return weekDay + ' ' + (day - 20) + ' فروردین ';
             }
         case 4:
-            if(day < 20){
-                return weekDay + ' ' + (day + 12) + ' فروردین ';
+            if(day < 21){
+                return weekDay + ' ' + (day + 11) + ' فروردین ';
             }
             else{
-                return weekDay + ' ' + (day - 19) + ' اردیبهشت ';
+                return weekDay + ' ' + (day - 20) + ' اردیبهشت ';
             }
         case 5:
-            if(day < 21){
-                return weekDay + ' ' + (day + 11) + ' اردیبهشت ';
+            if(day < 22){
+                return weekDay + ' ' + (day + 10) + ' اردیبهشت ';
             }
             else{
-                return weekDay + ' ' + (day - 20) + ' خرداد ';
+                return weekDay + ' ' + (day - 21) + ' خرداد ';
             }
         case 6:
-            if(day < 21){
-                return weekDay + ' ' + (day + 11) + ' خرداد ';
+            if(day < 22){
+                return weekDay + ' ' + (day + 10) + ' خرداد ';
             }
             else{
-                return weekDay + ' ' + (day - 20) + ' تیر ';
+                return weekDay + ' ' + (day - 21) + ' تیر ';
             }
         case 7:
-            if(day < 22){
-                return weekDay + ' ' + (day + 10) + ' تیر ';
+            if(day < 23){
+                return weekDay + ' ' + (day + 9) + ' تیر ';
             }
             else{
-                return weekDay + ' ' + (day - 21) + ' مرداد ';
+                return weekDay + ' ' + (day - 22) + ' مرداد ';
             }
         case 8:
-            if(day < 22){
-                return weekDay + ' ' + (day + 10) + ' مرداد ';
+            if(day < 23){
+                return weekDay + ' ' + (day + 9) + ' مرداد ';
             }
             else{
-                return weekDay + ' ' + (day - 21) + 'شهریور';
+                return weekDay + ' ' + (day - 22) + 'شهریور';
             }
         case 9:
-            if(day < 22){
-                return weekDay + ' ' + (day + 10) + 'شهریور';
+            if(day < 23){
+                return weekDay + ' ' + (day + 9) + 'شهریور';
             }
             else{
-                return weekDay + ' ' + (day - 21) + ' مهر ';
+                return weekDay + ' ' + (day - 22) + ' مهر ';
             }
         case 10:
-            if(day < 22){
-                return weekDay + ' ' + (day + 9) + ' مهر ';
+            if(day < 23){
+                return weekDay + ' ' + (day + 8) + ' مهر ';
             }
             else{
-                return weekDay + ' ' + (day - 21) + 'آبان';
+                return weekDay + ' ' + (day - 22) + 'آبان';
             }
         case 11:
-            if(day < 21){
-                return weekDay + ' ' + (day + 10) + ' آبان ';
+            if(day < 22){
+                return weekDay + ' ' + (day + 9) + ' آبان ';
             }
             else{
-                return weekDay + ' ' + (day - 20) + ' آذر ';
+                return weekDay + ' ' + (day - 21) + ' آذر ';
             }
         case 12:
-            if(day < 21){
-                return weekDay + ' ' + (day + 10) + ' آذر ';
+            if(day < 22){
+                return weekDay + ' ' + (day + 9) + ' آذر ';
             }
             else{
-                return weekDay + ' ' + (day - 20) + ' دی ';
+                return weekDay + ' ' + (day - 21) + ' دی ';
             }
         default:
     }
   };
 
-  onChanged = (date) => e => {
-    console.log('mealID: ', e.target.value, '   date: ', date)
-    if(this.props.mealsDays.filter(md => Number(md.resturant_meal) === Number(e.target.value) && String(md.date) === String(date)) &&
-      this.props.mealsDays.filter(md => Number(md.resturant_meal) === Number(e.target.value) && String(md.date) === String(date)).length > 0){
-      const resturant_day_meal = this.props.mealsDays.filter(md => Number(md.resturant_meal) === Number(e.target.value) && String(md.date) === String(date))[0].id
+  onChanged = (e, date) => {
+    const {mealsDays, personelMealDays} = this.props
+    let selectedMealDays = this.state.selectedMealDays
 
-      let selectedMealDay = {
-        employee: sessionStorage.getItem('employeeid'),
-        resturant_day_meal: resturant_day_meal,
-        resturant_meal: Number(e.target.value),
-        date: date
-      };
-      // console.log('BEFORE ***this.state.selectedMealDays: ', this.state.selectedMealDays);
-      let selectedMealDays = this.state.selectedMealDays
-      .filter(smd => !(String(smd.date) === String(date)))
-      .concat(selectedMealDay)
+    if(mealsDays.filter(md => Number(md.resturaunt_meal) === Number(e.target.value) && String(md.date) === String(date)) &&
+      mealsDays.filter(md => Number(md.resturaunt_meal) === Number(e.target.value) && String(md.date) === String(date)).length > 0){
+        const resturaunt_day_meal = mealsDays.filter(md => Number(md.resturaunt_meal) === Number(e.target.value) && String(md.date) === String(date))[0].id
+        let selectedMealDay = null;
+        const filteredMealDay = mealsDays.filter(md => String(md.date) === String(date))
+        const filteredPersonelMealDay = this.state.selectedMealDays.filter(smd => filteredMealDay.filter(md => md.id === smd.resturaunt_day_meal).length > 0)[0]
+        if(filteredPersonelMealDay !== null){
+          if(personelMealDays && personelMealDays.length > 0){
+              selectedMealDay = {
+                  id: filteredPersonelMealDay.id,
+                  employee: Number(sessionStorage.getItem('employeeid')),
+                  resturaunt_day_meal: resturaunt_day_meal,
+              };
 
-      this.setState({
-        selectedMealDays
-      })
-      // console.log('AFTER ***this.state.selectedMealDays: ', this.state.selectedMealDays)
+              selectedMealDays = selectedMealDays.filter(smd => (smd.resturaunt_day_meal !== filteredPersonelMealDay.resturaunt_day_meal)).concat(selectedMealDay)
+          }
+          else{
+              selectedMealDay = {
+                  employee: Number(sessionStorage.getItem('employeeid')),
+                  resturaunt_day_meal: resturaunt_day_meal,
+              };
+
+              selectedMealDays = selectedMealDays.filter(smd => (smd.resturaunt_day_meal !== filteredPersonelMealDay.resturaunt_day_meal)).concat(selectedMealDay)
+          }
+          this.setState({
+              selectedMealDays
+          })
+        }
     }
   }
 
-  getSeletedMeal = (date) => {
-    let mealID;
-    this.props.mealsDays.filter(md => md.date === date).filter(md => 
-      this.props.personelMealDay.map(pmd => (pmd.resturant_day_meal.id === md.id) ? (
-        mealID = md.resturant_meal
-        ) : ""))
-
-    //  console.log('$mealID:$ ', mealID)
-    return mealID;
-  }
-
   save = () => {
-    if (window.confirm("بعد از ذخیره، اطلاعات قابل تغییر نمیباشد. آیا از ذخیره اطلاعات اطمینان دارید؟")) {
-      let personelMealDays = []
+    if (window.confirm("آیا از ذخیره اطلاعات اطمینان دارید؟")) {
 
-      this.state.selectedMealDays.map(smd =>
-        personelMealDays.push({
-          employee: smd.employee,
-          resturant_day_meal: smd.resturant_day_meal
-        })
-      );
-      // console.log('personelMealDays: ', personelMealDays)
-      personelMealDays.map(pmd => 
-        this.props.addPersonelMealDay(pmd)
-      );
-
-      this.setState({
-        isSaved: true
-      })
+      if (this.props.personelMealDays && this.props.personelMealDays.length === 0) {
+        console.log('add this.state.selectedMealDays: ', this.state.selectedMealDays)
+        this.props.bulkAddPersonelMealDays(this.state.selectedMealDays)
+      }
+      else{
+        console.log('edit this.state.selectedMealDays: ', this.state.selectedMealDays)
+        this.props.bulkEditPersonelMealDays(this.state.selectedMealDays)
+      }
       window.alert("اطلاعات با موفقیت ذخیره شد.");
-      // Response.redirect("~/src/pages/resturant/savedPersonelMealDay/index.js")
     }
   }
 
   render() {
+    const currentDate = new Date();
+    let y = currentDate.getFullYear(); 
+    let month = currentDate.getMonth();
+    let day = currentDate.getDate();
+    const next3DaysDate = new Date(y, month, day + 3)
+
+    const {currentMonthDates} = this.props
     return (
       <Card style={{direction:'rtl'}} className='card3D'>
         <CardHeader>
@@ -441,662 +433,126 @@ class PrsonelMealDayList extends Component {
         <CardBody>
         <Container>
           <Card className="card-res-week">
-          {this.props.currentMonthDates && this.props.currentMonthDates.length > 0 ? 
-          this.props.currentMonthDates.filter(currentMonthDate => (Number(this.getPersianMonthWeekNo(currentMonthDate.date)) === 1))
+          {currentMonthDates && currentMonthDates.length > 0 ? 
+          currentMonthDates.filter(currentMonthDate => (Number(this.getPersianMonthWeekNo(currentMonthDate.date)) === 1))
                                       .map((currentMonthDate, index) => (
-            <Card key={index} className="card-inner-color"> 
-              <Container>
-                <Row>
-                  <Col xl="4" className="col">
-                    <span  >
-                      <label >
-                        {/* { (index + 1) + ' - ' } */}
-                        {this.getPersianMonth(currentMonthDate.date)}
-                      </label>
-                    </span><br/>                
-                  </Col>
-                  <Col xl="8">
-                  {!this.state.isSaved ? (
-                    <select className="select-enable-style" 
-                      onChange={this.onChanged(currentMonthDate.date.toLocaleDateString('pt-br').split( '/' ).reverse( ).join( '-' )
-                      //   (String(currentMonthDate.date.getFullYear()) + '-' + 
-                      // (String(currentMonthDate.date.getMonth()+1).length < 2 ? ('0' + String(currentMonthDate.date.getMonth()+1)) : 
-                      // String(currentMonthDate.date.getMonth()+1)) + '-' + (String(currentMonthDate.date.getDate()).length < 2 ? 
-                      // ('0' + String(currentMonthDate.date.getDate())) : String(currentMonthDate.date.getDate())))
-                      )
-                      }>
-                          {this.props.mealsDays && this.props.mealsDays.length > 0 && 
-                            this.props.mealsDays.filter(md => (md.date === currentMonthDate.date.toLocaleDateString('pt-br').split( '/' ).reverse( ).join( '-' )
-                            //   (String(currentMonthDate.date.getFullYear()) + '-' + 
-                            // (String(currentMonthDate.date.getMonth()+1).length < 2 ? ('0' + String(currentMonthDate.date.getMonth()+1)) : 
-                            // String(currentMonthDate.date.getMonth()+1)) + '-' + (String(currentMonthDate.date.getDate()).length < 2 ? 
-                            // ('0' + String(currentMonthDate.date.getDate())) : String(currentMonthDate.date.getDate())))
-                            )) ?
-
-                          this.props.mealsDays.filter(md => (md.date === currentMonthDate.date.toLocaleDateString('pt-br').split( '/' ).reverse( ).join( '-' )
-                            // (String(currentMonthDate.date.getFullYear()) + '-' + 
-                            // (String(currentMonthDate.date.getMonth()+1).length < 2 ? ('0' + String(currentMonthDate.date.getMonth()+1)) : 
-                            // String(currentMonthDate.date.getMonth()+1)) + '-' + (String(currentMonthDate.date.getDate()).length < 2 ? 
-                            // ('0' + String(currentMonthDate.date.getDate())) : String(currentMonthDate.date.getDate())))
-                            )).map((md, index) => (
-                            <option key={md.resturant_meal} value={md.resturant_meal}>
-                              {this.props.meals.filter(meal => Number(meal.id) === Number(md.resturant_meal)) &&
-                              this.props.meals.filter(meal => Number(meal.id) === Number(md.resturant_meal)).length === 1 ?
-                              this.props.meals.filter(meal => Number(meal.id) === Number(md.resturant_meal))[0].name.substring(0, 100) : ""}</option>  
-                            )) : ""}                 
-                  </select>)
-                : (
-                  this.props.personelMealDay && this.props.personelMealDay.filter(pmd => ( pmd.resturant_day_meal.date === 
-                    currentMonthDate.date.toLocaleDateString('pt-br').split( '/' ).reverse( ).join( '-' )
-                  //   (String(currentMonthDate.date.getFullYear()) + '-' + 
-                  // (String(currentMonthDate.date.getMonth()+1).length < 2 ? ('0' + String(currentMonthDate.date.getMonth()+1)) : 
-                  // String(currentMonthDate.date.getMonth()+1)) + '-' + (String(currentMonthDate.date.getDate()).length < 2 ? 
-                  // ('0' + String(currentMonthDate.date.getDate())) : String(currentMonthDate.date.getDate())))
-                  )) &&
-                  this.props.personelMealDay.filter(pmd => ( pmd.resturant_day_meal.date === currentMonthDate.date.toLocaleDateString('pt-br').split( '/' ).reverse( ).join( '-' )
-                  //   (String(currentMonthDate.date.getFullYear()) + '-' + 
-                  // (String(currentMonthDate.date.getMonth()+1).length < 2 ? ('0' + String(currentMonthDate.date.getMonth()+1)) : 
-                  // String(currentMonthDate.date.getMonth()+1)) + '-' + (String(currentMonthDate.date.getDate()).length < 2 ? 
-                  // ('0' + String(currentMonthDate.date.getDate())) : String(currentMonthDate.date.getDate())))
-                  )).length === 1 ? 
-
-                  this.props.personelMealDay.map((pmd, index) =>  pmd.resturant_day_meal.date === 
-                        currentMonthDate.date.toLocaleDateString('pt-br').split( '/' ).reverse( ).join( '-' )
-                  // (String(currentMonthDate.date.getFullYear()) + '-' + 
-                  // (String(currentMonthDate.date.getMonth()+1).length < 2 ? ('0' + String(currentMonthDate.date.getMonth()+1)) : 
-                  // String(currentMonthDate.date.getMonth()+1)) + '-' + (String(currentMonthDate.date.getDate()).length < 2 ? 
-                  // ('0' + String(currentMonthDate.date.getDate())) : String(currentMonthDate.date.getDate())))
-                   ?
-                <select  key={index} className="select-disable-style"
-                value={pmd.resturant_day_meal.resturant_meal}
-
-
-                  onChange={this.onChanged(currentMonthDate.date.toLocaleDateString('pt-br').split( '/' ).reverse( ).join( '-' )
-                  //   (String(currentMonthDate.date.getFullYear()) + '-' + 
-                  // (String(currentMonthDate.date.getMonth()+1).length < 2 ? ('0' + String(currentMonthDate.date.getMonth()+1)) : 
-                  // String(currentMonthDate.date.getMonth()+1)) + '-' + (String(currentMonthDate.date.getDate()).length < 2 ? 
-                  // ('0' + String(currentMonthDate.date.getDate())) : String(currentMonthDate.date.getDate())))
-                  )
-                  } disabled>
-                      {this.props.mealsDays && this.props.mealsDays.length > 0 && 
-                        this.props.mealsDays.filter(md => (md.date === currentMonthDate.date.toLocaleDateString('pt-br').split( '/' ).reverse( ).join( '-' )
-                        //   (String(currentMonthDate.date.getFullYear()) + '-' + 
-                        // (String(currentMonthDate.date.getMonth()+1).length < 2 ? ('0' + String(currentMonthDate.date.getMonth()+1)) : 
-                        // String(currentMonthDate.date.getMonth()+1)) + '-' + (String(currentMonthDate.date.getDate()).length < 2 ? 
-                        // ('0' + String(currentMonthDate.date.getDate())) : String(currentMonthDate.date.getDate())))
-                        )) ?
-
-                      this.props.mealsDays.filter(md => (md.date === currentMonthDate.date.toLocaleDateString('pt-br').split( '/' ).reverse( ).join( '-' )
-                        // (String(currentMonthDate.date.getFullYear()) + '-' + 
-                        // (String(currentMonthDate.date.getMonth()+1).length < 2 ? ('0' + String(currentMonthDate.date.getMonth()+1)) : 
-                        // String(currentMonthDate.date.getMonth()+1)) + '-' + (String(currentMonthDate.date.getDate()).length < 2 ? 
-                        // ('0' + String(currentMonthDate.date.getDate())) : String(currentMonthDate.date.getDate())))
-                        )).map((md, index) => (
-                        <option key={md.resturant_meal} value={md.resturant_meal}>
-                          {this.props.meals.filter(meal => Number(meal.id) === Number(md.resturant_meal)) &&
-                          this.props.meals.filter(meal => Number(meal.id) === Number(md.resturant_meal)).length === 1 ?
-                          this.props.meals.filter(meal => Number(meal.id) === Number(md.resturant_meal))[0].name.substring(0, 100) : ""}</option>  
-                        )) : ""}                 
-              </select>
-              : "") : "")
-            }
-                  </Col> 
-                </Row>
-              </Container>
+                                        <WeeklyMealsDay   
+                                        key={index}
+                                        index={index}
+                                        currentMonthDate={currentMonthDate}  
+                                        persianMonth={this.getPersianMonth(currentMonthDate.date)} 
+                                        next3DaysDate={next3DaysDate}
+                                        meals={this.props.meals} 
+                                        mealsDays={this.props.mealsDays} 
+                                        personelMealDays={this.props.personelMealDays} 
+                                        selectedMealDays={this.state.selectedMealDays}
+                                        onChanged={this.onChanged}
+                                      />
+             )) : ""}
             </Card>
+          <Card className="card-res-week">
+          {currentMonthDates && currentMonthDates.length > 0 ? 
+          currentMonthDates.filter(currentMonthDate => (Number(this.getPersianMonthWeekNo(currentMonthDate.date)) === 2))
+                                      .map((currentMonthDate, index) => (
+                                        <WeeklyMealsDay   
+                                        key={index}
+                                        index={index}
+                                        currentMonthDate={currentMonthDate}  
+                                        persianMonth={this.getPersianMonth(currentMonthDate.date)} 
+                                        next3DaysDate={next3DaysDate}
+                                        meals={this.props.meals} 
+                                        mealsDays={this.props.mealsDays} 
+                                        personelMealDays={this.props.personelMealDays} 
+                                        selectedMealDays={this.state.selectedMealDays}
+                                        onChanged={this.onChanged}
+                                      />         
           )) : ""}
           </Card>
           <Card className="card-res-week">
-          {this.props.currentMonthDates && this.props.currentMonthDates.length > 0 ? 
-          this.props.currentMonthDates.filter(currentMonthDate => (Number(this.getPersianMonthWeekNo(currentMonthDate.date)) === 2))
+          {currentMonthDates && currentMonthDates.length > 0 ? 
+          currentMonthDates.filter(currentMonthDate => (Number(this.getPersianMonthWeekNo(currentMonthDate.date)) === 3))
                                       .map((currentMonthDate, index) => (
-            <Card key={index} className="card-inner-color"> 
-              <Container>
-                <Row>
-                  <Col xl="4" className="col">
-                    <span  >
-                      <label >
-                        {/* { (index + 1) + ' - ' } */}
-                        {this.getPersianMonth(currentMonthDate.date)}
-                      </label>
-                    </span><br/>                
-                  </Col>
-                  <Col xl="8">
-                  {!this.state.isSaved ? (
-                    <select className="select-enable-style" 
-                      onChange={this.onChanged(currentMonthDate.date.toLocaleDateString('pt-br').split( '/' ).reverse( ).join( '-' )
-                      //   (String(currentMonthDate.date.getFullYear()) + '-' + 
-                      // (String(currentMonthDate.date.getMonth()+1).length < 2 ? ('0' + String(currentMonthDate.date.getMonth()+1)) : 
-                      // String(currentMonthDate.date.getMonth()+1)) + '-' + (String(currentMonthDate.date.getDate()).length < 2 ? 
-                      // ('0' + String(currentMonthDate.date.getDate())) : String(currentMonthDate.date.getDate())))
-                      )
-                      }>
-                          {this.props.mealsDays && this.props.mealsDays.length > 0 && 
-                            this.props.mealsDays.filter(md => (md.date === currentMonthDate.date.toLocaleDateString('pt-br').split( '/' ).reverse( ).join( '-' )
-                            //   (String(currentMonthDate.date.getFullYear()) + '-' + 
-                            // (String(currentMonthDate.date.getMonth()+1).length < 2 ? ('0' + String(currentMonthDate.date.getMonth()+1)) : 
-                            // String(currentMonthDate.date.getMonth()+1)) + '-' + (String(currentMonthDate.date.getDate()).length < 2 ? 
-                            // ('0' + String(currentMonthDate.date.getDate())) : String(currentMonthDate.date.getDate())))
-                            )) ?
-
-                          this.props.mealsDays.filter(md => (md.date === currentMonthDate.date.toLocaleDateString('pt-br').split( '/' ).reverse( ).join( '-' )
-                            // (String(currentMonthDate.date.getFullYear()) + '-' + 
-                            // (String(currentMonthDate.date.getMonth()+1).length < 2 ? ('0' + String(currentMonthDate.date.getMonth()+1)) : 
-                            // String(currentMonthDate.date.getMonth()+1)) + '-' + (String(currentMonthDate.date.getDate()).length < 2 ? 
-                            // ('0' + String(currentMonthDate.date.getDate())) : String(currentMonthDate.date.getDate())))
-                            )).map((md, index) => (
-                            <option key={md.resturant_meal} value={md.resturant_meal}>
-                              {this.props.meals.filter(meal => Number(meal.id) === Number(md.resturant_meal)) &&
-                              this.props.meals.filter(meal => Number(meal.id) === Number(md.resturant_meal)).length === 1 ?
-                              this.props.meals.filter(meal => Number(meal.id) === Number(md.resturant_meal))[0].name.substring(0, 100) : ""}</option>  
-                            )) : ""}                 
-                  </select>)
-                : (
-                  this.props.personelMealDay && this.props.personelMealDay.filter(pmd => ( pmd.resturant_day_meal.date === 
-                        currentMonthDate.date.toLocaleDateString('pt-br').split( '/' ).reverse( ).join( '-' )
-                  //   (String(currentMonthDate.date.getFullYear()) + '-' + 
-                  // (String(currentMonthDate.date.getMonth()+1).length < 2 ? ('0' + String(currentMonthDate.date.getMonth()+1)) : 
-                  // String(currentMonthDate.date.getMonth()+1)) + '-' + (String(currentMonthDate.date.getDate()).length < 2 ? 
-                  // ('0' + String(currentMonthDate.date.getDate())) : String(currentMonthDate.date.getDate())))
-                  )) &&
-                  this.props.personelMealDay.filter(pmd => ( pmd.resturant_day_meal.date === 
-                        currentMonthDate.date.toLocaleDateString('pt-br').split( '/' ).reverse( ).join( '-' )
-                  //   (String(currentMonthDate.date.getFullYear()) + '-' + 
-                  // (String(currentMonthDate.date.getMonth()+1).length < 2 ? ('0' + String(currentMonthDate.date.getMonth()+1)) : 
-                  // String(currentMonthDate.date.getMonth()+1)) + '-' + (String(currentMonthDate.date.getDate()).length < 2 ? 
-                  // ('0' + String(currentMonthDate.date.getDate())) : String(currentMonthDate.date.getDate())))
-                  )).length === 1 ? 
-
-                  this.props.personelMealDay.map((pmd, index) =>  pmd.resturant_day_meal.date === 
-                        currentMonthDate.date.toLocaleDateString('pt-br').split( '/' ).reverse( ).join( '-' )
-                  // (String(currentMonthDate.date.getFullYear()) + '-' + 
-                  // (String(currentMonthDate.date.getMonth()+1).length < 2 ? ('0' + String(currentMonthDate.date.getMonth()+1)) : 
-                  // String(currentMonthDate.date.getMonth()+1)) + '-' + (String(currentMonthDate.date.getDate()).length < 2 ? 
-                  // ('0' + String(currentMonthDate.date.getDate())) : String(currentMonthDate.date.getDate())))
-                   ?
-                <select  key={index} className="select-disable-style"
-                value={pmd.resturant_day_meal.resturant_meal}
-
-
-                  onChange={this.onChanged(currentMonthDate.date.toLocaleDateString('pt-br').split( '/' ).reverse( ).join( '-' )
-                  //   (String(currentMonthDate.date.getFullYear()) + '-' + 
-                  // (String(currentMonthDate.date.getMonth()+1).length < 2 ? ('0' + String(currentMonthDate.date.getMonth()+1)) : 
-                  // String(currentMonthDate.date.getMonth()+1)) + '-' + (String(currentMonthDate.date.getDate()).length < 2 ? 
-                  // ('0' + String(currentMonthDate.date.getDate())) : String(currentMonthDate.date.getDate())))
-                  )
-                  } disabled>
-                      {this.props.mealsDays && this.props.mealsDays.length > 0 && 
-                        this.props.mealsDays.filter(md => (md.date === currentMonthDate.date.toLocaleDateString('pt-br').split( '/' ).reverse( ).join( '-' )
-                        //   (String(currentMonthDate.date.getFullYear()) + '-' + 
-                        // (String(currentMonthDate.date.getMonth()+1).length < 2 ? ('0' + String(currentMonthDate.date.getMonth()+1)) : 
-                        // String(currentMonthDate.date.getMonth()+1)) + '-' + (String(currentMonthDate.date.getDate()).length < 2 ? 
-                        // ('0' + String(currentMonthDate.date.getDate())) : String(currentMonthDate.date.getDate())))
-                        )) ?
-
-                      this.props.mealsDays.filter(md => (md.date === currentMonthDate.date.toLocaleDateString('pt-br').split( '/' ).reverse( ).join( '-' )
-                        // (String(currentMonthDate.date.getFullYear()) + '-' + 
-                        // (String(currentMonthDate.date.getMonth()+1).length < 2 ? ('0' + String(currentMonthDate.date.getMonth()+1)) : 
-                        // String(currentMonthDate.date.getMonth()+1)) + '-' + (String(currentMonthDate.date.getDate()).length < 2 ? 
-                        // ('0' + String(currentMonthDate.date.getDate())) : String(currentMonthDate.date.getDate())))
-                        )).map((md, index) => (
-                        <option key={md.resturant_meal} value={md.resturant_meal}>
-                          {this.props.meals.filter(meal => Number(meal.id) === Number(md.resturant_meal)) &&
-                          this.props.meals.filter(meal => Number(meal.id) === Number(md.resturant_meal)).length === 1 ?
-                          this.props.meals.filter(meal => Number(meal.id) === Number(md.resturant_meal))[0].name.substring(0, 100) : ""}</option>  
-                        )) : ""}                 
-              </select>
-              : "") : "")
-            }
-                  </Col> 
-                </Row>
-              </Container>
-            </Card>
+                                        <WeeklyMealsDay   
+                                        key={index}
+                                        index={index}
+                                        currentMonthDate={currentMonthDate}  
+                                        persianMonth={this.getPersianMonth(currentMonthDate.date)} 
+                                        next3DaysDate={next3DaysDate}
+                                        meals={this.props.meals} 
+                                        mealsDays={this.props.mealsDays} 
+                                        personelMealDays={this.props.personelMealDays} 
+                                        selectedMealDays={this.state.selectedMealDays}
+                                        onChanged={this.onChanged}
+                                      />       
           )) : ""}
           </Card>
           <Card className="card-res-week">
-          {this.props.currentMonthDates && this.props.currentMonthDates.length > 0 ? 
-          this.props.currentMonthDates.filter(currentMonthDate => (Number(this.getPersianMonthWeekNo(currentMonthDate.date)) === 3))
+          {currentMonthDates && currentMonthDates.length > 0 ? 
+          currentMonthDates.filter(currentMonthDate => (Number(this.getPersianMonthWeekNo(currentMonthDate.date)) === 4))
                                       .map((currentMonthDate, index) => (
-            <Card key={index} className="card-inner-color"> 
-              <Container>
-                <Row>
-                  <Col xl="4" className="col">
-                    <span  >
-                      <label >
-                        {/* { (index + 1) + ' - ' } */}
-                        {this.getPersianMonth(currentMonthDate.date)}
-                      </label>
-                    </span><br/>                
-                  </Col>
-                  <Col xl="8">
-                  {!this.state.isSaved ? (
-                    <select className="select-enable-style" 
-                      onChange={this.onChanged(currentMonthDate.date.toLocaleDateString('pt-br').split( '/' ).reverse( ).join( '-' )
-                      //   (String(currentMonthDate.date.getFullYear()) + '-' + 
-                      // (String(currentMonthDate.date.getMonth()+1).length < 2 ? ('0' + String(currentMonthDate.date.getMonth()+1)) : 
-                      // String(currentMonthDate.date.getMonth()+1)) + '-' + (String(currentMonthDate.date.getDate()).length < 2 ? 
-                      // ('0' + String(currentMonthDate.date.getDate())) : String(currentMonthDate.date.getDate())))
-                      )
-                      }>
-                          {this.props.mealsDays && this.props.mealsDays.length > 0 && 
-                            this.props.mealsDays.filter(md => (md.date === currentMonthDate.date.toLocaleDateString('pt-br').split( '/' ).reverse( ).join( '-' )
-                            //   (String(currentMonthDate.date.getFullYear()) + '-' + 
-                            // (String(currentMonthDate.date.getMonth()+1).length < 2 ? ('0' + String(currentMonthDate.date.getMonth()+1)) : 
-                            // String(currentMonthDate.date.getMonth()+1)) + '-' + (String(currentMonthDate.date.getDate()).length < 2 ? 
-                            // ('0' + String(currentMonthDate.date.getDate())) : String(currentMonthDate.date.getDate())))
-                            )) ?
-
-                          this.props.mealsDays.filter(md => (md.date === currentMonthDate.date.toLocaleDateString('pt-br').split( '/' ).reverse( ).join( '-' )
-                            // (String(currentMonthDate.date.getFullYear()) + '-' + 
-                            // (String(currentMonthDate.date.getMonth()+1).length < 2 ? ('0' + String(currentMonthDate.date.getMonth()+1)) : 
-                            // String(currentMonthDate.date.getMonth()+1)) + '-' + (String(currentMonthDate.date.getDate()).length < 2 ? 
-                            // ('0' + String(currentMonthDate.date.getDate())) : String(currentMonthDate.date.getDate())))
-                            )).map((md, index) => (
-                            <option key={md.resturant_meal} value={md.resturant_meal}>
-                              {this.props.meals.filter(meal => Number(meal.id) === Number(md.resturant_meal)) &&
-                              this.props.meals.filter(meal => Number(meal.id) === Number(md.resturant_meal)).length === 1 ?
-                              this.props.meals.filter(meal => Number(meal.id) === Number(md.resturant_meal))[0].name.substring(0, 100) : ""}</option>  
-                            )) : ""}                 
-                  </select>)
-                : (
-                  this.props.personelMealDay && this.props.personelMealDay.filter(pmd => ( pmd.resturant_day_meal.date === 
-                        currentMonthDate.date.toLocaleDateString('pt-br').split( '/' ).reverse( ).join( '-' )
-                  //   (String(currentMonthDate.date.getFullYear()) + '-' + 
-                  // (String(currentMonthDate.date.getMonth()+1).length < 2 ? ('0' + String(currentMonthDate.date.getMonth()+1)) : 
-                  // String(currentMonthDate.date.getMonth()+1)) + '-' + (String(currentMonthDate.date.getDate()).length < 2 ? 
-                  // ('0' + String(currentMonthDate.date.getDate())) : String(currentMonthDate.date.getDate())))
-                  )) &&
-                  this.props.personelMealDay.filter(pmd => ( pmd.resturant_day_meal.date === 
-                    currentMonthDate.date.toLocaleDateString('pt-br').split( '/' ).reverse( ).join( '-' )
-                  //   (String(currentMonthDate.date.getFullYear()) + '-' + 
-                  // (String(currentMonthDate.date.getMonth()+1).length < 2 ? ('0' + String(currentMonthDate.date.getMonth()+1)) : 
-                  // String(currentMonthDate.date.getMonth()+1)) + '-' + (String(currentMonthDate.date.getDate()).length < 2 ? 
-                  // ('0' + String(currentMonthDate.date.getDate())) : String(currentMonthDate.date.getDate())))
-                  )).length === 1 ? 
-
-                  this.props.personelMealDay.map((pmd, index) =>  pmd.resturant_day_meal.date === 
-                        currentMonthDate.date.toLocaleDateString('pt-br').split( '/' ).reverse( ).join( '-' )
-                  // (String(currentMonthDate.date.getFullYear()) + '-' + 
-                  // (String(currentMonthDate.date.getMonth()+1).length < 2 ? ('0' + String(currentMonthDate.date.getMonth()+1)) : 
-                  // String(currentMonthDate.date.getMonth()+1)) + '-' + (String(currentMonthDate.date.getDate()).length < 2 ? 
-                  // ('0' + String(currentMonthDate.date.getDate())) : String(currentMonthDate.date.getDate())))
-                   ?
-                <select  key={index} className="select-disable-style"
-                value={pmd.resturant_day_meal.resturant_meal}
-
-
-                  onChange={this.onChanged(currentMonthDate.date.toLocaleDateString('pt-br').split( '/' ).reverse( ).join( '-' )
-                  //   (String(currentMonthDate.date.getFullYear()) + '-' + 
-                  // (String(currentMonthDate.date.getMonth()+1).length < 2 ? ('0' + String(currentMonthDate.date.getMonth()+1)) : 
-                  // String(currentMonthDate.date.getMonth()+1)) + '-' + (String(currentMonthDate.date.getDate()).length < 2 ? 
-                  // ('0' + String(currentMonthDate.date.getDate())) : String(currentMonthDate.date.getDate())))
-                  )
-                  } disabled>
-                      {this.props.mealsDays && this.props.mealsDays.length > 0 && 
-                        this.props.mealsDays.filter(md => (md.date === currentMonthDate.date.toLocaleDateString('pt-br').split( '/' ).reverse( ).join( '-' )
-                        //   (String(currentMonthDate.date.getFullYear()) + '-' + 
-                        // (String(currentMonthDate.date.getMonth()+1).length < 2 ? ('0' + String(currentMonthDate.date.getMonth()+1)) : 
-                        // String(currentMonthDate.date.getMonth()+1)) + '-' + (String(currentMonthDate.date.getDate()).length < 2 ? 
-                        // ('0' + String(currentMonthDate.date.getDate())) : String(currentMonthDate.date.getDate())))
-                        )) ?
-
-                      this.props.mealsDays.filter(md => (md.date === currentMonthDate.date.toLocaleDateString('pt-br').split( '/' ).reverse( ).join( '-' )
-                        // (String(currentMonthDate.date.getFullYear()) + '-' + 
-                        // (String(currentMonthDate.date.getMonth()+1).length < 2 ? ('0' + String(currentMonthDate.date.getMonth()+1)) : 
-                        // String(currentMonthDate.date.getMonth()+1)) + '-' + (String(currentMonthDate.date.getDate()).length < 2 ? 
-                        // ('0' + String(currentMonthDate.date.getDate())) : String(currentMonthDate.date.getDate())))
-                        )).map((md, index) => (
-                        <option key={md.resturant_meal} value={md.resturant_meal}>
-                          {this.props.meals.filter(meal => Number(meal.id) === Number(md.resturant_meal)) &&
-                          this.props.meals.filter(meal => Number(meal.id) === Number(md.resturant_meal)).length === 1 ?
-                          this.props.meals.filter(meal => Number(meal.id) === Number(md.resturant_meal))[0].name.substring(0, 100) : ""}</option>  
-                        )) : ""}                 
-              </select>
-              : "") : "")
-            }
-                  </Col> 
-                </Row>
-              </Container>
-            </Card>
+                                        <WeeklyMealsDay   
+                                        key={index}
+                                        index={index}
+                                        currentMonthDate={currentMonthDate}  
+                                        persianMonth={this.getPersianMonth(currentMonthDate.date)} 
+                                        next3DaysDate={next3DaysDate}
+                                        meals={this.props.meals} 
+                                        mealsDays={this.props.mealsDays} 
+                                        personelMealDays={this.props.personelMealDays} 
+                                        selectedMealDays={this.state.selectedMealDays}
+                                        onChanged={this.onChanged}
+                                      />         
           )) : ""}
           </Card>
           <Card className="card-res-week">
-          {this.props.currentMonthDates && this.props.currentMonthDates.length > 0 ? 
-          this.props.currentMonthDates.filter(currentMonthDate => (Number(this.getPersianMonthWeekNo(currentMonthDate.date)) === 4))
+          {currentMonthDates && currentMonthDates.length > 0 ? 
+          currentMonthDates.filter(currentMonthDate => (Number(this.getPersianMonthWeekNo(currentMonthDate.date)) === 5))
                                       .map((currentMonthDate, index) => (
-            <Card key={index} className="card-inner-color"> 
-              <Container>
-                <Row>
-                  <Col xl="4" className="col">
-                    <span  >
-                      <label >
-                        {/* { (index + 1) + ' - ' } */}
-                        {this.getPersianMonth(currentMonthDate.date)}
-                      </label>
-                    </span><br/>                
-                  </Col>
-                  <Col xl="8">
-                  {!this.state.isSaved ? (
-                    <select className="select-enable-style" 
-                      onChange={this.onChanged(currentMonthDate.date.toLocaleDateString('pt-br').split( '/' ).reverse( ).join( '-' )
-                      //   (String(currentMonthDate.date.getFullYear()) + '-' + 
-                      // (String(currentMonthDate.date.getMonth()+1).length < 2 ? ('0' + String(currentMonthDate.date.getMonth()+1)) : 
-                      // String(currentMonthDate.date.getMonth()+1)) + '-' + (String(currentMonthDate.date.getDate()).length < 2 ? 
-                      // ('0' + String(currentMonthDate.date.getDate())) : String(currentMonthDate.date.getDate())))
-                      )
-                      }>
-                          {this.props.mealsDays && this.props.mealsDays.length > 0 && 
-                            this.props.mealsDays.filter(md => (md.date === currentMonthDate.date.toLocaleDateString('pt-br').split( '/' ).reverse( ).join( '-' )
-                            //   (String(currentMonthDate.date.getFullYear()) + '-' + 
-                            // (String(currentMonthDate.date.getMonth()+1).length < 2 ? ('0' + String(currentMonthDate.date.getMonth()+1)) : 
-                            // String(currentMonthDate.date.getMonth()+1)) + '-' + (String(currentMonthDate.date.getDate()).length < 2 ? 
-                            // ('0' + String(currentMonthDate.date.getDate())) : String(currentMonthDate.date.getDate())))
-                            )) ?
-
-                          this.props.mealsDays.filter(md => (md.date === currentMonthDate.date.toLocaleDateString('pt-br').split( '/' ).reverse( ).join( '-' )
-                            // (String(currentMonthDate.date.getFullYear()) + '-' + 
-                            // (String(currentMonthDate.date.getMonth()+1).length < 2 ? ('0' + String(currentMonthDate.date.getMonth()+1)) : 
-                            // String(currentMonthDate.date.getMonth()+1)) + '-' + (String(currentMonthDate.date.getDate()).length < 2 ? 
-                            // ('0' + String(currentMonthDate.date.getDate())) : String(currentMonthDate.date.getDate())))
-                            )).map((md, index) => (
-                            <option key={md.resturant_meal} value={md.resturant_meal}>
-                              {this.props.meals.filter(meal => Number(meal.id) === Number(md.resturant_meal)) &&
-                              this.props.meals.filter(meal => Number(meal.id) === Number(md.resturant_meal)).length === 1 ?
-                              this.props.meals.filter(meal => Number(meal.id) === Number(md.resturant_meal))[0].name.substring(0, 100) : ""}</option>  
-                            )) : ""}                 
-                  </select>)
-                : (
-                  this.props.personelMealDay && this.props.personelMealDay.filter(pmd => ( pmd.resturant_day_meal.date === 
-                        currentMonthDate.date.toLocaleDateString('pt-br').split( '/' ).reverse( ).join( '-' )
-                  //   (String(currentMonthDate.date.getFullYear()) + '-' + 
-                  // (String(currentMonthDate.date.getMonth()+1).length < 2 ? ('0' + String(currentMonthDate.date.getMonth()+1)) : 
-                  // String(currentMonthDate.date.getMonth()+1)) + '-' + (String(currentMonthDate.date.getDate()).length < 2 ? 
-                  // ('0' + String(currentMonthDate.date.getDate())) : String(currentMonthDate.date.getDate())))
-                  )) &&
-                  this.props.personelMealDay.filter(pmd => ( pmd.resturant_day_meal.date === 
-                          currentMonthDate.date.toLocaleDateString('pt-br').split( '/' ).reverse( ).join( '-' )
-                  //   (String(currentMonthDate.date.getFullYear()) + '-' + 
-                  // (String(currentMonthDate.date.getMonth()+1).length < 2 ? ('0' + String(currentMonthDate.date.getMonth()+1)) : 
-                  // String(currentMonthDate.date.getMonth()+1)) + '-' + (String(currentMonthDate.date.getDate()).length < 2 ? 
-                  // ('0' + String(currentMonthDate.date.getDate())) : String(currentMonthDate.date.getDate())))
-                  )).length === 1 ? 
-
-                  this.props.personelMealDay.map((pmd, index) =>  pmd.resturant_day_meal.date === 
-                        currentMonthDate.date.toLocaleDateString('pt-br').split( '/' ).reverse( ).join( '-' )
-                  // (String(currentMonthDate.date.getFullYear()) + '-' + 
-                  // (String(currentMonthDate.date.getMonth()+1).length < 2 ? ('0' + String(currentMonthDate.date.getMonth()+1)) : 
-                  // String(currentMonthDate.date.getMonth()+1)) + '-' + (String(currentMonthDate.date.getDate()).length < 2 ? 
-                  // ('0' + String(currentMonthDate.date.getDate())) : String(currentMonthDate.date.getDate())))
-                   ?
-                <select  key={index} className="select-disable-style"
-                value={pmd.resturant_day_meal.resturant_meal}
-
-
-                  onChange={this.onChanged(currentMonthDate.date.toLocaleDateString('pt-br').split( '/' ).reverse( ).join( '-' )
-                  //   (String(currentMonthDate.date.getFullYear()) + '-' + 
-                  // (String(currentMonthDate.date.getMonth()+1).length < 2 ? ('0' + String(currentMonthDate.date.getMonth()+1)) : 
-                  // String(currentMonthDate.date.getMonth()+1)) + '-' + (String(currentMonthDate.date.getDate()).length < 2 ? 
-                  // ('0' + String(currentMonthDate.date.getDate())) : String(currentMonthDate.date.getDate())))
-                  )
-                  } disabled>
-                      {this.props.mealsDays && this.props.mealsDays.length > 0 && 
-                        this.props.mealsDays.filter(md => (md.date === currentMonthDate.date.toLocaleDateString('pt-br').split( '/' ).reverse( ).join( '-' )
-                        //   (String(currentMonthDate.date.getFullYear()) + '-' + 
-                        // (String(currentMonthDate.date.getMonth()+1).length < 2 ? ('0' + String(currentMonthDate.date.getMonth()+1)) : 
-                        // String(currentMonthDate.date.getMonth()+1)) + '-' + (String(currentMonthDate.date.getDate()).length < 2 ? 
-                        // ('0' + String(currentMonthDate.date.getDate())) : String(currentMonthDate.date.getDate())))
-                        )) ?
-
-                      this.props.mealsDays.filter(md => (md.date === currentMonthDate.date.toLocaleDateString('pt-br').split( '/' ).reverse( ).join( '-' )
-                        // (String(currentMonthDate.date.getFullYear()) + '-' + 
-                        // (String(currentMonthDate.date.getMonth()+1).length < 2 ? ('0' + String(currentMonthDate.date.getMonth()+1)) : 
-                        // String(currentMonthDate.date.getMonth()+1)) + '-' + (String(currentMonthDate.date.getDate()).length < 2 ? 
-                        // ('0' + String(currentMonthDate.date.getDate())) : String(currentMonthDate.date.getDate())))
-                        )).map((md, index) => (
-                        <option key={md.resturant_meal} value={md.resturant_meal}>
-                          {this.props.meals.filter(meal => Number(meal.id) === Number(md.resturant_meal)) &&
-                          this.props.meals.filter(meal => Number(meal.id) === Number(md.resturant_meal)).length === 1 ?
-                          this.props.meals.filter(meal => Number(meal.id) === Number(md.resturant_meal))[0].name.substring(0, 100) : ""}</option>  
-                        )) : ""}                 
-              </select>
-              : "") : "")
-            }
-                  </Col> 
-                </Row>
-              </Container>
-            </Card>
+                                        <WeeklyMealsDay   
+                                        key={index}
+                                        index={index}
+                                        currentMonthDate={currentMonthDate}  
+                                        persianMonth={this.getPersianMonth(currentMonthDate.date)} 
+                                        next3DaysDate={next3DaysDate}
+                                        meals={this.props.meals} 
+                                        mealsDays={this.props.mealsDays} 
+                                        personelMealDays={this.props.personelMealDays} 
+                                        selectedMealDays={this.state.selectedMealDays}
+                                        onChanged={this.onChanged}
+                                      />         
           )) : ""}
           </Card>
           <Card className="card-res-week">
-          {this.props.currentMonthDates && this.props.currentMonthDates.length > 0 ? 
-          this.props.currentMonthDates.filter(currentMonthDate => (Number(this.getPersianMonthWeekNo(currentMonthDate.date)) === 5))
+          {currentMonthDates && currentMonthDates.length > 0 ? 
+          currentMonthDates.filter(currentMonthDate => (Number(this.getPersianMonthWeekNo(currentMonthDate.date)) === 6))
                                       .map((currentMonthDate, index) => (
-            <Card key={index} className="card-inner-color"> 
-              <Container>
-                <Row>
-                  <Col xl="4" className="col">
-                    <span  >
-                      <label >
-                        {/* { (index + 1) + ' - ' } */}
-                        {this.getPersianMonth(currentMonthDate.date)}
-                      </label>
-                    </span><br/>                
-                  </Col>
-                  <Col xl="8">
-                  {!this.state.isSaved ? (
-                    <select className="select-enable-style" 
-                      onChange={this.onChanged(currentMonthDate.date.toLocaleDateString('pt-br').split( '/' ).reverse( ).join( '-' )
-                      //   (String(currentMonthDate.date.getFullYear()) + '-' + 
-                      // (String(currentMonthDate.date.getMonth()+1).length < 2 ? ('0' + String(currentMonthDate.date.getMonth()+1)) : 
-                      // String(currentMonthDate.date.getMonth()+1)) + '-' + (String(currentMonthDate.date.getDate()).length < 2 ? 
-                      // ('0' + String(currentMonthDate.date.getDate())) : String(currentMonthDate.date.getDate())))
-                      )
-                      }>
-                          {this.props.mealsDays && this.props.mealsDays.length > 0 && 
-                            this.props.mealsDays.filter(md => (md.date === currentMonthDate.date.toLocaleDateString('pt-br').split( '/' ).reverse( ).join( '-' )
-                            //   (String(currentMonthDate.date.getFullYear()) + '-' + 
-                            // (String(currentMonthDate.date.getMonth()+1).length < 2 ? ('0' + String(currentMonthDate.date.getMonth()+1)) : 
-                            // String(currentMonthDate.date.getMonth()+1)) + '-' + (String(currentMonthDate.date.getDate()).length < 2 ? 
-                            // ('0' + String(currentMonthDate.date.getDate())) : String(currentMonthDate.date.getDate())))
-                            )) ?
-
-                          this.props.mealsDays.filter(md => (md.date === currentMonthDate.date.toLocaleDateString('pt-br').split( '/' ).reverse( ).join( '-' )
-                            // (String(currentMonthDate.date.getFullYear()) + '-' + 
-                            // (String(currentMonthDate.date.getMonth()+1).length < 2 ? ('0' + String(currentMonthDate.date.getMonth()+1)) : 
-                            // String(currentMonthDate.date.getMonth()+1)) + '-' + (String(currentMonthDate.date.getDate()).length < 2 ? 
-                            // ('0' + String(currentMonthDate.date.getDate())) : String(currentMonthDate.date.getDate())))
-                            )).map((md, index) => (
-                            <option key={md.resturant_meal} value={md.resturant_meal}>
-                              {this.props.meals.filter(meal => Number(meal.id) === Number(md.resturant_meal)) &&
-                              this.props.meals.filter(meal => Number(meal.id) === Number(md.resturant_meal)).length === 1 ?
-                              this.props.meals.filter(meal => Number(meal.id) === Number(md.resturant_meal))[0].name.substring(0, 100) : ""}</option>  
-                            )) : ""}                 
-                  </select>)
-                : (
-                  this.props.personelMealDay && this.props.personelMealDay.filter(pmd => ( pmd.resturant_day_meal.date === 
-                    currentMonthDate.date.toLocaleDateString('pt-br').split( '/' ).reverse( ).join( '-' )
-                  //   (String(currentMonthDate.date.getFullYear()) + '-' + 
-                  // (String(currentMonthDate.date.getMonth()+1).length < 2 ? ('0' + String(currentMonthDate.date.getMonth()+1)) : 
-                  // String(currentMonthDate.date.getMonth()+1)) + '-' + (String(currentMonthDate.date.getDate()).length < 2 ? 
-                  // ('0' + String(currentMonthDate.date.getDate())) : String(currentMonthDate.date.getDate())))
-                  )) &&
-                  this.props.personelMealDay.filter(pmd => ( pmd.resturant_day_meal.date === 
-                    currentMonthDate.date.toLocaleDateString('pt-br').split( '/' ).reverse( ).join( '-' )
-                  //   (String(currentMonthDate.date.getFullYear()) + '-' + 
-                  // (String(currentMonthDate.date.getMonth()+1).length < 2 ? ('0' + String(currentMonthDate.date.getMonth()+1)) : 
-                  // String(currentMonthDate.date.getMonth()+1)) + '-' + (String(currentMonthDate.date.getDate()).length < 2 ? 
-                  // ('0' + String(currentMonthDate.date.getDate())) : String(currentMonthDate.date.getDate())))
-                  )).length === 1 ? 
-
-                  this.props.personelMealDay.map((pmd, index) =>  pmd.resturant_day_meal.date === 
-                          currentMonthDate.date.toLocaleDateString('pt-br').split( '/' ).reverse( ).join( '-' )
-                  // (String(currentMonthDate.date.getFullYear()) + '-' + 
-                  // (String(currentMonthDate.date.getMonth()+1).length < 2 ? ('0' + String(currentMonthDate.date.getMonth()+1)) : 
-                  // String(currentMonthDate.date.getMonth()+1)) + '-' + (String(currentMonthDate.date.getDate()).length < 2 ? 
-                  // ('0' + String(currentMonthDate.date.getDate())) : String(currentMonthDate.date.getDate())))
-                   ?
-                <select  key={index} className="select-disable-style"
-                value={pmd.resturant_day_meal.resturant_meal}
-
-
-                  onChange={this.onChanged(currentMonthDate.date.toLocaleDateString('pt-br').split( '/' ).reverse( ).join( '-' )
-                  //   (String(currentMonthDate.date.getFullYear()) + '-' + 
-                  // (String(currentMonthDate.date.getMonth()+1).length < 2 ? ('0' + String(currentMonthDate.date.getMonth()+1)) : 
-                  // String(currentMonthDate.date.getMonth()+1)) + '-' + (String(currentMonthDate.date.getDate()).length < 2 ? 
-                  // ('0' + String(currentMonthDate.date.getDate())) : String(currentMonthDate.date.getDate())))
-                  )
-                  } disabled>
-                      {this.props.mealsDays && this.props.mealsDays.length > 0 && 
-                        this.props.mealsDays.filter(md => (md.date === currentMonthDate.date.toLocaleDateString('pt-br').split( '/' ).reverse( ).join( '-' )
-                        //   (String(currentMonthDate.date.getFullYear()) + '-' + 
-                        // (String(currentMonthDate.date.getMonth()+1).length < 2 ? ('0' + String(currentMonthDate.date.getMonth()+1)) : 
-                        // String(currentMonthDate.date.getMonth()+1)) + '-' + (String(currentMonthDate.date.getDate()).length < 2 ? 
-                        // ('0' + String(currentMonthDate.date.getDate())) : String(currentMonthDate.date.getDate())))
-                        )) ?
-
-                      this.props.mealsDays.filter(md => (md.date === currentMonthDate.date.toLocaleDateString('pt-br').split( '/' ).reverse( ).join( '-' )
-                        // (String(currentMonthDate.date.getFullYear()) + '-' + 
-                        // (String(currentMonthDate.date.getMonth()+1).length < 2 ? ('0' + String(currentMonthDate.date.getMonth()+1)) : 
-                        // String(currentMonthDate.date.getMonth()+1)) + '-' + (String(currentMonthDate.date.getDate()).length < 2 ? 
-                        // ('0' + String(currentMonthDate.date.getDate())) : String(currentMonthDate.date.getDate())))
-                        )).map((md, index) => (
-                        <option key={md.resturant_meal} value={md.resturant_meal}>
-                          {this.props.meals.filter(meal => Number(meal.id) === Number(md.resturant_meal)) &&
-                          this.props.meals.filter(meal => Number(meal.id) === Number(md.resturant_meal)).length === 1 ?
-                          this.props.meals.filter(meal => Number(meal.id) === Number(md.resturant_meal))[0].name.substring(0, 100) : ""}</option>  
-                        )) : ""}                 
-              </select>
-              : "") : "")
-            }
-                  </Col> 
-                </Row>
-              </Container>
-            </Card>
-          )) : ""}
-          </Card>
-          <Card className="card-res-week">
-          {this.props.currentMonthDates && this.props.currentMonthDates.length > 0 ? 
-          this.props.currentMonthDates.filter(currentMonthDate => (Number(this.getPersianMonthWeekNo(currentMonthDate.date)) === 6))
-                                      .map((currentMonthDate, index) => (
-            <Card key={index} className="card-inner-color"> 
-              <Container>
-                <Row>
-                  <Col xl="4" className="col">
-                    <span  >
-                      <label >
-                        {/* { (index + 1) + ' - ' } */}
-                        {this.getPersianMonth(currentMonthDate.date)}
-                      </label>
-                    </span><br/>                
-                  </Col>
-                  <Col xl="8">
-                  {!this.state.isSaved ? (
-                    <select className="select-enable-style" 
-                      onChange={this.onChanged(currentMonthDate.date.toLocaleDateString('pt-br').split( '/' ).reverse( ).join( '-' )
-                      //   (String(currentMonthDate.date.getFullYear()) + '-' + 
-                      // (String(currentMonthDate.date.getMonth()+1).length < 2 ? ('0' + String(currentMonthDate.date.getMonth()+1)) : 
-                      // String(currentMonthDate.date.getMonth()+1)) + '-' + (String(currentMonthDate.date.getDate()).length < 2 ? 
-                      // ('0' + String(currentMonthDate.date.getDate())) : String(currentMonthDate.date.getDate())))
-                      )
-                      }>
-                          {this.props.mealsDays && this.props.mealsDays.length > 0 && 
-                            this.props.mealsDays.filter(md => (md.date === currentMonthDate.date.toLocaleDateString('pt-br').split( '/' ).reverse( ).join( '-' )
-                            //   (String(currentMonthDate.date.getFullYear()) + '-' + 
-                            // (String(currentMonthDate.date.getMonth()+1).length < 2 ? ('0' + String(currentMonthDate.date.getMonth()+1)) : 
-                            // String(currentMonthDate.date.getMonth()+1)) + '-' + (String(currentMonthDate.date.getDate()).length < 2 ? 
-                            // ('0' + String(currentMonthDate.date.getDate())) : String(currentMonthDate.date.getDate())))
-                            )) ?
-
-                          this.props.mealsDays.filter(md => (md.date === currentMonthDate.date.toLocaleDateString('pt-br').split( '/' ).reverse( ).join( '-' )
-                            // (String(currentMonthDate.date.getFullYear()) + '-' + 
-                            // (String(currentMonthDate.date.getMonth()+1).length < 2 ? ('0' + String(currentMonthDate.date.getMonth()+1)) : 
-                            // String(currentMonthDate.date.getMonth()+1)) + '-' + (String(currentMonthDate.date.getDate()).length < 2 ? 
-                            // ('0' + String(currentMonthDate.date.getDate())) : String(currentMonthDate.date.getDate())))
-                            )).map((md, index) => (
-                            <option key={md.resturant_meal} value={md.resturant_meal}>
-                              {this.props.meals.filter(meal => Number(meal.id) === Number(md.resturant_meal)) &&
-                              this.props.meals.filter(meal => Number(meal.id) === Number(md.resturant_meal)).length === 1 ?
-                              this.props.meals.filter(meal => Number(meal.id) === Number(md.resturant_meal))[0].name.substring(0, 100) : ""}</option>  
-                            )) : ""}                 
-                  </select>)
-                : (
-                  this.props.personelMealDay && this.props.personelMealDay.filter(pmd => ( pmd.resturant_day_meal.date === 
-                        currentMonthDate.date.toLocaleDateString('pt-br').split( '/' ).reverse( ).join( '-' )
-                  //   (String(currentMonthDate.date.getFullYear()) + '-' + 
-                  // (String(currentMonthDate.date.getMonth()+1).length < 2 ? ('0' + String(currentMonthDate.date.getMonth()+1)) : 
-                  // String(currentMonthDate.date.getMonth()+1)) + '-' + (String(currentMonthDate.date.getDate()).length < 2 ? 
-                  // ('0' + String(currentMonthDate.date.getDate())) : String(currentMonthDate.date.getDate())))
-                  )) &&
-                  this.props.personelMealDay.filter(pmd => ( pmd.resturant_day_meal.date === 
-                        currentMonthDate.date.toLocaleDateString('pt-br').split( '/' ).reverse( ).join( '-' )
-                  //   (String(currentMonthDate.date.getFullYear()) + '-' + 
-                  // (String(currentMonthDate.date.getMonth()+1).length < 2 ? ('0' + String(currentMonthDate.date.getMonth()+1)) : 
-                  // String(currentMonthDate.date.getMonth()+1)) + '-' + (String(currentMonthDate.date.getDate()).length < 2 ? 
-                  // ('0' + String(currentMonthDate.date.getDate())) : String(currentMonthDate.date.getDate())))
-                  )).length === 1 ? 
-
-                  this.props.personelMealDay.map((pmd, index) =>  pmd.resturant_day_meal.date === 
-                        currentMonthDate.date.toLocaleDateString('pt-br').split( '/' ).reverse( ).join( '-' )
-                  // (String(currentMonthDate.date.getFullYear()) + '-' + 
-                  // (String(currentMonthDate.date.getMonth()+1).length < 2 ? ('0' + String(currentMonthDate.date.getMonth()+1)) : 
-                  // String(currentMonthDate.date.getMonth()+1)) + '-' + (String(currentMonthDate.date.getDate()).length < 2 ? 
-                  // ('0' + String(currentMonthDate.date.getDate())) : String(currentMonthDate.date.getDate())))
-                   ?
-                <select  key={index} className="select-disable-style"
-                value={pmd.resturant_day_meal.resturant_meal}
-
-
-                  onChange={this.onChanged(currentMonthDate.date.toLocaleDateString('pt-br').split( '/' ).reverse( ).join( '-' )
-                  //   (String(currentMonthDate.date.getFullYear()) + '-' + 
-                  // (String(currentMonthDate.date.getMonth()+1).length < 2 ? ('0' + String(currentMonthDate.date.getMonth()+1)) : 
-                  // String(currentMonthDate.date.getMonth()+1)) + '-' + (String(currentMonthDate.date.getDate()).length < 2 ? 
-                  // ('0' + String(currentMonthDate.date.getDate())) : String(currentMonthDate.date.getDate())))
-                  )
-                  } disabled>
-                      {this.props.mealsDays && this.props.mealsDays.length > 0 && 
-                        this.props.mealsDays.filter(md => (md.date === 
-                              currentMonthDate.date.toLocaleDateString('pt-br').split( '/' ).reverse( ).join( '-' )
-                        //   (String(currentMonthDate.date.getFullYear()) + '-' + 
-                        // (String(currentMonthDate.date.getMonth()+1).length < 2 ? ('0' + String(currentMonthDate.date.getMonth()+1)) : 
-                        // String(currentMonthDate.date.getMonth()+1)) + '-' + (String(currentMonthDate.date.getDate()).length < 2 ? 
-                        // ('0' + String(currentMonthDate.date.getDate())) : String(currentMonthDate.date.getDate())))
-                        )) ?
-
-                      this.props.mealsDays.filter(md => (md.date === currentMonthDate.date.toLocaleDateString('pt-br').split( '/' ).reverse( ).join( '-' )
-                        // (String(currentMonthDate.date.getFullYear()) + '-' + 
-                        // (String(currentMonthDate.date.getMonth()+1).length < 2 ? ('0' + String(currentMonthDate.date.getMonth()+1)) : 
-                        // String(currentMonthDate.date.getMonth()+1)) + '-' + (String(currentMonthDate.date.getDate()).length < 2 ? 
-                        // ('0' + String(currentMonthDate.date.getDate())) : String(currentMonthDate.date.getDate())))
-                        )).map((md, index) => (
-                        <option key={md.resturant_meal} value={md.resturant_meal}>
-                          {this.props.meals.filter(meal => Number(meal.id) === Number(md.resturant_meal)) &&
-                          this.props.meals.filter(meal => Number(meal.id) === Number(md.resturant_meal)).length === 1 ?
-                          this.props.meals.filter(meal => Number(meal.id) === Number(md.resturant_meal))[0].name.substring(0, 100) : ""}</option>  
-                        )) : ""}                 
-              </select>
-              : "") : "")
-            }
-                  </Col> 
-                </Row>
-              </Container>
-            </Card>
+                                        <WeeklyMealsDay   
+                                        key={index}
+                                        index={index}
+                                        currentMonthDate={currentMonthDate}  
+                                        persianMonth={this.getPersianMonth(currentMonthDate.date)} 
+                                        next3DaysDate={next3DaysDate}
+                                        meals={this.props.meals} 
+                                        mealsDays={this.props.mealsDays} 
+                                        personelMealDays={this.props.personelMealDays} 
+                                        selectedMealDays={this.state.selectedMealDays}
+                                        onChanged={this.onChanged}
+                                      />         
           )) : ""}
           </Card>
           <Card className="card-res-bottom">
               <Row>
                 <Col style={{textAlign:'center', width:'150px'}}>
-                  {!this.state.isSaved ?
                     <Button color="primary" style={{margin:"1em auto 1em auto", width:'100px'}} onClick={() => this.save()} >ذخیره</Button>
-                   :
-                    <Button color="primary" style={{margin:"1em auto 1em auto", width:'100px'}} onClick={() => this.save()} disabled >ذخیره</Button>
-                  }
                 </Col>
               </Row>
           </Card>
           </Container>
         </CardBody>
       </Card>
+          // ):''
     )
+
   }
 };
 
@@ -1104,15 +560,22 @@ const mapStateToProps = store => {
   return {
     meals: store.meals.meals,
     mealsDays: store.mealsDays.mealsDays,
-    personelMealDay: store.personelMealDays.personelMealDays,
+    personelMealDays: store.personelMealDays.personelMealDays,
     currentMonthDates: store.currentMonthDates.currentMonthDates
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
+    bulkEditPersonelMealDays: (personelMealDays) => {
+        dispatch(BulkEditPersonelMealDays(personelMealDays))
+    },
     editPersonelMealDay: (model) => {
-      dispatch(EditPersonelMealDay(model))}, 
+      dispatch(EditPersonelMealDay(model))
+    }, 
+    bulkAddPersonelMealDays: (personelMealDays) => {
+        dispatch(BulkAddPersonelMealDays(personelMealDays))
+    },
     addPersonelMealDay: (model) => {
       dispatch(AddPersonelMealDay(model))}
   };

@@ -44,7 +44,7 @@ class UserModal extends Component {
             username: this.props.userInEditStage.username,
             first_name: this.props.userInEditStage.first_name,
             last_name: this.props.userInEditStage.last_name,
-            email: this.props.userInEditStage.email,
+            personel_code: this.props.userInEditStage.personel_code,
             is_active: this.props.userInEditStage.is_active,
             flag: false, flag2: true
           });
@@ -55,8 +55,8 @@ class UserModal extends Component {
           username: "",
           first_name: "",
           last_name: "",
-          email: "",
-          is_active: 0,
+          personel_code: 0,
+          is_active: false,
           flag: true
         });        
       }
@@ -82,9 +82,9 @@ class UserModal extends Component {
           last_name: event.target.value,
         });
         return;
-      case 'email':
+      case 'personel_code':
         this.setState({
-          email: event.target.value,
+          personel_code: event.target.value,
         });
         return;
       case 'is_active':
@@ -107,12 +107,12 @@ class UserModal extends Component {
   SubmitFormHandler = event => {
     event.preventDefault();
     const password = 'pbkdf2_sha256$120000$Hd6Gc7ViBa9a$6FEGrzflAFpuO6SDYcWP5AxMTCooKoU24q/qMlhBOOc='
-    const { username, first_name, last_name, email, is_active } = this.state;
-    const user_Add = { password, username, first_name, last_name, email, is_active};
+    const { username, first_name, last_name, personel_code, is_active } = this.state;
+    const user_Add = { password, username, first_name, last_name, personel_code, is_active};
 
     if (!this.props.userInEditStage) {
 
-      // const employee_add ={ first_name, last_name, phone=null, email, department=null, jobPosition=null, project=null, gender=1);
+      // const employee_add ={ first_name, last_name, phone=null, personel_code, department=null, jobPosition=null, project=null, gender=1);
 
       // this.props.addEmployee(employee_add);
       console.log('user_Add: ', user_Add)
@@ -121,12 +121,12 @@ class UserModal extends Component {
         username: "",
         first_name: "",
         last_name: "",
-        email: "",
+        personel_code: 0,
         is_active: false
       });
     } else {
       const id = this.props.userInEditStage.id
-      const user_Edit = { id, username, first_name, last_name, email, is_active};
+      const user_Edit = { id, username, first_name, last_name, personel_code, is_active};
 
       this.props.editUser(user_Edit);
       this.setState({
@@ -136,7 +136,7 @@ class UserModal extends Component {
   };
 
   render = () => {
-    const { username, first_name, last_name, email, is_active, isFormValid } = this.state;
+    const { username, first_name, last_name, personel_code, is_active, isFormValid } = this.state;
     return (
       <Modal style={{direction:'rtl'}} 
         size="sm"
@@ -177,11 +177,11 @@ class UserModal extends Component {
                   onChange={this.onChangeHandler}
                 ></input>
 
-                <label className="item7"> پست الکترونیک </label>
+                <label className="item7"> کد پرسنلی </label>
                 <input className="item8" 
                   type="text"
-                  name="email"
-                  value={email}
+                  name="personel_code"
+                  value={personel_code}
                   onChange={this.onChangeHandler}
                 ></input>
 

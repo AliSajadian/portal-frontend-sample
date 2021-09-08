@@ -15,6 +15,9 @@ import "./auth.css"
 import {
   AlertOpenModel
 } from "../../redux/actions/alertActions";
+import {
+  Log_Out
+} from "../../redux/actions/authActions";
 import * as types from "../../redux/constants";
 import refresh from "../../assets/img/icons/refresh2_1.jpg";
  
@@ -68,12 +71,34 @@ class SignIn extends Component {
   }
 
   login = () => {
+    
+    // if(this.props.error &&  Number(this.props.error.message) > 0){
+    //   console.log('error: ', this.props.error) 
+    //   console.log('error no: ', Number(this.props.error.message))
+    //   console.log('error 1 condition:', this.props.error && Number(this.props.error.message) === 1)
+    //   console.log('error 2 condition:', this.props.error && Number(this.props.error.message) === 2)
+    //   console.log('error 3 condition:', this.props.error && Number(this.props.error.message) === 3)
+    // }
+
+    // if(this.props.error && Number(this.props.error.message) === 2){
+    //   this.props.alertOpenModel('اطلاعات پرسنلی ناقص میباشد، لطفا با راهبر سامانه آقای سلطان محمدی، امور اداری داخلی های (1836 یا 1838) تماس بگیرید.') ;
+    //   return;
+    // }
+    // else if(this.props.error && Number(this.props.error.message) === 3){
+    //   this.props.alertOpenModel('دسترسی به سیستم به شما اختصاص داده نشده است، لطفا با راهبر سامانه آقای سلطان محمدی، امور اداری داخلی های (1836 یا 1838) تماس بگیرید.');
+    //   return;
+    // }
+    // else if(this.props.error &&  Number(this.props.error.message) === 1){
+    //   this.props.alertOpenModel('نام کاربری یا کلمه عبور شما شناسایی نشد ، لطفا با راهبر سامانه آقای سلطان محمدی، امور اداری داخلی های (1836 یا 1838) تماس بگیرید.');
+    //   return;
+    // }
+
     if(this.state.username.match(/[a-z|A-Z]+\.[a-z|A-Z|\s]+/g) === null && this.state.username.match(/[a-z|A-Z]+\_[a-z|A-Z|\s]+/g) === null) {
       this.props.alertOpenModel('لطفا فرمت نام کاربری را رعایت کنید')
       return
     }
 
-    if(Number(this.state.loginTrialNo) < 2){
+    if(Number(this.state.loginTrialNo) < 4){
       this.props.authStart(this.state.username, this.state.password, this.props.history) 
     }
     else{
@@ -99,11 +124,14 @@ class SignIn extends Component {
   render = () => {
     const{ loginTrialNo, securityCode, username, password, securityCodeRefresh, forceRefresh} = this.state
 
+    // console.log('error: ', this.props.error)
+    // console.log('loginTrialNo: ', loginTrialNo)
     var divVisiblity = {
       position: 'absolute',
-      left: this.props.error && Number(loginTrialNo) >= 2  ? "2.85em" : "-9999px"
+      left: Number(loginTrialNo) > 3  ? "2.85em" : "-9999px"
     }
-    return (
+     //this.props.error && 
+  return (
       <div style={{overflow:'hidden'}}>
         {/* <div  >
           <div className="logo">
@@ -123,13 +151,16 @@ class SignIn extends Component {
         <br/>
         <br/>
         {/* {console.log('this.props.error: ', this.props.error)} */}
-        {this.props.error ? (
-          <div><span className="error" >
-            {this.props.error.message === 'Info is not complited' ? 
-              'اطلاعات پرسنلی ناقص میباشد، لطفا با راهبر سامانه تماس بگیرید.' :
-              '!نام کاربری یا کلمه عبور مورد تائید نمی باشد ' }
+        {/* {this.props.error ? (
+          <div><span className="error" > 
+            {Number(this.props.error.message) === 1 ? 
+              this.props.alertOpenModel('اطلاعات پرسنلی ناقص میباشد، لطفا با راهبر سامانه آقای سلطان محمدی، امور اداری داخلی های (1836 یا 1838) تماس بگیرید.') :
+              Number(this.props.error.message) === 2 ?
+              this.props.alertOpenModel('دسترسی به سیستم به شما اختصاص داده نشده است، لطفا با راهبر سامانه آقای سلطان محمدی، امور اداری داخلی های (1836 یا 1838) تماس بگیرید.') :
+              this.props.alertOpenModel('نام کاربری یا کلمه عبور شما شناسایی نشد ، لطفا با راهبر سامانه آقای سلطان محمدی، امور اداری داخلی های (1836 یا 1838) تماس بگیرید.') 
+            }
           </span></div>) : ''
-        }
+        } */}
         <div className="m-sm-4">
           <Form onKeyPress={event => {
               if (event.key === 'Enter'){
@@ -192,6 +223,22 @@ class SignIn extends Component {
       </div>
       </Form>
       </div>
+        {/* {console.log('this.props.error: ', this.props.error)} */}
+        {this.props.error ? (
+          <div><span className="error" > 
+            {Number(this.props.error.message) === 1 ? (
+              this.props.alertOpenModel('نام کاربری یا کلمه عبور شما شناسایی نشد ، لطفا با راهبر سامانه آقای سلطان محمدی، امور اداری داخلی های (1836 یا 1838) تماس بگیرید.'),
+              this.props.log_Out()): 
+              Number(this.props.error.message) === 2 ? (
+              this.props.alertOpenModel('اطلاعات پرسنلی ناقص میباشد، لطفا با راهبر سامانه آقای سلطان محمدی، امور اداری داخلی های (1836 یا 1838) تماس بگیرید.'),
+              this.props.log_Out()): 
+              Number(this.props.error.message) === 3 ? (
+              this.props.alertOpenModel('دسترسی به سیستم به شما اختصاص داده نشده است، لطفا با راهبر سامانه آقای سلطان محمدی، امور اداری داخلی های (1836 یا 1838) تماس بگیرید.'),
+              this.props.log_Out()): 
+              ''
+            }
+          </span></div>) : ''
+        }     
     </div>);
   }
 };
@@ -211,7 +258,9 @@ const mapDispatchToProps = (dispatch) => {
       type: types.TOGGLE_ALERT_MODAL
     }),
     alertOpenModel: (message) => {
-      dispatch(AlertOpenModel(message))}
+      dispatch(AlertOpenModel(message))},
+    log_Out: (l) => {
+      dispatch(Log_Out())},      
   }
 }
 

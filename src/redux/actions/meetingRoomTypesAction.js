@@ -8,7 +8,7 @@ import { toastr } from "react-redux-toastr";
 
 export const GetRoomTypesList = () => {
     return dispatch => {
-        axios.get('http://127.0.0.1:8000/api/roomtypes/')
+        axios.get('http://portalapi.asft.co/api/roomtypes/')
         .then((response) => {
             dispatch({
                 type : types.GET_ROOMTYPES_LIST , 
@@ -23,7 +23,7 @@ export const GetRoomTypesList = () => {
 
 export const GetRequestRoomTypesList = (date) => {
     return dispatch => {
-        axios.get(`http://127.0.0.1:8000/api/requestroomtypes/${date}`)
+        axios.get(`http://portalapi.asft.co/api/requestroomtypes/${date}`)
         .then((response) => {
             dispatch({
                 type : types.GET_REQUESTROOMTYPES_LIST , 
@@ -38,7 +38,7 @@ export const GetRequestRoomTypesList = (date) => {
 
 export const LoadRelatedRoomTypeInfoCard = (roomTypeId) => {        
     return (dispatch) =>  {
-        axios.get(`http://127.0.0.1:8000/api/room-types/${roomTypeId}`)
+        axios.get(`http://portalapi.asft.co/api/room-types/${roomTypeId}`)
         .then((response) => {
             dispatch({
                 type : types.LOAD_RELATED_ROOMTYPE_INFO_CARD , 
@@ -52,7 +52,7 @@ export const LoadRelatedRoomTypeInfoCard = (roomTypeId) => {
 
 
 export const RemoveRoomType = (id) => {
-    let url = `http://127.0.0.1:8000/api/roomtypes/${id}`
+    let url = `http://portalapi.asft.co/api/roomtypes/${id}`
     return dispatch => {    
         axios.delete(url)
             .then(() => {
@@ -69,7 +69,7 @@ export const RemoveRoomType = (id) => {
 
 export const AddRoomTypeModel = () => {
     // return dispatch => {
-    //     axios.get('http://127.0.0.1:8000/api/roomTypes/')
+    //     axios.get('http://portalapi.asft.co/api/roomTypes/')
     //     .then((response) => {
     //         dispatch({
     //             type : types.START_ADD_ROOMTYPE , 
@@ -89,7 +89,7 @@ export const AddRoomTypeModel = () => {
 // ADD RoomType
 export const AddRoomType = roomType => {
     return dispatch => {
-        axios.post("http://127.0.0.1:8000/api/roomtypes/", roomType)
+        axios.post("http://portalapi.asft.co/api/roomtypes/", roomType)
             .then(res => {
                 dispatch({
                 type: types.ADD_ROOMTYPE,
@@ -107,7 +107,7 @@ export const AddRoomType = roomType => {
 // GET RoomType MODAL
  export const GetRoomTypesModal = (id) => {
     return dispatch => {
-        axios.get(`http://127.0.0.1:8000/api/roomtypes/${id}`)
+        axios.get(`http://portalapi.asft.co/api/roomtypes/${id}`)
         .then((response) => {
             dispatch({
                 type : types.START_ROOMTYPE_MODAL, 
@@ -123,7 +123,7 @@ export const AddRoomType = roomType => {
 // EDIT RoomType
 export const EditRoomType = roomType => {
     return dispatch => {
-        axios.put(`http://127.0.0.1:8000/api/roomtypes/${roomType.id}/`, roomType)
+        axios.put(`http://portalapi.asft.co/api/roomtypes/${roomType.id}/`, roomType)
             .then(resonse => {
                 dispatch({
                 type: types.EDIT_ROOMTYPE,

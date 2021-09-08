@@ -187,7 +187,7 @@ class PatientsList extends Component {
             }
             break;
         case 7:
-            if(day < 22){
+            if(day < 23){
                 months = [{month : 'تیر'}, {month : 'مرداد'}, {month : 'شهریور'}];
             }
             else{
@@ -195,7 +195,7 @@ class PatientsList extends Component {
             }
             break;
         case 8:
-            if(day < 22){
+            if(day < 23){
                 months = [{month : 'مرداد'}, {month : 'شهریور'}, {month : 'مهر'}];
             }
             else{
@@ -203,7 +203,7 @@ class PatientsList extends Component {
             }
             break;
         case 9:
-            if(day < 22){
+            if(day < 23){
                 months = [{month : 'شهریور'}, {month : 'مهر'}, {month : 'آبان'}];
             }
             else{
@@ -211,7 +211,7 @@ class PatientsList extends Component {
             }
             break;
         case 10:
-            if(day < 22){
+            if(day < 23){
                 months = [{month : 'مهر'}, {month : 'آبان'}, {month : 'آذر'}];
             }
             else{
@@ -219,7 +219,7 @@ class PatientsList extends Component {
             }
             break;
         case 11:
-            if(day < 21){
+            if(day < 22){
                 months = [{month : 'آبان'}, {month : 'آذر'}, {month : 'دی'}];
             }
             else{
@@ -227,7 +227,7 @@ class PatientsList extends Component {
             }
             break;
         case 12:
-            if(day < 21){
+            if(day < 22){
                 months = [{month : 'آذر'}, {month : 'دی'}, {month : 'بهمن'}];
             }
             else{
@@ -287,46 +287,46 @@ class PatientsList extends Component {
               return (day - 20) + '/ تیر';
           }
       case 7:
-          if(day < 22){
-              return (day + 10) + '/ تیر';
+          if(day < 23){
+              return (day + 9) + '/ تیر';
           }
           else{
-              return (day - 21) + '/ مرداد';
+              return (day - 22) + '/ مرداد';
           }
       case 8:
-          if(day < 22){
-              return (day + 10) + '/ مرداد';
+          if(day < 23){
+              return (day + 9) + '/ مرداد';
           }
           else{
-              return (day - 21) + '/ شهریور';
+              return (day - 22) + '/ شهریور';
           }
       case 9:
-          if(day < 22){
-              return (day + 10) + '/ شهریور';
+          if(day < 23){
+              return (day + 9) + '/ شهریور';
           }
           else{
-              return (day - 21) + '/ مهر';
+              return (day - 22) + '/ مهر';
           }
       case 10:
-          if(day < 22){
-              return (day + 9) + '/ مهر';
+          if(day < 23){
+              return (day + 8) + '/ مهر';
           }
           else{
-              return (day - 21) + '/ آبان';
+              return (day - 22) + '/ آبان';
           }
       case 11:
-          if(day < 21){
-              return (day + 10) + '/ آبان';
+          if(day < 22){
+              return (day + 9) + '/ آبان';
           }
           else{
-              return (day - 20) + '/ آذر';
+              return (day - 21) + '/ آذر';
           }
       case 12:
-          if(day < 21){
-              return (day + 10) + '/ آذر';
+          if(day < 22){
+              return (day + 9) + '/ آذر';
           }
           else{
-              return (day - 20) + '/ دی';
+              return (day - 21) + '/ دی';
           }
       default:
   }
@@ -487,7 +487,7 @@ class PatientsList extends Component {
 
   PatientFileDownload = (id, filename) => {
     // console.log('info: ', id, ' , ',  filename)
-    fetch(`http://127.0.0.1:8000/api/auth/filesdownload/${id}/`).then(
+    fetch(`http://portalapi.asft.co/api/auth/filesdownload/${id}/`).then(
       response => {
         response.blob().then(blob => {
         let url = window.URL.createObjectURL(blob);
@@ -514,7 +514,7 @@ class PatientsList extends Component {
   }
 
   // PatientFileDownload = (id, filename) => {
-  //   fetch(`http://127.0.0.1:8000/api/auth/filesdownload/${id}/`).then(
+  //   fetch(`http://portalapi.asft.co/api/auth/filesdownload/${id}/`).then(
   //     response => {
   //     //   response.blob().then(blob => {
   //     //   let url = window.URL.createObjectURL(blob);

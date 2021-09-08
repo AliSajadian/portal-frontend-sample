@@ -71,8 +71,6 @@ class GroupPermissionsList extends Component {
   }
 
   render = () => { 
-    console.log('Permissions props: ', this.props.permissions)
-    console.log('groupPermissions props: ', this.props.groupPermissions)
     return (
       <Card id="card-main">
         <Container id="container" style={{direction:'rtl'}}>

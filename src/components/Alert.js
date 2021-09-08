@@ -23,7 +23,8 @@ class AlertModal extends Component {
     }
     render = () => {
         return (
-            <Modal fade={true} contentClassName="alert-container" style={{direction:'rtl'}}
+            // contentClassName
+            <Modal fade={true}  dialogClassName="alert-container" style={{direction:'rtl'}}
                 size="sm"
                 centered
                 isOpen={this.props.isOpen}
@@ -32,12 +33,12 @@ class AlertModal extends Component {
                 <ModalHeader className ="alert-header" style={{direction:'ltr', height:'25px'}} >
                 <span className="alert-header-text">توجه</span>
                 </ModalHeader>
-                <ModalBody className ="alert-body" style={{ textAlign: "center" }}>
-                <Card style={{height:'80px'}}>
-                    <CardBody>
-                        <span style={{fontWeight:'bold'}}>{this.props.message}</span>
-                    </CardBody>
-                </Card>
+                <ModalBody className ="alert-body" style={{ textAlign: "center", paddingTop:'.1em'}}>
+                    <Card style={{height:'80px', marginTop:'.1em', paddingTop:'.1em'}}>
+                        <CardBody style={{marginTop:'.1em', paddingTop:'.1em'}}>
+                            <span style={{fontWeight:'bold'}}>{this.props.message}</span>
+                        </CardBody>
+                    </Card>
                 </ModalBody>
                 <ModalFooter className="alert-footer">
                     <Button size="sm" color="info" onClick={() => this.hideModal()} style={{fontWeight: 'bold'}}>بستن</Button>

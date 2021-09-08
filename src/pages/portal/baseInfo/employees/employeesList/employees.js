@@ -28,7 +28,7 @@ class employeesList extends Component {
   }
     
   getEmployeePic = (id) => {
-    fetch(`http://127.0.0.1:8000/api/auth/employeeimagedownload/${id}/`).then(
+    fetch(`http://portalapi.asft.co/api/auth/employeeimagedownload/${id}/`).then(
       response => {
         response.blob().then(blob => {
         const url = window.URL.createObjectURL(blob);
@@ -59,7 +59,7 @@ class employeesList extends Component {
             <thead id="th">
               <tr id="tr">
                 <th style={{ width: "2%" }}>#</th>
-                <th style={{ width: "7%", textAlign:'center' }}>گد پرسنلی</th>
+                <th style={{ width: "7%", textAlign:'center' }}>کد پرسنلی</th>
                 <th style={{ width: "7%", textAlign:'center' }}>نام</th>
                 <th style={{ width: "15%", textAlign:'center' }}>
                   <input style={{ width: "100pt", direction:'ltr'}}
@@ -72,6 +72,7 @@ class employeesList extends Component {
                   نام خانوادگی
                 </th>
                 <th style={{ width: "3%", textAlign:'center' }}>جنسیت</th>
+                <th style={{ width: "8%", textAlign:'center' }}>شرکت</th>
                 <th style={{ width: "8%", textAlign:'center' }}>دپارتمان</th>
                 <th style={{ width: "8%", textAlign:'center' }}>عنوان شغلی</th>
                 <th style={{ width: "8%", textAlign:'center' }}>پروژه</th>
@@ -86,15 +87,25 @@ class employeesList extends Component {
               {this.props.employees && this.props.employees.length > 0 ? ( (this.state.last_name === '') ?
                 this.props.employees.map((employee, index) => {
                   return ( 
-                    (!(employee.first_name === 'ad' && employee.last_name === 'amminind') ? (
+                    (!(employee.id === 1) ? (
                     <tr key={index}>
                       <td style={{ width: "2%" }}>{index + 1}</td>
-                      <td style={{ width: "5%", textAlign:'center' }}>{employee.first_name}</td>
+                      <td style={{ width: "6%", textAlign:'center' }}>{employee.personel_code}</td>
+                      <td style={{ width: "10%", textAlign:'center' }}>{employee.first_name}</td>
                       <td style={{ width: "10%", textAlign:'center' }}>{employee.last_name}</td>
                       <td style={{ width: "4%", textAlign:'center' }}>
                         {employee.gender ? 'خانم' : 'آقا'}
                       </td>
-                      <td style={{ width: "10%", textAlign:'center' }}>{(employee.department && this.props.departments && this.props.departments.length > 0) ? (
+                      <td style={{ width: "12%", textAlign:'center' }}>{(
+                        employee.department && this.props.departments && this.props.departments.length > 0 &&
+                        this.props.departments.filter(department => department.id === employee.department) && 
+                        this.props.departments.filter(department => department.id === employee.department).length > 0 &&
+                        this.props.companies && this.props.companies.length > 0) ? (
+                                            this.props.companies.filter(company => 
+                                              Number(company.id) === Number(this.props.departments.filter(department => department.id === employee.department)[0]["company"]))[0]["name"])
+                        : ""}
+                      </td>
+                      <td style={{ width: "12%", textAlign:'center' }}>{(employee.department && this.props.departments && this.props.departments.length > 0) ? (
                                             this.props.departments.filter(department => department.id === employee.department)[0]["name"]) : ""}</td>
                       <td style={{ width: "10%", textAlign:'center' }}>{(employee.jobPosition && this.props.jobPositions && this.props.jobPositions.length > 0) ? (
                                             this.props.jobPositions.filter(jobPosition => jobPosition.id === employee.jobPosition)[0]["name"]) : ""}</td>
@@ -106,8 +117,8 @@ class employeesList extends Component {
                         //{this.getEmployeePic(employee.id)} 
                         alt={employee.first_name + ' ' + employee.last_name} width='60' height='70'></img>
                       </td>
-                      <td style={{ width: "10%", textAlign:'center' }}>{employee.phone}</td>
-                      <td style={{ width: "20%", textAlign:'center' }}>{employee.email}</td>
+                      <td style={{ width: "6%", textAlign:'center' }}>{employee.phone}</td>
+                      <td style={{ width: "15%", textAlign:'center' }}>{employee.email}</td>
                       <td className="table-action" style={{ width: "3%"}}> 
                         <Edit2 
                           onClick={() => this.props.getEmployeesModal(employee.id)}
@@ -130,18 +141,27 @@ class employeesList extends Component {
                 :
                 this.props.employees.filter(employee => employee.last_name ? employee.last_name.toLowerCase().includes(String(this.state.last_name)) : '').map((employee, index) => {
                   return ( 
-                    (!(employee.first_name === 'ad' && employee.last_name === 'amminind') ? (
+                    (!(employee.id === 1) ? (
                     <tr key={index}>
                       <td style={{ width: "2%" }}>{index + 1}</td>
-                      <td style={{ width: "5%", textAlign:'center' }}>{employee.personel_code}</td>
-                      <td style={{ width: "5%", textAlign:'center' }}>{employee.first_name}</td>
+                      <td style={{ width: "6%", textAlign:'center' }}>{employee.personel_code}</td>
+                      <td style={{ width: "10%", textAlign:'center' }}>{employee.first_name}</td>
                       <td style={{ width: "10%", textAlign:'center' }}>{employee.last_name}</td>
                       <td style={{ width: "4%", textAlign:'center' }}>
                         {employee.gender ? 'خانم' : 'آقا'}
                       </td>
-                      <td style={{ width: "10%", textAlign:'center' }}>{(employee.department && this.props.departments && this.props.departments.length > 0) ? (
+                      <td style={{ width: "10%", textAlign:'center' }}>{(
+                        employee.department && this.props.departments && this.props.departments.length > 0 &&
+                        this.props.departments.filter(department => department.id === employee.department) && 
+                        this.props.departments.filter(department => department.id === employee.department).length > 0 &&
+                        this.props.companies && this.props.companies.length > 0) ? (
+                                            this.props.companies.filter(company => 
+                                              Number(company.id) === Number(this.props.departments.filter(department => department.id === employee.department)[0]["company"]))[0]["name"])
+                        : ""}
+                      </td>                      
+                      <td style={{ width: "12%", textAlign:'center' }}>{(employee.department && this.props.departments && this.props.departments.length > 0) ? (
                                             this.props.departments.filter(department => department.id === employee.department)[0]["name"]) : ""}</td>
-                      <td style={{ width: "10%", textAlign:'center' }}>{(employee.jobPosition && this.props.jobPositions && this.props.jobPositions.length > 0) ? (
+                      <td style={{ width: "12%", textAlign:'center' }}>{(employee.jobPosition && this.props.jobPositions && this.props.jobPositions.length > 0) ? (
                                             this.props.jobPositions.filter(jobPosition => jobPosition.id === employee.jobPosition)[0]["name"]) : ""}</td>
                       <td style={{ width: "12%", textAlign:'center' }}>{(employee.project && this.props.projects && this.props.projects.length > 0) ? (
                                             this.props.projects.filter(project => project.id === employee.project)[0]["name"]) : ""}</td>
@@ -151,8 +171,8 @@ class employeesList extends Component {
                         //{this.getEmployeePic(employee.id)} 
                         alt={employee.first_name + ' ' + employee.last_name} width='60' height='70'></img>
                       </td>
-                      <td style={{ width: "10%", textAlign:'center' }}>{employee.phone}</td>
-                      <td style={{ width: "20%", textAlign:'center' }}>{employee.email}</td>
+                      <td style={{ width: "6%", textAlign:'center' }}>{employee.phone}</td>
+                      <td style={{ width: "15%", textAlign:'center' }}>{employee.email}</td>
                       <td className="table-action" style={{ width: "3%"}}> 
                         <Edit2 
                           onClick={() => this.props.getEmployeesModal(employee.id)}
@@ -195,6 +215,7 @@ const mapStateToProps = store => {
   return {
     jobPositions: store.jobPositions.jobPositions,
     projects: store.projects.projects,
+    companies: store.companies.companies,
     departments: store.departments.departments,
     employees: store.employees.employees
   };

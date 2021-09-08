@@ -36,13 +36,10 @@ const reducer = (state = initialState, actions) => {
     case types.START_ADD_USER:
       return{
         ...state,
-        // users: actions.users,
         userInEditStage: null,
         isModalOpen: true
       };
     case types.ADD_USER:
-      let users1 = [...state.users, actions.payload]
-      console.log('users number: ', users1.length)
       return {
         ...state,
         users: [...state.users, actions.payload],

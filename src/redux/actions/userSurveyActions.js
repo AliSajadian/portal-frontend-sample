@@ -6,7 +6,7 @@ import { toastr } from "react-redux-toastr";
 export const AddUserAnswer = userAnswer => { 
   return dispatch => {
     axios
-      .post("http://127.0.0.1:8000/api/userAnswers/", userAnswer)
+      .post("http://portalapi.asft.co/api/userAnswers/", userAnswer)
       .then(res => {
         dispatch({
           type: types.ADD_USERANSWERS,
@@ -24,7 +24,7 @@ export const AddUserAnswer = userAnswer => {
 export const GetUserAnswers = () => {
   return dispatch => {
     axios
-      .get("http://127.0.0.1:8000/api/userAnswers/")
+      .get("http://portalapi.asft.co/api/userAnswers/")
       .then(res => {
         dispatch({
           type: types.GET_USERANSWERS_LIST,
@@ -41,7 +41,7 @@ export const GetUserAnswers = () => {
 export const GetUserAnswer = id => {
   return dispatch => {
     axios
-      .get(`http://127.0.0.1:8000/api/optionalQuestions/${id}`)
+      .get(`http://portalapi.asft.co/api/optionalQuestions/${id}`)
       .then(res => {
         dispatch({
           type: types.GET_OPTIONALQUESTION,
@@ -57,7 +57,7 @@ export const GetUserAnswer = id => {
 // // EDIT OPTIONALQUESTION
 // export const EditOptionalQuestion = optionalQuestion => {
 //     return dispatch => {
-//         axios.put(`http://127.0.0.1:8000/api/optionalQuestions/${optionalQuestion.id}/`, optionalQuestion)
+//         axios.put(`http://portalapi.asft.co/api/optionalQuestions/${optionalQuestion.id}/`, optionalQuestion)
 //             .then(res => {
 //                 dispatch({
 //                 type: types.EDIT_OPTIONALQUESTION,
@@ -75,7 +75,7 @@ export const GetUserAnswer = id => {
 export const GetOptionalQuestionsAnswer = () => {
   return dispatch => {
     axios
-      .get("http://127.0.0.1:8000/api/optionalAnswers/")
+      .get("http://portalapi.asft.co/api/optionalAnswers/")
       .then(res => {
         dispatch({
           type: types.GET_OPTIONALQUESTIONSANSWER_LIST,
@@ -92,7 +92,7 @@ export const GetOptionalQuestionsAnswer = () => {
 export const GetOptionalQuestionAnswer = id => {
   return dispatch => {
     axios
-      .get(`http://127.0.0.1:8000/api/optionalAnswers/${id}`)
+      .get(`http://portalapi.asft.co/api/optionalAnswers/${id}`)
       .then(res => {
         dispatch({
           type: types.GET_OPTIONALQUESTIONANSWER,

@@ -1,0 +1,46 @@
+.card3D{
+    box-shadow: -10px 0px 15px 0px rgba(18, 18, 19, 0.336);
+    border-radius: .3em;
+}
+.container_item{
+    display:flex;
+    box-shadow: -10px 0px 15px 0px rgba(18, 18, 19, 0.336);
+    border-radius: .3em;    
+    /* padding-bottom: .5em; */
+    /* border: 2px dashed #5c402c; */
+}
+.card_item{
+    float:right;
+    text-align: center;
+    padding: auto;
+    margin-left: .5em;
+    margin-right: .5em;
+    margin-bottom: .5em;
+    height: 14.6em; 
+    width:16em;
+    box-shadow: -10px 0px 15px 0px rgba(18, 18, 19, 0.336);
+    border-radius: .3em;
+}
+.card-body{
+    padding-top: .5em;
+    padding-bottom: .3em;
+}
+.card-footer{
+    background-color: #cadef8;
+}
+.meal_name{
+    font-size: small;
+    font-weight: bold;
+}
+.meal_no{
+    font-size: small;
+    font-weight: bold;
+}
+
+.date-combobox{
+    text-align: center;
+    background-color: #e1eafa;
+    margin-left: .2em;
+    width: 6.5em; 
+    border-radius: .3em;    
+}

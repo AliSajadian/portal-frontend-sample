@@ -7,7 +7,7 @@ import { toastr } from "react-redux-toastr";
 // ADD OPTIONALQUESTION
 export const AddOptionalQuestion = optionalQuestion => {
     return dispatch => {	
-        axios.post("http://127.0.0.1:8000/api/Questions/", optionalQuestion)
+        axios.post("http://portalapi.asft.co/api/Questions/", optionalQuestion)
             .then(res => {
                 dispatch({
                 type: types.ADD_OPTIONALQUESTION,
@@ -24,7 +24,7 @@ export const AddOptionalQuestion = optionalQuestion => {
 // GET OPTIONALQUESTIONS
 export const GetOptionalQuestions = () => {
     return dispatch => {
-        axios.get('http://127.0.0.1:8000/api/Questions/')
+        axios.get('http://portalapi.asft.co/api/Questions/')
         .then((res) => {
             dispatch({
                 type : types.GET_OPTIONALQUESTIONS_LIST , 
@@ -40,7 +40,7 @@ export const GetOptionalQuestions = () => {
 // GET OPTIONALQUESTION
 export const GetOptionalQuestion = (id) => {        
     return (dispatch) =>  {
-        axios.get(`http://127.0.0.1:8000/api/Questions/${id}`)
+        axios.get(`http://portalapi.asft.co/api/Questions/${id}`)
         .then((res) => {
             dispatch({
                 type : types.GET_OPTIONALQUESTION , 
@@ -55,7 +55,7 @@ export const GetOptionalQuestion = (id) => {
 // EDIT OPTIONALQUESTION
 export const EditOptionalQuestion = optionalQuestion => {
     return dispatch => {
-        axios.put(`http://127.0.0.1:8000/api/Questions/${optionalQuestion.id}/`, optionalQuestion)
+        axios.put(`http://portalapi.asft.co/api/Questions/${optionalQuestion.id}/`, optionalQuestion)
             .then(res => {
                 dispatch({
                 type: types.EDIT_OPTIONALQUESTION,
@@ -72,7 +72,7 @@ export const EditOptionalQuestion = optionalQuestion => {
 // REMOVE OPTIONALQUESTION
 export const RemoveOptionalQuestion = (id) => {
     return dispatch => {
-        axios.delete(`http://127.0.0.1:8000/api/Questions/${id}`)
+        axios.delete(`http://portalapi.asft.co/api/Questions/${id}`)
             .then(() => {
                 dispatch({
                     type: types.REMOVE_OPTIONALQUESTION ,
@@ -88,7 +88,7 @@ export const RemoveOptionalQuestion = (id) => {
 // ADD OPTIONALQUESTIONANSWER
 export const AddOptionalQuestionAnswer = optionalAnswer => {
     return dispatch => {
-        axios.post("http://127.0.0.1:8000/api/Answers/", optionalAnswer)
+        axios.post("http://portalapi.asft.co/api/Answers/", optionalAnswer)
             .then(res => {
                 dispatch({
                 type: types.ADD_OPTIONALQUESTIONANSWER,
@@ -105,7 +105,7 @@ export const AddOptionalQuestionAnswer = optionalAnswer => {
 // GET OPTIONALQUESTIONANSWERS
 export const GetOptionalQuestionsAnswer = () => {
     return dispatch => {
-        axios.get('http://127.0.0.1:8000/api/Answers/')
+        axios.get('http://portalapi.asft.co/api/Answers/')
         .then((res) => {
             dispatch({
                 type : types.GET_OPTIONALQUESTIONSANSWER_LIST , 
@@ -121,7 +121,7 @@ export const GetOptionalQuestionsAnswer = () => {
 // GET OPTIONALQUESTIONANSWER
 export const GetOptionalQuestionAnswer = (id) => {        
     return (dispatch) =>  {
-        axios.get(`http://127.0.0.1:8000/api/Answers/${id}`)
+        axios.get(`http://portalapi.asft.co/api/Answers/${id}`)
         .then((res) => {
             dispatch({
                 type : types.GET_OPTIONALQUESTIONANSWER , 
@@ -136,7 +136,7 @@ export const GetOptionalQuestionAnswer = (id) => {
 // EDIT OPTIONALQUESTIONANSWER
 export const EditOptionalQuestionAnswer = optionalAnswer => {
     return dispatch => {
-        axios.put(`http://127.0.0.1:8000/api/Answers/${optionalAnswer.id}/`, optionalAnswer)
+        axios.put(`http://portalapi.asft.co/api/Answers/${optionalAnswer.id}/`, optionalAnswer)
             .then(res => {
                 dispatch({
                 type: types.EDIT_OPTIONALQUESTIONANSWER,
@@ -153,7 +153,7 @@ export const EditOptionalQuestionAnswer = optionalAnswer => {
 // REMOVE OPTIONALQUESTIONANSWER
 export const RemoveOptionalQuestionAnswer = (id) => {
     return dispatch => {
-        axios.delete(`http://127.0.0.1:8000/api/Answers/${id}`)
+        axios.delete(`http://portalapi.asft.co/api/Answers/${id}`)
             .then(() => {
                 dispatch({
                     type: types.REMOVE_OPTIONALQUESTIONANSWER ,
@@ -169,7 +169,7 @@ export const RemoveOptionalQuestionAnswer = (id) => {
 // ADD SurveyReport
 export const AddSurveyReport = surveyReport => {
     return dispatch => {
-        axios.post("http://127.0.0.1:8000/api/surveyReports/", surveyReport)
+        axios.post("http://portalapi.asft.co/api/surveyReports/", surveyReport)
             .then(res => {
                 dispatch({
                 type: types.ADD_SURVEYREPORT,
@@ -186,7 +186,7 @@ export const AddSurveyReport = surveyReport => {
 // EDIT SurveyReport
 export const EditSurveyReport = surveyReport => {
     return dispatch => {
-        axios.put(`http://127.0.0.1:8000/api/SurveyReports/${surveyReport.id}/`, surveyReport)
+        axios.put(`http://portalapi.asft.co/api/SurveyReports/${surveyReport.id}/`, surveyReport)
             .then(res => {
                 dispatch({
                 type: types.EDIT_SURVEYREPORT,
@@ -203,7 +203,7 @@ export const EditSurveyReport = surveyReport => {
 // REMOVE SurveyReport
 export const RemoveSurveyReport = (id) => {
     return dispatch => {
-        axios.delete(`http://127.0.0.1:8000/api/SurveyReports/${id}`)
+        axios.delete(`http://portalapi.asft.co/api/SurveyReports/${id}`)
             .then(() => {
                 dispatch({
                     type: types.REMOVE_SURVEYREPORT ,

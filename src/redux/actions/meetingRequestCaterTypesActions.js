@@ -8,7 +8,7 @@ import { toastr } from "react-redux-toastr";
 
 export const GetRequestCaterTypesList = () => {
     return dispatch => {
-        axios.get('http://127.0.0.1:8000/api/requestcatertypes/')
+        axios.get('http://portalapi.asft.co/api/requestcatertypes/')
         .then((response) => {
             dispatch({
                 type : types.GET_REQUESTCATERTYPES_LIST , 
@@ -23,7 +23,7 @@ export const GetRequestCaterTypesList = () => {
 
 export const GetDateRequestCaterTypesList = (date) => {
     return dispatch => {
-        axios.get(`http://127.0.0.1:8000/api/requestcatertypes/${date}`)
+        axios.get(`http://portalapi.asft.co/api/requestcatertypes/${date}`)
         .then((response) => {
             dispatch({
                 type : types.GET_REQUESTCATERTYPES_LIST , 
@@ -38,7 +38,7 @@ export const GetDateRequestCaterTypesList = (date) => {
 
 export const LoadRelatedRequestCaterTypeInfoCard = (caterTypeId) => {        
     return (dispatch) =>  {
-        axios.get(`http://127.0.0.1:8000/api/cater-types/${caterTypeId}`)
+        axios.get(`http://portalapi.asft.co/api/cater-types/${caterTypeId}`)
         .then((response) => {
             dispatch({
                 type : types.LOAD_RELATED_REQUESTCATERTYPE_INFO_CARD , 
@@ -52,7 +52,7 @@ export const LoadRelatedRequestCaterTypeInfoCard = (caterTypeId) => {
 
 
 export const RemoveRequestCaterType = (id) => {
-    let url = `http://127.0.0.1:8000/api/requestcatertypes/${id}`
+    let url = `http://portalapi.asft.co/api/requestcatertypes/${id}`
     return dispatch => {    
         axios.delete(url)
             .then(() => {
@@ -69,7 +69,7 @@ export const RemoveRequestCaterType = (id) => {
 
 export const AddRequestCaterTypeModel = () => {
     // return dispatch => {
-    //     axios.get('http://127.0.0.1:8000/api/caterTypes/')
+    //     axios.get('http://portalapi.asft.co/api/caterTypes/')
     //     .then((response) => {
     //         dispatch({
     //             type : types.START_ADD_REQUESTCATERTYPE , 
@@ -89,7 +89,7 @@ export const AddRequestCaterTypeModel = () => {
 // ADD RequestCaterType
 export const AddRequestCaterType = requestCaterType => {
     return dispatch => {
-        axios.post("http://127.0.0.1:8000/api/requestcatertypes/", requestCaterType)
+        axios.post("http://portalapi.asft.co/api/requestcatertypes/", requestCaterType)
             .then(res => {
                 dispatch({
                 type: types.ADD_REQUESTCATERTYPE,
@@ -107,7 +107,7 @@ export const AddRequestCaterType = requestCaterType => {
 // GET RequestCaterType MODAL
  export const GetRequestCaterTypesModal = (id) => {
     return dispatch => {
-        axios.get(`http://127.0.0.1:8000/api/requestcatertypes/${id}`)
+        axios.get(`http://portalapi.asft.co/api/requestcatertypes/${id}`)
         .then((response) => {
             dispatch({
                 type : types.START_REQUESTCATERTYPE_MODAL, 
@@ -123,7 +123,7 @@ export const AddRequestCaterType = requestCaterType => {
 // EDIT RequestCaterType
 export const EditRequestCaterType = requestCaterType => {
     return dispatch => {
-        axios.put(`http://127.0.0.1:8000/api/requestcatertypes/${requestCaterType.id}/`, requestCaterType)
+        axios.put(`http://portalapi.asft.co/api/requestcatertypes/${requestCaterType.id}/`, requestCaterType)
             .then(resonse => {
                 dispatch({
                 type: types.EDIT_REQUESTCATERTYPE,

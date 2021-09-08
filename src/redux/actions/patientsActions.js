@@ -7,7 +7,7 @@ import { toastr } from "react-redux-toastr";
 
 export const GetPatientsFilesList = () => {
     return dispatch => {
-        axios.get('http://127.0.0.1:8000/api/doctorpatientsfiles/')
+        axios.get('http://portalapi.asft.co/api/doctorpatientsfiles/')
         .then((response) => {
             dispatch({
                 type : types.GET_PATIENTSFILES_LIST , 
@@ -22,7 +22,7 @@ export const GetPatientsFilesList = () => {
 
 export const LoadRelatedPatientFileInfoCard = (patientId) => {        
     return (dispatch) =>  {
-        axios.get(`http://127.0.0.1:8000/api/doctorpatientsfiles/${patientId}`)
+        axios.get(`http://portalapi.asft.co/api/doctorpatientsfiles/${patientId}`)
         .then((response) => {
             dispatch({
                 type : types.LOAD_RELATED_PATIENTFILE_INFO_CARD , 
@@ -36,7 +36,7 @@ export const LoadRelatedPatientFileInfoCard = (patientId) => {
 
 export const RemovePatientFile = (id) => {
     return dispatch => {
-        axios.delete(`http://127.0.0.1:8000/api/doctorpatientsfiles/${id}`)
+        axios.delete(`http://portalapi.asft.co/api/doctorpatientsfiles/${id}`)
             .then(() => {
                 dispatch({
                     type: types.REMOVE_PATIENTFILE ,
@@ -52,7 +52,7 @@ export const RemovePatientFile = (id) => {
 // ADD Patient
 export const AddPatientFile = patientFile => {
     return dispatch => {     
-        axios.post("http://127.0.0.1:8000/api/patientsfileupload/", patientFile)
+        axios.post("http://portalapi.asft.co/api/patientsfileupload/", patientFile)
             .then(res => {
                 dispatch({
                 type: types.ADD_PATIENTFILE,
@@ -69,7 +69,7 @@ export const AddPatientFile = patientFile => {
 // EDIT Patient
 export const EditPatientFile = patientFile => {
     return dispatch => {
-        axios.put(`http://127.0.0.1:8000/api/doctorpatientsfiles/${patientFile.id}/`, patientFile)
+        axios.put(`http://portalapi.asft.co/api/doctorpatientsfiles/${patientFile.id}/`, patientFile)
             .then(resonse => {
                 dispatch({
                 type: types.EDIT_PATIENTFILE,

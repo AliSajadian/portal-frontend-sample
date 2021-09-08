@@ -133,7 +133,7 @@ class Sidebar extends React.Component {
           (!sidebar.isOpen ? " toggled" : "") +
           (sidebar.isSticky ? " sidebar-sticky" : "")
         }
-      >
+      >                      
         <div className="sidebar-content"  >
           <PerfectScrollbar >
             <a className="sidebar-brand" href="/" style={{paddingTop:"0.22em", paddingBottom:"0.22em", marginBottom: "2em", backgroundColor:"#1c2638"}}>
@@ -195,13 +195,20 @@ class Sidebar extends React.Component {
                 );
               }):
               routes.map((category, index) => {
+                //  console.log(' *** permissions *** ', JSON.parse(sessionStorage.getItem('permissions')))
+                //  console.log(' *** docappointmentAdmin *** ', JSON.parse(sessionStorage.getItem('docappointmentAdmin')))
+                //  JSON.parse(sessionStorage.getItem('docappointmentAdmin')).filter(permission => 
+                //   sessionStorage.getItem('permissions').includes(Number(permission))).map(permission => 
+                //    console.log('### permission ###: ', permission))
+                //  console.log(' *** Check docappointmentAdmin *** ', JSON.parse(sessionStorage.getItem('docappointmentAdmin')).some(
+                  //  permission => sessionStorage.getItem('permissions').includes(permission))) 
                 return (
                   <React.Fragment key={index}>
                     {category.header ? (
                       <li className="sidebar-header">{category.header}</li>
                     ) : null}
                     {category.children ? (
-                      (category.name === 'اطلاعات پایه' || category.name === 'امنیت') && JSON.parse(sessionStorage.getItem('baseinfoAdmin')).some(permission => sessionStorage.getItem('permissions').includes(permission)) ? 
+                      JSON.parse(sessionStorage.getItem('baseinfoAdmin')).some(permission => sessionStorage.getItem('permissions').includes(permission)) && (category.name === 'اطلاعات پایه' || category.name === 'امنیت') ? 
                       <SidebarCategory 
                       name={category.name}
                       badgeColor={category.badgeColor}
@@ -210,7 +217,7 @@ class Sidebar extends React.Component {
                       to={category.path}
                       isOpen={this.state[index]}
                       onClick={() => this.toggle(index)}
-                    >
+                      >
                       {category.children.map((route, index) => (
                         (route.name !== 'مجوز های کاربری' && route.name !== 'گروه کاربری' && route.name !== 'گروه و مجوزهای گروه' && route.name !== 'کاربر و مجوزهای کاربری' && route.name !== 'تغییر کلمه عبور') ? (
                         <SidebarItem
@@ -241,9 +248,30 @@ class Sidebar extends React.Component {
                           badgeText={route.badgeText}
                         /> 
                       ))}
-                    </SidebarCategory>   
+
+                    </SidebarCategory>  
                     : JSON.parse(sessionStorage.getItem('docappointmentAdmin')).some(permission => sessionStorage.getItem('permissions').includes(permission)) && category.name === 'نوبت دهی پزشک' ?
                       <SidebarCategory 
+                      name={category.name}
+                      badgeColor={category.badgeColor}
+                      badgeText={category.badgeText}
+                      icon={category.icon}
+                      to={category.path}
+                      isOpen={this.state[index]}
+                      onClick={() => this.toggle(index)}
+                    >
+                      {category.children.map((route, index) => (
+                        <SidebarItem
+                          key={index}
+                          name={route.name}
+                          to={route.path}
+                          badgeColor={route.badgeColor}
+                          badgeText={route.badgeText}
+                        /> 
+                      ))}
+                    </SidebarCategory>
+                    : JSON.parse(sessionStorage.getItem('meetingRequestAdmin')).some(permission => sessionStorage.getItem('permissions').includes(permission)) && category.name === 'درخواست کنفرانس' ?
+                    <SidebarCategory 
                       name={category.name}
                       badgeColor={category.badgeColor}
                       badgeText={category.badgeText}
@@ -282,6 +310,7 @@ class Sidebar extends React.Component {
                       /> 
                     ))}
                   </SidebarCategory>
+
                     : JSON.parse(sessionStorage.getItem('surveysUser')).some(permission => sessionStorage.getItem('permissions').includes(permission)) && category.name === 'نظرسنجی' ?
                       <SidebarCategory 
                       name={category.name}
@@ -303,6 +332,7 @@ class Sidebar extends React.Component {
                         /> : ''
                       ))}
                     </SidebarCategory>    
+
                     : JSON.parse(sessionStorage.getItem('docappointmentUser')).some(permission => sessionStorage.getItem('permissions').includes(permission)) && category.name === 'نوبت دهی پزشک' ?
                       <SidebarCategory 
                       name={category.name}
@@ -345,6 +375,7 @@ class Sidebar extends React.Component {
                       /> : ''
                     ))}
                   </SidebarCategory>
+
                     : JSON.parse(sessionStorage.getItem('restaurantUser')).some(permission => sessionStorage.getItem('permissions').includes(permission)) && category.name === 'رستوران' ?
                     <SidebarCategory 
                     name={category.name}
@@ -356,7 +387,8 @@ class Sidebar extends React.Component {
                     onClick={() => this.toggle(index)}
                   >
                     {category.children.map((route, index) => (
-                        (route.name === 'انتخاب ماهیانه غذاها') ?
+                      // 
+                        (route.name === "اصلاح غذاهای ماه جاری" || route.name === "انتخاب غذاهای ماه بعد" || route.name === "مشاهده غذاهای انتخابی") ?
                         <SidebarItem
                         key={index}
                         name={route.name}
@@ -365,7 +397,52 @@ class Sidebar extends React.Component {
                         badgeText={route.badgeText}
                       /> : ''
                     ))}
-                  </SidebarCategory>      
+                   </SidebarCategory>    
+                    : JSON.parse(sessionStorage.getItem('restaurantDepartmentSecretery')).some(permission => sessionStorage.getItem('permissions').includes(permission)) && category.name === 'رستوران' ?
+                    <SidebarCategory 
+                    name={category.name}
+                    badgeColor={category.badgeColor}
+                    badgeText={category.badgeText}
+                    icon={category.icon}
+                    to={category.path}
+                    isOpen={this.state[index]}
+                    onClick={() => this.toggle(index)}
+                  >
+                    {category.children.map((route, index) => (
+                      // 
+                        (route.name === "اصلاح غذاهای ماه جاری" || route.name === "انتخاب غذاهای ماه بعد" || route.name === "مشاهده غذاهای انتخابی") ?
+                        <SidebarItem
+                        key={index}
+                        name={route.name}
+                        to={route.path}
+                        badgeColor={route.badgeColor}
+                        badgeText={route.badgeText}
+                      /> : ''
+                    ))}
+                  </SidebarCategory>    
+
+                    : JSON.parse(sessionStorage.getItem('restaurantContractor')).some(permission => sessionStorage.getItem('permissions').includes(permission)) && category.name === 'رستوران' ?
+                    <SidebarCategory 
+                    name={category.name}
+                    badgeColor={category.badgeColor}
+                    badgeText={category.badgeText}
+                    icon={category.icon}
+                    to={category.path}
+                    isOpen={this.state[index]}
+                    onClick={() => this.toggle(index)}
+                  >
+                    {category.children.map((route, index) => (
+                        (route.name === "آمار کل غذاهای روزانه") ?
+                        <SidebarItem
+                        key={index}
+                        name={route.name}
+                        to={route.path}
+                        badgeColor={route.badgeColor}
+                        badgeText={route.badgeText}
+                      /> : ''
+                    ))}
+                  </SidebarCategory>                      
+
                     : (category.name === 'امنیت' && sessionStorage.getItem('username').match(/[a-z|A-Z]+\_[a-z|A-Z|\s]+/g) !== null)  ?
                     <SidebarCategory 
                     name={category.name}
@@ -406,8 +483,9 @@ class Sidebar extends React.Component {
             {/* {!layout.isBoxed && !sidebar.isSticky ? ( 
               
               */}
-              <div className="sidebar-bottom" style={{marginBottom:'1em', backgroundColor:'#313233', height:'7.5vh'}}>
-                <div className="media">
+              <div id='sidebar-bottom' className="sidebar-bottom" style={{marginBottom:'.5vh', backgroundColor:'#313233', height:'8vh', paddingBottom:'0'}}>
+              {/* */}
+                <div className="media" style={{marginTop:'0'}}>
                   {/* <img
                     className="rounded-circle mr-3"
                     // src={avatar}
@@ -415,14 +493,17 @@ class Sidebar extends React.Component {
                     width="40"    
                     height="40"  
                   /> */}
-                <img
-                  style={{ width: '3vw', height: '7vh' }}
-                  src={'http://127.0.0.1:8000/files/' + sessionStorage.getItem('pic')}
+                <img 
+                  style={{ width: '3vw', height: '7vh'}}
+                  src={'http://portalapi.asft.co/files/' + sessionStorage.getItem('pic')}
                   className="avatar img-fluid rounded-circle mr-1"
                   alt={sessionStorage.getItem("username")}
                 />
-                  <div className="media-body">
-                    <h3 className="mb-1" style={{color:'white', marginRight:'1.4em', marginBottom:'.6em'}}>{sessionStorage.getItem('emp_first_name') + ' ' + sessionStorage.getItem('emp_last_name')}</h3>
+                {/* style={{border: '2px dashed #999999'}} */}
+                  <div className="media-body" >
+                    <p className="mb-1" style={{fontSize:'.9hv', color:'white', marginRight:'1.4vw', marginBottom:'.5vh'}}>
+                      {sessionStorage.getItem('emp_first_name') + ' ' + sessionStorage.getItem('emp_last_name')}
+                    </p>
                     {/* <div>     .substring(1, sessionStorage.getItem('emp_first_name').length - 1)
                       <FontAwesomeIcon     .substring(1, sessionStorage.getItem('emp_last_name').length - 1)
                         icon={faCircle}
@@ -431,15 +512,15 @@ class Sidebar extends React.Component {
                       Online
                     </div> */}
                     <div>
-                    <span style={{fontSize:'.9rem', marginRight:'.5em'}}>خروج از سیستم</span>
-                    <LogOut style={{cursor:'pointer'}}
-                        onClick={() =>
-                          this.props.logOut()
-                          // this.generateCode()
-                        }
-                        className="align-middle"
-                        size={22}
-                    />
+                      <span style={{fontSize:'.9hv', marginRight:'.5vw'}}>خروج از سیستم</span>
+                      <LogOut style={{cursor:'pointer'}}
+                          onClick={() =>
+                            this.props.logOut()
+                            // this.generateCode()
+                          }
+                          className="align-middle"
+                          size={22}
+                      />
                     </div>
                   </div>
                 </div>

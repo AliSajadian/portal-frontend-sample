@@ -8,6 +8,7 @@ import {
 
 import EmployeesList from "../employees/employeesList/employees";
 import { GetEmployeesList } from "../../../../redux/actions/employeesActions";
+import { GetCompaniesList } from "../../../../redux/actions/companiesActions";
 import { GetDepartmentsList } from "../../../../redux/actions/departmentsActions";
 import { GetProjectsList } from "../../../../redux/actions/projectsActions";
 import { GetJobPositionsList } from "../../../../redux/actions/jobPositionsActions";
@@ -18,6 +19,7 @@ const Index = (props) => {
 
   useEffect(() => {
     props.getEmployees();
+    props.getCompanies();
     props.getDepartments();
     props.getProjects();
     props.getJobPositions();
@@ -41,6 +43,7 @@ const Index = (props) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     getEmployees: () => dispatch(GetEmployeesList()),
+    getCompanies: () => dispatch(GetCompaniesList()),
     getDepartments: () => dispatch(GetDepartmentsList()),
     getProjects: () => dispatch(GetProjectsList()),
     getJobPositions: () => dispatch(GetJobPositionsList())

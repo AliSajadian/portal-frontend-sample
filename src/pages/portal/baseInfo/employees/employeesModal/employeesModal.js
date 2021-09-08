@@ -31,6 +31,7 @@ class EmployeeModal extends Component {
       pictureChanged: false,
       phone: "",
       email: "",
+      company: 1,
       department: 1,
       jobPosition: 1,
       project: 1,
@@ -42,9 +43,29 @@ class EmployeeModal extends Component {
   }
 
   componentDidUpdate() {
+    // console.log('EmployeeInEditStage: ', this.props.EmployeeInEditStage)
+    // console.log('flag2: ', this.state.flag2)
+    // console.log('state.personel_code: ', this.state.personel_code)
+    
+
     if(this.props.isOpen){
       if (this.props.EmployeeInEditStage){
-        if(this.state.flag2 && this.props.EmployeeInEditStage.personel_code !== this.state.personel_code) { 
+        // console.log('EmployeeInEditStage.personel_code: ', this.props.EmployeeInEditStage.personel_code)
+        if(this.state.flag2 && (this.props.EmployeeInEditStage.personel_code !== this.state.personel_code ||
+          this.props.EmployeeInEditStage.first_name !== this.state.first_name ||
+          this.props.EmployeeInEditStage.last_name !== this.state.last_name)) { 
+          const company = (this.props.EmployeeInEditStage.department && this.props.companies &&
+            this.props.departments.filter(department => department.id === this.props.EmployeeInEditStage.department) &&
+            this.props.departments.filter(department => department.id === this.props.EmployeeInEditStage.department).length > 0 &&
+            this.props.companies.filter(company => Number(company.id) === Number(this.props.departments.filter(department => 
+              department.id === this.props.EmployeeInEditStage.department)[0]["company"])) &&
+            this.props.companies.filter(company => Number(company.id) === Number(this.props.departments.filter(department => 
+              department.id === this.props.EmployeeInEditStage.department)[0]["company"])).length > 0) ?
+            this.props.companies.filter(company => Number(company.id) === Number(this.props.departments.filter(department => 
+              department.id === this.props.EmployeeInEditStage.department)[0]["company"]))[0]["id"] : this.state.company
+          
+          // console.log('company: ', company)
+
           this.setState({
             personel_code: this.props.EmployeeInEditStage.personel_code,
             first_name: this.props.EmployeeInEditStage.first_name,
@@ -53,9 +74,10 @@ class EmployeeModal extends Component {
             phone: this.props.EmployeeInEditStage.phone,
             picture: this.props.EmployeeInEditStage.picture,
             email: this.props.EmployeeInEditStage.email,
-            department: this.props.EmployeeInEditStage.department,
-            jobPosition: this.props.EmployeeInEditStage.jobPosition,
-            project: this.props.EmployeeInEditStage.project,
+            company: company,
+            department: this.props.EmployeeInEditStage.department ? this.props.EmployeeInEditStage.department : this.state.department,
+            jobPosition: this.props.EmployeeInEditStage.jobPosition ? this.props.EmployeeInEditStage.jobPosition : this.state.jobPosition,
+            project: this.props.EmployeeInEditStage.project ? this.props.EmployeeInEditStage.project : this.state.project,
             projectCheck: this.props.EmployeeInEditStage.project? true: false,
             flag: false,
             flag2: true
@@ -71,6 +93,7 @@ class EmployeeModal extends Component {
           phone: '',
           picture: null,
           email: '',
+          company: 1,
           department: 1,
           jobPosition: 1,
           project: 1,
@@ -98,12 +121,13 @@ class EmployeeModal extends Component {
       case 'first_name':
         this.setState({
           first_name: event.target.value, 
-          // flag2: this.props.EmployeeInEditStage ? false : true
+          flag2: this.props.EmployeeInEditStage ? false : true
         });
         return;
       case 'last_name':
         this.setState({
-          last_name: event.target.value
+          last_name: event.target.value,
+          flag2: this.props.EmployeeInEditStage ? false : true
         });
         return;
       case 'gender':
@@ -132,6 +156,17 @@ class EmployeeModal extends Component {
     }
   };
 
+  companyOnChangehandle = e => {
+    let department = this.state.department
+    if(this.props.departments && this.props.departments.filter(department => Number(department.company) === Number(e.target.value)) && 
+    this.props.departments.filter(department => Number(department.company) === Number(e.target.value)).length > 0){
+      department = this.props.departments.filter(department => Number(department.company) === Number(e.target.value))[0]["id"]
+    }
+    this.setState({ 
+      company: e.target.value,
+      department: department
+    })
+  }
   submitFormHandler = event => {
     event.preventDefault();
 
@@ -225,6 +260,7 @@ class EmployeeModal extends Component {
       pictureChanged: false,
       phone: "",
       email: "",
+      company: 1,
       department: 1,
       jobPosition: 1,
       project: 1,
@@ -233,8 +269,28 @@ class EmployeeModal extends Component {
     });
   };
 
+  onCancelHandler = () => {console.log('###onCancelHandler###')
+    this.setState({
+      personel_code: "",
+      first_name: "",
+      last_name: "",
+      gender: false,
+      picture: null,
+      pictureChanged: false,
+      phone: "",
+      email: "",
+      company: 1,
+      department: 1,
+      jobPosition: 1,
+      project: 1,
+      projectCheck: false,
+      flag: false
+    });
+    this.props.modalToggleHandler();
+  }
+
   render = () => {
-    const { personel_code, first_name, last_name, gender, email, phone, department, jobPosition, project, projectCheck, isFormValid } = this.state;
+    const { personel_code, first_name, last_name, gender, email, phone, company, department, jobPosition, project, projectCheck, isFormValid } = this.state;
     return (
       <Modal style={{direction:'rtl'}}
         size="sm"
@@ -249,7 +305,19 @@ class EmployeeModal extends Component {
           <Card>
             <CardBody>
               <Form onSubmit={this.submitFormHandler}> 
-                <label>پروژه</label>
+                <label>شرکت</label>
+                <br/>
+                <select value={company ? company : ""} 
+                onChange={(e) => this.companyOnChangehandle(e)}>
+                {(this.props.companies && this.props.companies.length) > 0 ? (
+                    this.props.companies.map(company => <option key={company.id} value={company.id}>{company.name}</option>
+                    )) : (
+                      <div>not found</div>
+                    )}                    
+                </select>
+                <br/>
+                <br/>
+                 <label>پروژه</label>
                 <br/>
                 <label>
                   <input 
@@ -262,8 +330,9 @@ class EmployeeModal extends Component {
                 </label>
                 <select value={project ? project : ""} disabled={!projectCheck}
                 onChange={(e) => this.setState({ project: e.target.value })}>
-                {(this.props.projects && this.props.projects.length) > 0 ? (
-                    this.props.projects.map(project => <option key={project.id} value={project.id}>{project.name}</option>
+                {(this.props.companies && this.props.companies.length > 0 && this.props.projects && this.props.projects.length > 0) ? (
+                    this.props.projects.filter(project => project.company === company).map(
+                      project => <option key={project.id} value={project.id}>{project.name}</option>
                     )) : (
                       <div>not found</div>
                     )}                    
@@ -272,10 +341,12 @@ class EmployeeModal extends Component {
                 <br/>           
                 <label>دپارتمان</label>
                 <br/>
+                {/* {console.log('company: ', company)} */}
                 <select value={department ? department : ""} disabled={projectCheck}
                 onChange={(e) => this.setState({ department: e.target.value })}>
-                {(this.props.departments && this.props.departments.length) > 0 ? (
-                    this.props.departments.map(department => <option key={department.id} value={department.id}>{department.name}</option>
+                {(this.props.companies && this.props.companies.length > 0 && this.props.departments && this.props.departments.length > 0) ? (
+                    this.props.departments.filter(department => Number(department.company) === Number(company)).map(
+                      department => <option key={department.id} value={department.id}>{department.name}</option>
                     )) : (
                       <div>not found</div>
                     )}                    
@@ -376,6 +447,7 @@ const mapStateToProps = state => {
   return {
     departments: state.departments.departments,
     jobPositions: state.jobPositions.jobPositions,
+    companies: state.companies.companies,
     projects: state.projects.projects,
     isOpen: state.employees.isModalOpen,
     EmployeeInEditStage: state.employees.employeeInEditStage,

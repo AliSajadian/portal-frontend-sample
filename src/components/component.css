@@ -26,31 +26,32 @@
   }
 
 /* ====================================ALERT====================================== #354052;*/
-.alert-container{
+.alert-container .modal-content {
+    background-color: #f7ccaf;
     position: absolute;
     top: 5vh;
-    height: 150px;
-    width: 300px;
+    height: 130px;
+    width: 220px;
     opacity: .7;
 }
 .alert-header{
-    background-color: #073fad;
+    background-color: #fd9652;
     height: 25px;
     width: 100%;
 }
 .alert-header-text{
     position: absolute; 
     top: 0px;
-    color: aliceblue;
+    color: rgb(2, 37, 68);
     font-weight: bold;
 }
-.alert-body{
-    background-color: #b8c8e9;
-     height: 105px;
+.alert-body .modal-content {
+    background-color: #f7ccaf;
+    height: 105px;
     /*width: 100%; */
 }
 .alert-footer{
-    background-color: #aec3ee;
+    background-color: #bcd9fc;
     height: 20px;
     width: 100%;
 }

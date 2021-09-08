@@ -6,8 +6,8 @@ import {
   Row,
 } from "reactstrap";
 import PrsonelMealDayList from "../personelMealDay/personelMealDay";
-import { GetPersonelMealDaysExList } from "../../../../redux/actions/personelMealDayActions";
-import { GetMealDaysList } from "../../../../redux/actions/mealsDayActions";
+import { GetPersonelMealDaysNextMonthList } from "../../../../redux/actions/personelMealDayActions";
+import { GetMealDaysNextMonthList } from "../../../../redux/actions/mealsDayActions";
 import { GetMealsList } from "../../../../redux/actions/mealsActions";
 import { GetCurrentMonthDates } from "../../../../redux/actions/mealsDayActions";
 
@@ -15,15 +15,15 @@ import { GetCurrentMonthDates } from "../../../../redux/actions/mealsDayActions"
 const Index = (props) => {
   useEffect(() => {
     const employee_id = sessionStorage.getItem('employeeid');
-    props.getPersonelMealDaysExList(employee_id);
-    props.getCurrentMonthDates();
-    props.getMealDaysList();
+    console.log('employee_id: ', employee_id)
+    props.getPersonelMealDaysNextMonthList(employee_id);
+    props.getCurrentMonthDates(false);
+    props.getMealDaysNextMonthList();
     props.getMealsList();
   }, []);
 
   return (
     <Container className="p-0">
-      {/* <h1 className="h3 mb-3"> انتخاب ماهیانه غذا </h1> */}
       <Row>
         <Col >
           <PrsonelMealDayList/>
@@ -36,10 +36,10 @@ const Index = (props) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getPersonelMealDaysExList: (employee_id) => dispatch(GetPersonelMealDaysExList(employee_id)),
+    getPersonelMealDaysNextMonthList: (employee_id) => dispatch(GetPersonelMealDaysNextMonthList(employee_id)),
     getMealsList: () => dispatch(GetMealsList()),
-    getMealDaysList: () => dispatch(GetMealDaysList()),
-    getCurrentMonthDates: () => dispatch(GetCurrentMonthDates())    
+    getMealDaysNextMonthList: () => dispatch(GetMealDaysNextMonthList()),
+    getCurrentMonthDates: (isCurrentMonth) => dispatch(GetCurrentMonthDates(isCurrentMonth))    
   }
 }
 

@@ -107,7 +107,7 @@ class docScheduleDays extends Component {
             }
             break;
         case 7:
-            if(day < 22){
+            if(day < 23){
                 months = [{month : 'تیر'}, {month : 'مرداد'}, {month : 'شهریور'}];
             }
             else{
@@ -115,7 +115,7 @@ class docScheduleDays extends Component {
             }
             break;
         case 8:
-            if(day < 22){
+            if(day < 23){
                 months = [{month : 'مرداد'}, {month : 'شهریور'}, {month : 'مهر'}];
             }
             else{
@@ -123,7 +123,7 @@ class docScheduleDays extends Component {
             }
             break;
         case 9:
-            if(day < 22){
+            if(day < 23){
                 months = [{month : 'شهریور'}, {month : 'مهر'}, {month : 'آبان'}];
             }
             else{
@@ -131,7 +131,7 @@ class docScheduleDays extends Component {
             }
             break;
         case 10:
-            if(day < 22){
+            if(day < 23){
                 months = [{month : 'مهر'}, {month : 'آبان'}, {month : 'آذر'}];
             }
             else{
@@ -139,7 +139,7 @@ class docScheduleDays extends Component {
             }
             break;
         case 11:
-            if(day < 21){
+            if(day < 22){
                 months = [{month : 'آبان'}, {month : 'آذر'}, {month : 'دی'}];
             }
             else{
@@ -147,7 +147,7 @@ class docScheduleDays extends Component {
             }
             break;
         case 12:
-            if(day < 21){
+            if(day < 22){
                 months = [{month : 'آذر'}, {month : 'دی'}, {month : 'بهمن'}];
             }
             else{
@@ -164,88 +164,88 @@ class docScheduleDays extends Component {
     let day = date.getUTCDate()+1;
     switch(month){
         case 1:
-            if(day < 20){
-                return 'دی' + (day + 11);
+            if(day < 21){
+                return 'دی' + (day + 10);
             }
             else{
-                return 'بهمن' + (day - 19);
+                return 'بهمن' + (day - 20);
             }
         case 2:
-            if(day < 19){
-                return 'بهمن' + (day + 12);
+            if(day < 20){
+                return 'بهمن' + (day + 11);
             }
             else{
-                return 'اسفند' + (day - 18);
+                return 'اسفند' + (day - 19);
             }
         case 3:
-            if(day < 20){
-                return 'اسفند' + (day + 10);
+            if(day < 21){
+                return 'اسفند' + (day + 9);
             }
             else{
-                return 'فروردین' + (day - 19);
+                return 'فروردین' + (day - 20);
             }
         case 4:
-            if(day < 20){
-                return 'فروردین' + (day + 12);
+            if(day < 21){
+                return 'فروردین' + (day + 11);
             }
             else{
-                return 'اردیبهشت' + (day - 19);
+                return 'اردیبهشت' + (day - 20);
             }
         case 5:
-            if(day < 21){
+            if(day < 22){
                 return 'اردیبهشت' + (day + 11);
             }
             else{
                 return 'خرداد' + (day - 20);
             }
         case 6:
-            if(day < 21){
+            if(day < 22){
                 return 'خرداد' + (day + 11);
             }
             else{
                 return 'تیر' + (day - 20);
             }
         case 7:
-            if(day < 22){
-                return 'تیر' + (day + 10);
+            if(day < 23){
+                return 'تیر' + (day + 9);
             }
             else{
-                return 'مرداد' + (day - 21);
+                return 'مرداد' + (day - 22);
             }
         case 8:
-            if(day < 22){
-                return 'مرداد' + (day + 10);
+            if(day < 23){
+                return 'مرداد' + (day + 190);
             }
             else{
-                return 'شهریور' + (day - 21);
+                return 'شهریور' + (day - 22);
             }
         case 9:
-            if(day < 22){
-                return 'شهریور' + (day + 10);
+            if(day < 23){
+                return 'شهریور' + (day + 9);
             }
             else{
-                return 'مهر' + (day - 21);
+                return 'مهر' + (day - 22);
             }
         case 10:
-            if(day < 22){
-                return 'مهر' + (day + 9);
+            if(day < 23){
+                return 'مهر' + (day + 8);
             }
             else{
-                return 'آبان' + (day - 21);
+                return 'آبان' + (day - 22);
             }
         case 11:
-            if(day < 21){
-                return 'آبان' + (day + 10);
+            if(day < 22){
+                return 'آبان' + (day + 9);
             }
             else{
-                return 'آذر' + (day - 20);
+                return 'آذر' + (day - 21);
             }
         case 12:
-            if(day < 21){
-                return 'آذر' + (day + 10);
+            if(day < 22){
+                return 'آذر' + (day + 9);
             }
             else{
-                return 'دی' + (day - 20);
+                return 'دی' + (day - 21);
             }
         default:
     }

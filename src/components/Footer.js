@@ -8,12 +8,12 @@ const Footer = () => (
     <Container fluid>
       {/* <Row className="text-muted">
           <Col lg="9" xs="9" ><div className="div"><span >
-          © Asft Tous LTD. {new Date().getFullYear()} Tehran IR. All rights reserved.
+          © Asfalt Tous LTD. {new Date().getFullYear()} Tehran IR. All rights reserved.
           </span></div>
           </Col>
       </Row> */}
       <div className="div"><span >
-          © Asft Tous LTD. {new Date().getFullYear()} Tehran IR. All rights reserved.
+          © Asfalt Tous LTD. {new Date().getFullYear()} Tehran IR. All rights reserved.
           </span></div>
     </Container>
   </footer>

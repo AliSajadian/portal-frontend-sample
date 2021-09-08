@@ -3,7 +3,12 @@ import * as types from "../constants";
 const initialState = {
   personelMealDay: [],
   personelMealDays: [],
+  mealsDailyList: [],
   servedMeals: [],
+  currentMonthSelectedMeals: [],
+  asftDayMealsStatistics: [],
+  companysDayMealsStatistics: [],
+  contractorMonthlyMealsStatistics: [],
   personelMealDayInfo: null,
   isModalOpen: false,
   personelMealDayInEditStage: null
@@ -16,6 +21,11 @@ const reducer = (state = initialState, actions) => {
         ...state,
         personelMealDays: actions.payload
       };    
+    case types.GET_MEALSDAILY_LIST:
+      return {
+        ...state,
+        mealsDailyList: actions.payload
+      };       
     case types.GET_PERSONELMEALDAYSEx_LIST:
       return {
         ...state,
@@ -31,6 +41,26 @@ const reducer = (state = initialState, actions) => {
         ...state,
         servedMeals: actions.payload
       };      
+    case types.GET_CURRENTMONTHSELECTEDMEALS_LIST:
+      return {
+        ...state,
+        currentMonthSelectedMeals: actions.payload
+      }
+    case types.GET_ASFTDAYMEALSSTATISTICS_LIST:
+      return {
+        ...state,
+        asftDayMealsStatistics: actions.payload
+      }
+    case types.GET_COMPANYSDAYMEALSSTATISTICS_LIST:
+      return{
+        ...state,
+        companysDayMealsStatistics: actions.payload
+      }
+    case types.GET_CONTRACTORMONTHLYMEALSSTATISTICS_LIST:
+      return{
+        ...state,
+        contractorMonthlyMealsStatistics: actions.payload
+      }
     case types.LOAD_RELATED_PERSONELMEALDAY_INFO_CARD:
       return {
         ...state,

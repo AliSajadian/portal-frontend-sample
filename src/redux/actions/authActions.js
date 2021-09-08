@@ -29,10 +29,10 @@ export const AuthStart = (username, password, history) => {
             type: types.AUTH_START
         });
 
-        axios.post("http://127.0.0.1:8000/api/auth/login", body, config)
-            .then((response) => {
-                if(response.data && response.data.error && response.data.error !== ''){
-                    throw new Error('Info is not complited')
+        axios.post("http://portalapi.asft.co/api/auth/login", body, config)
+            .then((response) => {console.log('response.data.error: ', response.data.error)
+                if(response.data && response.data.error && response.data.error !== 0){
+                    throw new Error(response.data.error)
                 }
 
                 sessionStorage.setItem("token", response.data.token);
@@ -47,16 +47,20 @@ export const AuthStart = (username, password, history) => {
                 sessionStorage.setItem("permissions", JSON.stringify(response.data.permissions))
                 sessionStorage.setItem("groups", JSON.stringify(response.data.groups))
 
-                sessionStorage.setItem("baseinfoAdmin", JSON.stringify(['13', '25', '29', '33', '37', '41', '45', '49', '53']))
-                sessionStorage.setItem("surveysAdmin", JSON.stringify(['153', '157', '161', '165', '169']))
+                sessionStorage.setItem("baseinfoAdmin", JSON.stringify(['13', '29', '49']))
+                sessionStorage.setItem("surveysAdmin", JSON.stringify(['153', '157']))
                 sessionStorage.setItem("surveysUser", JSON.stringify(['165']))
-                sessionStorage.setItem("docappointmentAdmin", JSON.stringify(['57', '61', '65', '69', '73', '77', '81']))
-                sessionStorage.setItem("docappointmentUser", JSON.stringify(['57', '73', '77']))
-                sessionStorage.setItem("restaurantAdmin", JSON.stringify(['133', '137', '141', '145', '149']))
-                sessionStorage.setItem("restaurantUser", JSON.stringify(['149']))
-                sessionStorage.setItem("meetingRequestAdmin", JSON.stringify(['105', '109', '113', '115', '117', '121', '125', '129', '177']))
+                sessionStorage.setItem("docappointmentAdmin", JSON.stringify(['61', '65', '69', '77', '81']))
+                sessionStorage.setItem("docappointmentUser", JSON.stringify(['73']))
+                sessionStorage.setItem("restaurantAdmin", JSON.stringify(['133', '137', '141', '145']))
+                sessionStorage.setItem("restaurantUser", JSON.stringify(['191']))
+                sessionStorage.setItem("restaurantDepartmentSecretery", JSON.stringify(['191']))
+                sessionStorage.setItem("restaurantContractor", JSON.stringify(['200']))
+                sessionStorage.setItem("meetingRequestAdmin", JSON.stringify(['105', '109', '115', '117', '121', '125', '129', '182']))
                 sessionStorage.setItem("meetingRequestUser", JSON.stringify(['113']))
                 sessionStorage.setItem("doctor", JSON.stringify(['73', '77']))
+
+                console.log("permissions", JSON.stringify(response.data.permissions))
 
                 dispatch({
                     type: types.AUTH_SUCCESS,
@@ -65,7 +69,7 @@ export const AuthStart = (username, password, history) => {
                 });
                 history.push("/")
             }).catch((error) => {
-                console.log(error);
+                console.log('error: ', error);
                 dispatch({
                     type : types.AUTH_FAIL, 
                     error : error
@@ -76,7 +80,7 @@ export const AuthStart = (username, password, history) => {
 
 export const UserRegister = (user) => {
     return dispatch => {
-        axios.post("http://127.0.0.1:8000/api/auth/register/", user)
+        axios.post("http://portalapi.asft.co/api/auth/register/", user)
             .then(res => {
                 dispatch({
                 type: types.USER_REGISTER,
@@ -105,13 +109,13 @@ export const ChangeUsernamePassword = (userid, username, currentpassword, newpas
         newpassword
     });
     return dispatch => {
-        axios.put("http://127.0.0.1:8000/api/auth/change_password/", body, config)
+        axios.put("http://portalapi.asft.co/api/auth/change_password/", body, config)
             .then(res => {
                 dispatch({
                 type: types.USERNAME_PASSWORD_CHANGE,
                 payload: res.data
                 });
-                toastr.success("User add succesfuly")
+                toastr.success("Password Changed succesfuly")
             })
             .catch((error) => {
                 console.log(error);

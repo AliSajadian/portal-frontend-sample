@@ -186,16 +186,30 @@ const Equipments = async(() => import("../pages/portal/meetingRequest/necessaryE
 // RequestRoutes
 const Requests = async(() => import("../pages/portal/meetingRequest/requests/index"));
 
-// ResturantRoutes
+// MealRoutes
 const Meals = async(() => import("../pages/portal/resturant/mealList/index"));
-// ResturantRoutes ServedMeals
+// MealDayRoutes
 const MealsDay = async(() => import("../pages/portal/resturant/mealsDay/index"));
-// ServedMeals
-const ServedMeals = async(() => import("../pages/portal/resturant/serveMeals/index"));
-// MealFish
-const MealFish = async(() => import("../pages/portal/resturant/mealFish/index"));
-// PersonelMealsDayRoutes
+// ServedMealsRoutes
+// const ServedMeals = async(() => import("../pages/portal/resturant/serveMeals/index"));
+// MealFishRoutes
+// const MealFish = async(() => import("../pages/portal/resturant/mealFish/index"));
+// PersonelMealsDayRoutes 
 const PersonelMealsDay = async(() => import("../pages/portal/resturant/personelMealDay/index"));
+// ModifyPersonelMealsDayRoutes 
+const ModifyPersonelMealsDay = async(() => import("../pages/portal/resturant/modifyPersonelMealsDay/index"));
+// AsftTodayMealsStatisticsRoutes
+const AsftDayMealsStatistics = async(() => import("../pages/portal/resturant/asftDayMealsStatistics/index"));
+// CompanysTodayMealsStatisticsRoutes
+const CompanysDayMealsStatistics = async(() => import("../pages/portal/resturant/companysDayMealsStatistics/index"))
+// ContractorDailyMealsStatisticsRoutes
+const ContractorMonthlyMealsStatistics = async(() => import("../pages/portal/resturant/contractorMonthlyMealsStatistics/index"))
+// CurrentMonthSelectedMealsRoutes
+const CurrentMonthSelectedMeals = async(() => import("../pages/portal/resturant/currentMonthSelectedMeals/index"));
+// MealsDailyListRoutes
+const MealsDailyList = async(() => import("../pages/portal/resturant/mealsDailyList/index"));
+
+// const mealSelectedMonthlyList = async(() => import("../pages/portal/resturant/"));
 // GuestMealsDayRoutes
 const GuestMealsDay = async(() => import("../pages/portal/resturant/guestMealDay/index"));
 
@@ -788,17 +802,53 @@ const HomeRoutes = {
       //   component: MealFish
       // },   
       {
-        path: "/restaurant/personelmealsday",
-        name: "انتخاب ماهیانه غذاها",
-        icon: SlidersIcon,
-        component: PersonelMealsDay
-      },   
-      {
         path: "/restaurant/guestmealsday",
         name: "انتخاب غذای مهمان",
         icon: SlidersIcon,
         component: GuestMealsDay
-      }
+      },
+      {
+        path: "/restaurant/mealsdailyList",
+        name: "لیست غذاهای روزانه",
+        icon: SlidersIcon,
+        component: MealsDailyList
+      },         
+      {
+        path: "/restaurant/asfttodaymealsstatistics",
+        name: "آمار غذای روزانه آسفالت طوس",
+        icon: SlidersIcon,
+        component: AsftDayMealsStatistics
+      }, 
+      {
+        path: "/restaurant/companystodaymealsstatistics",
+        name: "آمار غذای روزانه شرکتها",
+        icon: SlidersIcon,
+        component: CompanysDayMealsStatistics
+      }, 
+      {
+        path: "/restaurant/contractordailymealsstatistics",
+        name: "آمار کل غذاهای ماهانه",
+        icon: SlidersIcon,
+        component: ContractorMonthlyMealsStatistics,
+      },
+      {
+        path: "/restaurant/currentmonthselectedmeals",
+        name: "مشاهده غذاهای انتخابی",
+        icon: SlidersIcon,
+        component: CurrentMonthSelectedMeals
+      }, 
+      {
+        path: "/restaurant/modifypersonelmealsday",
+        name: "اصلاح غذاهای ماه جاری",
+        icon: SlidersIcon,
+        component: ModifyPersonelMealsDay
+      },   
+      {
+        path: "/restaurant/personelmealsday",
+        name: "انتخاب غذاهای ماه بعد",
+        icon: SlidersIcon,
+        component: PersonelMealsDay
+      },   
     ]
   };
 //*******************************************************/

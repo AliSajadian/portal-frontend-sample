@@ -8,7 +8,7 @@ import { toastr } from "react-redux-toastr";
 
 export const GetEquipmentsList = () => {
     return dispatch => {
-        axios.get('http://127.0.0.1:8000/api/equipments/')
+        axios.get('http://portalapi.asft.co/api/equipments/')
         .then((response) => {
             dispatch({
                 type : types.GET_EQUIPMENTS_LIST , 
@@ -24,7 +24,7 @@ export const GetEquipmentsList = () => {
 
 export const LoadRelatedEquipmentInfoCard = (equipmentId) => {        
     return (dispatch) =>  {
-        axios.get(`http://127.0.0.1:8000/api/equipments/${equipmentId}`)
+        axios.get(`http://portalapi.asft.co/api/equipments/${equipmentId}`)
         .then((response) => {
             dispatch({
                 type : types.LOAD_RELATED_EQUIPMENT_INFO_CARD , 
@@ -39,7 +39,7 @@ export const LoadRelatedEquipmentInfoCard = (equipmentId) => {
 
 export const RemoveEquipment = (id) => {
     return dispatch => {
-        axios.delete(`http://127.0.0.1:8000/api/equipments/${id}`)
+        axios.delete(`http://portalapi.asft.co/api/equipments/${id}`)
             .then(() => {
                 dispatch({
                     type: types.REMOVE_EQUIPMENT ,
@@ -54,7 +54,7 @@ export const RemoveEquipment = (id) => {
 
 export const AddEquipmentModal = () => {
     // return dispatch => {
-    //     axios.get('http://127.0.0.1:8000/api/equipments/')
+    //     axios.get('http://portalapi.asft.co/api/equipments/')
     //     .then((response) => {
     //         dispatch({
     //             type : types.START_ADD_EQUIPMENT , 
@@ -74,7 +74,7 @@ export const AddEquipmentModal = () => {
 // ADD Equipment
 export const AddEquipment = equipment => {
     return dispatch => {
-        axios.post("http://127.0.0.1:8000/api/equipments/", equipment)
+        axios.post("http://portalapi.asft.co/api/equipments/", equipment)
             .then(res => {
                 dispatch({
                 type: types.ADD_EQUIPMENT,
@@ -92,7 +92,7 @@ export const AddEquipment = equipment => {
 // GET Equipment MODAL
  export const GetEquipmentsModal = (id) => {
     return dispatch => {
-        axios.get(`http://127.0.0.1:8000/api/equipments/${id}`)
+        axios.get(`http://portalapi.asft.co/api/equipments/${id}`)
         .then((response) => {
             dispatch({
                 type : types.START_EQUIPMENT_MODAL, 
@@ -108,7 +108,7 @@ export const AddEquipment = equipment => {
 // EDIT Equipment
 export const EditEquipment = equipment => {
     return dispatch => {
-        axios.put(`http://127.0.0.1:8000/api/equipments/${equipment.id}/`, equipment)
+        axios.put(`http://portalapi.asft.co/api/equipments/${equipment.id}/`, equipment)
             .then(resonse => {
                 dispatch({
                 type: types.EDIT_EQUIPMENT,

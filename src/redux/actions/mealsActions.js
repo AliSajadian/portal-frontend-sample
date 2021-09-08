@@ -7,7 +7,7 @@ import { toastr } from "react-redux-toastr";
 
 export const GetMealsList = () => {
     return dispatch => {
-        axios.get('http://127.0.0.1:8000/api/meals/')
+        axios.get('http://portalapi.asft.co/api/meals/')
         .then((response) => {
             dispatch({
                 type : types.GET_MEALS_LIST, 
@@ -22,7 +22,7 @@ export const GetMealsList = () => {
 
 export const LoadRelatedMealInfoCard = (mealId) => {        
     return (dispatch) =>  {
-        axios.get(`http://127.0.0.1:8000/api/meals/${mealId}`)
+        axios.get(`http://portalapi.asft.co/api/meals/${mealId}`)
         .then((response) => {
             dispatch({
                 type : types.LOAD_RELATED_MEAL_INFO_CARD , 
@@ -37,7 +37,7 @@ export const LoadRelatedMealInfoCard = (mealId) => {
 
 export const RemoveMeal = (id) => {
     return dispatch => {
-        axios.delete(`http://127.0.0.1:8000/api/meals/${id}`)
+        axios.delete(`http://portalapi.asft.co/api/meals/${id}`)
             .then(() => {
                 dispatch({
                     type: types.REMOVE_MEAL ,
@@ -52,7 +52,7 @@ export const RemoveMeal = (id) => {
 
 export const AddMealModel = () => {
     // return dispatch => {
-    //     axios.get('http://127.0.0.1:8000/api/meals/')
+    //     axios.get('http://portalapi.asft.co/api/meals/')
     //     .then((response) => {
     //         dispatch({
     //             type : types.START_ADD_MEAL , 
@@ -71,7 +71,7 @@ export const AddMealModel = () => {
 // ADD MEAL
 export const AddMeal = Meal => {
     return dispatch => {
-        axios.post("http://127.0.0.1:8000/api/meals/", Meal)
+        axios.post("http://portalapi.asft.co/api/meals/", Meal)
             .then(res => {
                 dispatch({
                 type: types.ADD_MEAL,
@@ -89,7 +89,7 @@ export const AddMeal = Meal => {
 // GET MEAL MODAL
  export const GetMealsModal = (id) => {
     return dispatch => {
-        axios.get(`http://127.0.0.1:8000/api/meals/${id}`)
+        axios.get(`http://portalapi.asft.co/api/meals/${id}`)
         .then((response) => {
             dispatch({
                 type : types.START_MEAL_MODAL, 
@@ -105,7 +105,7 @@ export const AddMeal = Meal => {
 // EDIT MEAL
 export const EditMeal = Meal => {
     return dispatch => {
-        axios.put(`http://127.0.0.1:8000/api/meals/${Meal.id}/`, Meal)
+        axios.put(`http://portalapi.asft.co/api/meals/${Meal.id}/`, Meal)
             .then(resonse => {
                 dispatch({
                 type: types.EDIT_MEAL,

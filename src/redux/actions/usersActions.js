@@ -7,7 +7,7 @@ import { toastr } from "react-redux-toastr";
 
 export const GetUsersList = () => {
     return dispatch => {
-        axios.get('http://127.0.0.1:8000/api/users/')
+        axios.get('http://portalapi.asft.co/api/users/')
         .then((response) => {
             dispatch({
                 type : types.GET_USERS_LIST , 
@@ -22,7 +22,7 @@ export const GetUsersList = () => {
 
 export const LoadRelatedUserInfoCard = (userId) => {        
     return (dispatch) =>  {
-        axios.get(`http://127.0.0.1:8000/api/users/${userId}`)
+        axios.get(`http://portalapi.asft.co/api/users/${userId}`)
         .then((response) => {
             dispatch({
                 type : types.LOAD_RELATED_USER_INFO_CARD , 
@@ -36,7 +36,7 @@ export const LoadRelatedUserInfoCard = (userId) => {
 
 export const RemoveUser = (id) => {
     return dispatch => {
-        axios.delete(`http://127.0.0.1:8000/api/auth/userex/${id}`)
+        axios.delete(`http://portalapi.asft.co/api/auth/userex/${id}`)
             .then(() => {
                 dispatch({
                     type: types.REMOVE_USER ,
@@ -56,14 +56,14 @@ export const AddUserModel = () => {
 }
 
 // ADD User
-export const AddUser = user => {console.log('action add user Start')
+export const AddUser = user => {
     return dispatch => {
-        axios.post("http://127.0.0.1:8000/api/auth/userex", user)
+        axios.post("http://portalapi.asft.co/api/auth/userex", user)
             .then(res => {
                 dispatch({
                 type: types.ADD_USER,
                 payload: res.data
-                });console.log('action add user Done')
+                });
                 toastr.success("User add succesfuly")
             })
             .catch((error) => {
@@ -75,7 +75,7 @@ export const AddUser = user => {console.log('action add user Start')
 // GET User MODAL
 export const GetUsersModal = (id) => {
     return dispatch => {
-        axios.get(`http://127.0.0.1:8000/api/users/${id}`)
+        axios.get(`http://portalapi.asft.co/api/users/${id}`)
         .then((response) => {
             dispatch({
                 type : types.START_USER_MODAL, 
@@ -91,7 +91,7 @@ export const GetUsersModal = (id) => {
 // EDIT User
 export const EditUser = user => {
     return dispatch => {
-        axios.put(`http://127.0.0.1:8000/api/users/${user.id}/`, user)
+        axios.put(`http://portalapi.asft.co/api/users/${user.id}/`, user)
             .then(resonse => {
                 dispatch({
                 type: types.EDIT_USER,

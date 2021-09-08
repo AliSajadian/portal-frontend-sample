@@ -1,6 +1,7 @@
 import * as types from "../constants";
 
 const initialState = {
+    persianDate: '',
     browserHistory: null,
     currentLocation: {
         lat: 0,
@@ -10,6 +11,10 @@ const initialState = {
 
 const reducer = (state = initialState, actions) => {
     switch (actions.type) {
+        case types.GET_PERSIAN_DATE:
+            return {
+                persianDate: actions.payload
+            }
         case types.SAVE_BROWSER_HISTORY:
             return {
                 ...state,

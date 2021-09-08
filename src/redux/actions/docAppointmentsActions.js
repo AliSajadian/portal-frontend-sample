@@ -7,7 +7,7 @@ import { toastr } from "react-redux-toastr";
 
 export const GetDocAppointmentTimesList = () => {
     return dispatch => {
-        axios.get('http://127.0.0.1:8000/api/appointmenttimes/')
+        axios.get('http://portalapi.asft.co/api/appointmenttimes/')
         .then((response) => {
             dispatch({
                 type : types.GET_DOCAPPOINTMENTTIMES_LIST , 
@@ -22,7 +22,7 @@ export const GetDocAppointmentTimesList = () => {
 
 export const GetFilteredDocAppointmentTimesList = (userID) => {
    return dispatch => {
-        axios.get(`http://127.0.0.1:8000/api/filteredappointmenttimes/${userID}`)
+        axios.get(`http://portalapi.asft.co/api/filteredappointmenttimes/${userID}`)
         .then((response) => {
             dispatch({
                 type : types.GET_DOCAPPOINTMENTTIMES_LIST , 
@@ -37,7 +37,7 @@ export const GetFilteredDocAppointmentTimesList = (userID) => {
 
 export const GetDocAppointmentsList = () => {
     return dispatch => {
-        axios.get('http://127.0.0.1:8000/api/appointments/')
+        axios.get('http://portalapi.asft.co/api/appointments/')
         .then((response) => {
             dispatch({
                 type : types.GET_DOCAPPOINTMENTS_LIST , 
@@ -53,7 +53,7 @@ export const GetDocAppointmentsList = () => {
 
 export const LoadRelatedDocAppointmentInfoCard = (docAppointmentId) => {        
     return (dispatch) =>  {
-        axios.get(`http://127.0.0.1:8000/api/appointments/${docAppointmentId}`)
+        axios.get(`http://portalapi.asft.co/api/appointments/${docAppointmentId}`)
         .then((response) => {
             dispatch({
                 type : types.LOAD_RELATED_DOCAPPOINTMENT_INFO_CARD , 
@@ -92,7 +92,7 @@ export const SetDocAppointmentDoctorID = (doctorID) => {
 
 export const RemoveDocAppointment = (id) => {
     return dispatch => {
-        axios.delete(`http://127.0.0.1:8000/api/appointments/${id}`)
+        axios.delete(`http://portalapi.asft.co/api/appointments/${id}`)
             .then(() => {
                 dispatch({
                     type: types.REMOVE_DOCAPPOINTMENT ,
@@ -109,7 +109,7 @@ export const RemoveDocAppointment = (id) => {
 export const AddDocAppointment = docAppointment => {
     return dispatch => {     
         // console.log("weekday3: ", docAppointment)
-        axios.post("http://127.0.0.1:8000/api/appointments/", docAppointment)
+        axios.post("http://portalapi.asft.co/api/appointments/", docAppointment)
             .then(res => {
                 dispatch({
                 type: types.ADD_DOCAPPOINTMENT,
@@ -127,7 +127,7 @@ export const AddDocAppointment = docAppointment => {
 // EDIT DocAppointment
 export const EditDocAppointment = docAppointment => {
     return dispatch => {
-        axios.put(`http://127.0.0.1:8000/api/appointments/${docAppointment.id}/`, docAppointment)
+        axios.put(`http://portalapi.asft.co/api/appointments/${docAppointment.id}/`, docAppointment)
             .then(resonse => {
                 dispatch({
                 type: types.EDIT_DOCAPPOINTMENT,
@@ -143,7 +143,7 @@ export const EditDocAppointment = docAppointment => {
 
   export const GetDocAppointmentModal = (id) => {
     return dispatch => {
-        axios.get(`http://127.0.0.1:8000/api/appointments/${id}`)
+        axios.get(`http://portalapi.asft.co/api/appointments/${id}`)
         .then((response) => {
             dispatch({
                 type : types.START_DOCAPPOINTMENT_MODAL, 

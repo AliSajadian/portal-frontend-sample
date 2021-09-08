@@ -7,7 +7,7 @@ import { toastr } from "react-redux-toastr";
 
 export const GetRequestsList = () => {
     return dispatch => {
-        axios.get('http://127.0.0.1:8000/api/requests/')
+        axios.get('http://portalapi.asft.co/api/requests/')
         .then((response) => {
             dispatch({
                 type : types.GET_REQUESTS_LIST , 
@@ -34,7 +34,7 @@ export const GetDateRequestsList = (object) => {
         date
     });
     return dispatch => {
-        axios.post(`http://127.0.0.1:8000/api/daterequests`, body, config)
+        axios.post(`http://portalapi.asft.co/api/daterequests`, body, config)
         .then((response) => {
             dispatch({
                 type : types.GET_DATEREQUESTS_LIST , 
@@ -49,7 +49,7 @@ export const GetDateRequestsList = (object) => {
 
 export const GetRequestCaterTypesList = (requestId) => {
     return (dispatch) =>  {
-        axios.get(`http://127.0.0.1:8000/api/requestcatertypesex/${requestId}`)
+        axios.get(`http://portalapi.asft.co/api/requestcatertypesex/${requestId}`)
         .then((response) => {
             dispatch({
                 type : types.GET_REQUESTCATERTYPES_LIST , 
@@ -63,7 +63,7 @@ export const GetRequestCaterTypesList = (requestId) => {
 
 export const GetRequestEquipmentsList = (requestId) => {
     return dispatch => {
-        axios.get(`http://127.0.0.1:8000/api/requestequipmentsex/${requestId}`)
+        axios.get(`http://portalapi.asft.co/api/requestequipmentsex/${requestId}`)
         .then((response) => {
             dispatch({
                 type : types.GET_REQUESTEQUIPMENTS_LIST , 
@@ -79,7 +79,7 @@ export const GetRequestEquipmentsList = (requestId) => {
 
 export const LoadRelatedRequestInfoCard = (requestId) => {        
     return (dispatch) =>  {
-        axios.get(`http://127.0.0.1:8000/api/requests/${requestId}`)
+        axios.get(`http://portalapi.asft.co/api/requests/${requestId}`)
         .then((response) => {
             dispatch({
                 type : types.LOAD_RELATED_REQUEST_INFO_CARD , 
@@ -93,7 +93,7 @@ export const LoadRelatedRequestInfoCard = (requestId) => {
 
 export const RemoveRequest = (id) => {
     return dispatch => {
-        axios.delete(`http://127.0.0.1:8000/api/requests/${id}`)
+        axios.delete(`http://portalapi.asft.co/api/requests/${id}`)
             .then(() => {
                 dispatch({
                     type: types.REMOVE_REQUEST ,
@@ -109,7 +109,7 @@ export const RemoveRequest = (id) => {
 // Remove Request CaterType (CheckBox)
 export const RemoveRequestCaterType = (id) => {
     return dispatch => {
-        axios.delete(`http://127.0.0.1:8000/api/requestcatertypes/${id}`)
+        axios.delete(`http://portalapi.asft.co/api/requestcatertypes/${id}`)
             .then(() => {
                 dispatch({
                     type: types.REMOVE_REQUESTCATERTYPE ,
@@ -206,7 +206,7 @@ export const SaveMeetingRequest = request => {
     // console.log('&&& body: ', body)
 
     return dispatch => {
-        axios.post(`http://127.0.0.1:8000/api/saverequest`, body, config)
+        axios.post(`http://portalapi.asft.co/api/saverequest`, body, config)
             .then(resonse => {
                 dispatch({
                 type: types.ADD_REQUEST,
@@ -223,7 +223,7 @@ export const SaveMeetingRequest = request => {
 // ADD Request CaterType (CheckBox)
 export const AddRequestCaterType = requestCaterType => {
     return dispatch => {
-        axios.post("http://127.0.0.1:8000/api/requestcatertypes/", requestCaterType)
+        axios.post("http://portalapi.asft.co/api/requestcatertypes/", requestCaterType)
             .then(res => {
                 dispatch({
                 type: types.ADD_REQUESTCATERTYPE,
@@ -240,7 +240,7 @@ export const AddRequestCaterType = requestCaterType => {
 // EDIT Request
 export const EditRequest = request => {
     return dispatch => {
-        axios.put(`http://127.0.0.1:8000/api/requests/${request.id}/`, request)
+        axios.put(`http://portalapi.asft.co/api/requests/${request.id}/`, request)
             .then(resonse => {
                 dispatch({
                 type: types.EDIT_REQUEST,

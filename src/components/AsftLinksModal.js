@@ -52,7 +52,7 @@ const AsftLinksModal = (props) => {
     {/* <Collapse isOpen={isOpen} size='lg'> */}
         <Container>
         <Row>
-        <Col sm={{ size: 'auto', offset: 1 }}>
+          <Col sm={{ size: 'auto', offset: 1 }}>
             <Card className="link-card" dir="rtl">
               <CardHeader className="card-header">
                 <CardTitle tag="h5" className='card-title'>
@@ -105,7 +105,7 @@ const AsftLinksModal = (props) => {
           </Col>
         </Row>
         <Row>
-        <Col sm={{ size: 'auto', offset: 1 }}>
+          <Col sm={{ size: 'auto', offset: 1 }}>
             <Card className="link-card" dir="rtl">
               <CardHeader className="card-header">
                 <CardTitle tag="h5" className='card-title'>

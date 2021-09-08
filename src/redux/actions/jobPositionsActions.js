@@ -7,7 +7,7 @@ import { toastr } from "react-redux-toastr";
 
 export const GetJobPositionsList = () => {
     return dispatch => {
-        axios.get('http://127.0.0.1:8000/api/jobPositions/')
+        axios.get('http://portalapi.asft.co/api/jobPositions/')
         .then((response) => {
             dispatch({
                 type : types.GET_JOBPOSITIONS_LIST , 
@@ -23,7 +23,7 @@ export const GetJobPositionsList = () => {
 
 export const LoadRelatedJobPositionInfoCard = (jobPositionId) => {        
     return (dispatch) =>  {
-        axios.get(`http://127.0.0.1:8000/api/jobPositions/${jobPositionId}`)
+        axios.get(`http://portalapi.asft.co/api/jobPositions/${jobPositionId}`)
         .then((response) => {
             dispatch({
                 type : types.LOAD_RELATED_JOBPOSITION_INFO_CARD , 
@@ -38,7 +38,7 @@ export const LoadRelatedJobPositionInfoCard = (jobPositionId) => {
 
 export const RemoveJobPosition = (id) => {
     return dispatch => {
-        axios.delete(`http://127.0.0.1:8000/api/jobPositions/${id}`)
+        axios.delete(`http://portalapi.asft.co/api/jobPositions/${id}`)
             .then(() => {
                 dispatch({
                     type: types.REMOVE_JOBPOSITION ,
@@ -53,7 +53,7 @@ export const RemoveJobPosition = (id) => {
 
 export const AddJobPositionModel = () => {
     // return dispatch => {
-    //     axios.get('http://127.0.0.1:8000/api/jobPositions/')
+    //     axios.get('http://portalapi.asft.co/api/jobPositions/')
     //     .then((response) => {
     //         dispatch({
     //             type : types.START_ADD_JOBPOSITION , 
@@ -73,7 +73,7 @@ export const AddJobPositionModel = () => {
 // ADD JobPosition
 export const AddJobPosition = jobPosition => {
     return dispatch => {
-        axios.post("http://127.0.0.1:8000/api/jobPositions/", jobPosition)
+        axios.post("http://portalapi.asft.co/api/jobPositions/", jobPosition)
             .then(res => {
                 dispatch({
                 type: types.ADD_JOBPOSITION,
@@ -91,7 +91,7 @@ export const AddJobPosition = jobPosition => {
 // GET JobPosition MODAL
  export const GetJobPositionsModal = (id) => {
     return dispatch => {
-        axios.get(`http://127.0.0.1:8000/api/jobPositions/${id}`)
+        axios.get(`http://portalapi.asft.co/api/jobPositions/${id}`)
         .then((response) => {
             dispatch({
                 type : types.START_JOBPOSITION_MODAL, 
@@ -107,7 +107,7 @@ export const AddJobPosition = jobPosition => {
 // EDIT JobPosition
 export const EditJobPosition = jobPosition => {
     return dispatch => {
-        axios.put(`http://127.0.0.1:8000/api/jobPositions/${jobPosition.id}/`, jobPosition)
+        axios.put(`http://portalapi.asft.co/api/jobPositions/${jobPosition.id}/`, jobPosition)
             .then(resonse => {
                 dispatch({
                 type: types.EDIT_JOBPOSITION,

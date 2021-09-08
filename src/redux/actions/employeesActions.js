@@ -7,7 +7,7 @@ import { toastr } from "react-redux-toastr";
 
 export const GetEmployeesList = () => {
     return dispatch => {
-        axios.get('http://127.0.0.1:8000/api/employees/')
+        axios.get('http://portalapi.asft.co/api/employees/')
         .then((response) => {
             dispatch({
                 type : types.GET_EMPLOYEES_LIST , 
@@ -22,7 +22,7 @@ export const GetEmployeesList = () => {
 
 export const GetEmployeeCodesList = () => {
     return dispatch => {
-        axios.get('http://127.0.0.1:8000/api/employeecodes/')
+        axios.get('http://portalapi.asft.co/api/employeecodes/')
         .then((response) => {
             dispatch({
                 type : types.GET_EMPLOYEE_CODES_LIST , 
@@ -37,7 +37,7 @@ export const GetEmployeeCodesList = () => {
 
 export const GetDoctorEmployeesList = () => {
     return dispatch => {
-        axios.get('http://127.0.0.1:8000/api/doctoremployees/')
+        axios.get('http://portalapi.asft.co/api/doctoremployees/')
         .then((response) => {
             dispatch({
                 type : types.GET_EMPLOYEES_LIST , 
@@ -52,7 +52,7 @@ export const GetDoctorEmployeesList = () => {
 
 export const LoadRelatedEmployeeInfoCard = (employeeId) => {        
     return (dispatch) =>  {
-        axios.get(`http://127.0.0.1:8000/api/employees/${employeeId}`)
+        axios.get(`http://portalapi.asft.co/api/employees/${employeeId}`)
         .then((response) => {
             dispatch({
                 type : types.LOAD_RELATED_EMPLOYEE_INFO_CARD , 
@@ -66,7 +66,7 @@ export const LoadRelatedEmployeeInfoCard = (employeeId) => {
 
 export const RemoveUser = (id) => {
     return dispatch => {
-        axios.delete(`http://127.0.0.1:8000/api/users/${id}`)
+        axios.delete(`http://portalapi.asft.co/api/users/${id}`)
             .then(() => {
                 dispatch({
                     type: types.REMOVE_USER ,
@@ -81,7 +81,7 @@ export const RemoveUser = (id) => {
 
 export const RemoveEmployee = (id) => {
     return dispatch => {
-        axios.delete(`http://127.0.0.1:8000/api/employees/${id}`)
+        axios.delete(`http://portalapi.asft.co/api/employees/${id}`)
             .then(() => {
                 dispatch({
                     type: types.REMOVE_EMPLOYEE ,
@@ -103,14 +103,14 @@ export const AddEmployeeModel = () => {
 // ADD Employee
 export const AddEmployee = employee => { 
     return dispatch => {
-        axios.post("http://127.0.0.1:8000/api/employees/", employee)
+        axios.post("http://portalapi.asft.co/api/employees/", employee)
             .then(res => {
                 dispatch({
                 type: types.ADD_EMPLOYEE,
                 payload: res.data
                 });
                 /////id is Null I had to retrieve data again/////
-                axios.get('http://127.0.0.1:8000/api/employees/')
+                axios.get('http://portalapi.asft.co/api/employees/')
                 .then((response) => {
                     dispatch({
                         type : types.GET_EMPLOYEES_LIST , 
@@ -133,7 +133,7 @@ export const AddEmployee = employee => {
 // GET Employee MODAL
  export const GetEmployeesModal = (id) => { 
     return dispatch => {
-        axios.get(`http://127.0.0.1:8000/api/employees/${id}`)
+        axios.get(`http://portalapi.asft.co/api/employees/${id}`)
         .then((response) => {
             dispatch({
                 type : types.START_EMPLOYEE_MODAL, 
@@ -150,7 +150,7 @@ export const AddEmployee = employee => {
 export const EditEmployee = employee => {      console.log("employee.id: ", employee.id)
 
     return dispatch => {
-        axios.put(`http://127.0.0.1:8000/api/employees/${employee.id}/`, employee)
+        axios.put(`http://portalapi.asft.co/api/employees/${employee.id}/`, employee)
             .then(resonse => {
                 dispatch({
                 type: types.EDIT_EMPLOYEE,
@@ -167,7 +167,7 @@ export const EditEmployee = employee => {      console.log("employee.id: ", empl
 // EDIT EmployeeEx
 export const EditEmployeeEx = (id, employee) => {      
     return dispatch => {
-        axios.put(`http://127.0.0.1:8000/api/employees/${id}/`, employee)
+        axios.put(`http://portalapi.asft.co/api/employees/${id}/`, employee)
             .then(resonse => {
                 dispatch({
                 type: types.EDIT_EMPLOYEE,

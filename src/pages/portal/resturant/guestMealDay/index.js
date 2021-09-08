@@ -8,16 +8,17 @@ import {
 import GuestMealDayList from "../guestMealDay/guestMealDay";
 import { GetCompaniesList } from "../../../../redux/actions/companiesActions";
 import { GetDepartmentsList } from "../../../../redux/actions/departmentsActions";
+import { GetProjectsList } from "../../../../redux/actions/projectsActions";
 // import { GetGuestMealDaysList } from "../../../../redux/actions/guestMealDayActions";
 // import { GetGuestMealDayList } from "../../../../redux/actions/mealsDayActions";
 // import { GetMealsList } from "../../../../redux/actions/mealsActions";
 // import { GetCurrentMonthDates } from "../../../../redux/actions/mealsDayActions";
 
-
 const Index = (props) => {
   useEffect(() => {
     props.getCompanysList();
     props.getDepartmentsList();
+    props.getProjectsList();
     // props.getGuestMealDaysExList();
     // props.getCurrentMonthDates();
     // props.getGuestMealDayList();
@@ -41,6 +42,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     getCompanysList: () => dispatch(GetCompaniesList()),
     getDepartmentsList: () => dispatch(GetDepartmentsList()),
+    getProjectsList: () => dispatch(GetProjectsList()),
     // getGuestMealDaysExList: () => dispatch(GetGuestMealDaysList()),
     // getMealsList: () => dispatch(GetMealsList()),
     // getGuestMealDayList: () => dispatch(GetGuestMealDayList()),

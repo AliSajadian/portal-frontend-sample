@@ -144,7 +144,7 @@ class docAppointments extends Component {
     let months = []
     switch(month){
         case 1:
-            if(day < 20){
+            if(day < 21){
               months = [{month : 'دی'}, {month : 'بهمن'}, {month : 'اسفند'}];
             }
             else{
@@ -152,7 +152,7 @@ class docAppointments extends Component {
             }
             break;
         case 2:
-            if(day < 19){
+            if(day < 20){
               months = [{month : 'بهمن'}, {month : 'اسفند'}, {month : 'فروردین'}];
             }
             else{
@@ -160,7 +160,7 @@ class docAppointments extends Component {
             }
             break;
         case 3:
-            if(day < 20){
+            if(day < 21){
               months = [{month : 'اسفند'}, {month : 'فروردین'}, {month : 'اردیبهشت'}];
             }
             else{
@@ -168,7 +168,7 @@ class docAppointments extends Component {
             }
             break;
         case 4:
-            if(day < 20){
+            if(day < 21){
               months = [{month : 'فروردین'}, {month : 'اردیبهشت'}, {month : 'خرداد'}];
             }
             else{
@@ -176,7 +176,7 @@ class docAppointments extends Component {
             }
             break;
         case 5:
-            if(day < 21){
+            if(day < 22){
                 months = [{month : 'اردیبهشت'}, {month : 'خرداد'}, {month : 'تیر'}];
             }
             else{
@@ -184,7 +184,7 @@ class docAppointments extends Component {
             }
             break;
         case 6:
-            if(day < 21){
+            if(day < 22){
                 months = [{month : 'خرداد'}, {month : 'تیر'}, {month : 'مرداد'}];
             }
             else{
@@ -192,7 +192,7 @@ class docAppointments extends Component {
             }
             break;
         case 7:
-            if(day < 22){
+            if(day < 23){
                 months = [{month : 'تیر'}, {month : 'مرداد'}, {month : 'شهریور'}];
             }
             else{
@@ -200,7 +200,7 @@ class docAppointments extends Component {
             }
             break;
         case 8:
-            if(day < 22){
+            if(day < 23){
                 months = [{month : 'مرداد'}, {month : 'شهریور'}, {month : 'مهر'}];
             }
             else{
@@ -208,7 +208,7 @@ class docAppointments extends Component {
             }
             break;
         case 9:
-            if(day < 22){
+            if(day < 23){
                 months = [{month : 'شهریور'}, {month : 'مهر'}, {month : 'آبان'}];
             }
             else{
@@ -216,7 +216,7 @@ class docAppointments extends Component {
             }
             break;
         case 10:
-            if(day < 22){
+            if(day < 23){
                 months = [{month : 'مهر'}, {month : 'آبان'}, {month : 'آذر'}];
             }
             else{
@@ -224,7 +224,7 @@ class docAppointments extends Component {
             }
             break;
         case 11:
-            if(day < 21){
+            if(day < 22){
                 months = [{month : 'آبان'}, {month : 'آذر'}, {month : 'دی'}];
             }
             else{
@@ -232,7 +232,7 @@ class docAppointments extends Component {
             }
             break;
         case 12:
-            if(day < 21){
+            if(day < 22){
                 months = [{month : 'آذر'}, {month : 'دی'}, {month : 'بهمن'}];
             }
             else{
@@ -292,42 +292,42 @@ class docAppointments extends Component {
               return 'تیر' + (day - 20);
           }
       case 7:
-          if(day < 22){
+          if(day < 23){
               return 'تیر' + (day + 10);
           }
           else{
               return 'مرداد' + (day - 21);
           }
       case 8:
-          if(day < 22){
+          if(day < 23){
               return 'مرداد' + (day + 10);
           }
           else{
               return 'شهریور' + (day - 21);
           }
       case 9:
-          if(day < 22){
+          if(day < 23){
               return 'شهریور' + (day + 10);
           }
           else{
               return 'مهر' + (day - 21);
           }
       case 10:
-          if(day < 22){
+          if(day < 23){
               return 'مهر' + (day + 9);
           }
           else{
               return 'آبان' + (day - 21);
           }
       case 11:
-          if(day < 21){
+          if(day < 22){
               return 'آبان' + (day + 10);
           }
           else{
               return 'آذر' + (day - 20);
           }
       case 12:
-          if(day < 21){
+          if(day < 22){
               return 'آذر' + (day + 10);
           }
           else{

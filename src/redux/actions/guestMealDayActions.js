@@ -7,7 +7,7 @@ import { toastr } from "react-redux-toastr";
 
 export const GetGuestMealDaysExList = (employee_id) => {
     return dispatch => {
-        axios.get(`http://127.0.0.1:8000/api/guestmealdaysex/${employee_id}`)
+        axios.get(`http://portalapi.asft.co/api/guestmealdaysex/${employee_id}`)
         .then((response) => {
             dispatch({
                 type : types.GET_GUESTMEALDAYSEx_LIST , 
@@ -22,7 +22,7 @@ export const GetGuestMealDaysExList = (employee_id) => {
 
 export const GetGuestMealOneDayList  = () => {
     return dispatch => {
-        axios.get(`http://127.0.0.1:8000/api/guestmealsoneday/`)
+        axios.get(`http://portalapi.asft.co/api/guestmealsoneday/`)
         .then((response) => {
             dispatch({
                 type : types.GET_GUESTMEALONEDAYS_LIST , 
@@ -37,11 +37,11 @@ export const GetGuestMealOneDayList  = () => {
 
 export const GetGuestMealDaysList = () => {
     return dispatch => {
-        axios.get('http://127.0.0.1:8000/api/guestmealdays/')
+        axios.get('http://portalapi.asft.co/api/guestmealdays/')
         .then((response) => {
             dispatch({
                 type : types.GET_GUESTMEALSDAY_LIST , 
-                guestMealDay : response.data
+                payload : response.data
             })
         })
         .catch(() => {
@@ -52,7 +52,7 @@ export const GetGuestMealDaysList = () => {
 
 export const GetServedMealsList = () => {
     return dispatch => {
-        axios.get('http://127.0.0.1:8000/api/servedmeals/')
+        axios.get('http://portalapi.asft.co/api/servedmeals/')
         .then((response) => {
             dispatch({
                 type : types.GET_SERVEDMEALS_LIST , 
@@ -67,7 +67,7 @@ export const GetServedMealsList = () => {
 
 export const LoadRelatedGuestMealDayInfoCard = (guestMealDayId) => {        
     return (dispatch) =>  {
-        axios.get(`http://127.0.0.1:8000/api/guestmealdays/${guestMealDayId}`)
+        axios.get(`http://portalapi.asft.co/api/guestmealdays/${guestMealDayId}`)
         .then((response) => {
             dispatch({
                 type : types.LOAD_RELATED_GUESTMEALDAY_INFO_CARD , 
@@ -81,11 +81,11 @@ export const LoadRelatedGuestMealDayInfoCard = (guestMealDayId) => {
 
 export const GetGuestMealsDayList = (date, departmentID) => {
     return dispatch => {
-        axios.get(`http://127.0.0.1:8000/api/guestmealsday/${date}/${departmentID}`)
+        axios.get(`http://portalapi.asft.co/api/guestmealsday/${date}/${departmentID}`)
         .then((response) => {
             dispatch({
                 type : types.GET_GUESTMEALSDAY_LIST, 
-                guestMealsDay : response.data
+                payload : response.data
             })
         })
         .catch(() => {
@@ -94,9 +94,42 @@ export const GetGuestMealsDayList = (date, departmentID) => {
     }
   }
 
+// Get Department GuestMealDayList
+export const GetDepartmentGuestMealDayList = (date, departmentId) => {
+    return dispatch => {
+        axios.get(`http://portalapi.asft.co/api/departmentguestsmealsdaylist/${date}/${departmentId}/`)
+            .then(resonse => {
+                dispatch({
+                type: types.GET_GUESTMEALSDAY_LIST,
+                payload: resonse.data
+                });
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
+  };
+
+
+// Get Project GuestMealDayList
+export const GetProjectGuestMealDayList = (date, projectId) => {
+    return dispatch => {
+        axios.get(`http://portalapi.asft.co/api/projectguestsmealsdaylist/${date}/${projectId}/`)
+            .then(resonse => {
+                dispatch({
+                type: types.GET_GUESTMEALSDAY_LIST,
+                payload: resonse.data
+                });console.log('action date: ', resonse.data)
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
+  };  
+
 export const RemoveGuestMealDay = (id) => {
     return dispatch => {
-        axios.delete(`http://127.0.0.1:8000/api/guestmealdays/${id}`)
+        axios.delete(`http://portalapi.asft.co/api/guestmealdays/${id}`)
             .then(() => {
                 dispatch({
                     type: types.REMOVE_GUESTMEALDAY ,
@@ -112,7 +145,7 @@ export const RemoveGuestMealDay = (id) => {
 // ADD GUESTMEALDAY
 export const AddGuestMealDay = guestMealDay => {
     return dispatch => {
-        axios.post("http://127.0.0.1:8000/api/guestmealdays/", guestMealDay)
+        axios.post("http://portalapi.asft.co/api/guestmealdays/", guestMealDay)
             .then(res => {
                 dispatch({
                 type: types.ADD_GUESTMEALDAY,
@@ -142,12 +175,45 @@ export const EditGuestMealDay = guestMealDay => {
     description
     });
     return dispatch => {
-        axios.post(`http://127.0.0.1:8000/api/guestmealsday/`, body, config)
+        axios.post(`http://portalapi.asft.co/api/guestmealsday/`, body, config)
             .then(resonse => {
                 dispatch({
                 type: types.EDIT_GUESTMEALDAY,
                 payload: resonse.data
                 });
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
+  };
+
+  // EDIT GUESTMEALDAY
+export const SaveGuestsMealsDay = guestsMealsDay => {
+    const config = {
+        headers: {
+            "Content-Type": "application/json"
+        }
+    };
+    let departmentId = guestsMealsDay.department;
+    let projectId = guestsMealsDay.project;
+    let description = guestsMealsDay.description;
+    let mealsNo = guestsMealsDay.mealsNo
+
+    const body = JSON.stringify({
+        departmentId,
+        projectId,
+        description,
+        mealsNo,
+    });
+    return dispatch => {
+        axios.post(`http://portalapi.asft.co/api/guestsmealsday/`, body, config)
+            .then(resonse => {
+                dispatch({
+                type: types.EDIT_GUESTMEALDAY,
+                payload: resonse.data
+                });
+                toastr.success("Guests Meals added succesfuly")
             })
             .catch((error) => {
                 console.log(error);

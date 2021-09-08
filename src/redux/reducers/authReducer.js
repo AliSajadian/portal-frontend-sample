@@ -31,7 +31,7 @@ const reducer = (state = initialState , actions) => {
                 error : actions.error ,
                 isShowSpinner : !state.isShowSpinner 
             }
-        case types.LOG_OUT : 
+        case types.LOG_OUT : console.log('---Logout---')
             return {
                 ...state ,
                 authToken : "" ,
