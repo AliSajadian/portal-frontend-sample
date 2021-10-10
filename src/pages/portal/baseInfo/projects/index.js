@@ -14,8 +14,8 @@ import ProjectModal from "../projects/projectsModal/projectsModal";
 const Index = (props) => {
 
   useEffect(() => {
-    props.getProjects();
     props.getCompanies();
+    props.getProjects();
   }, []);
 
   return (

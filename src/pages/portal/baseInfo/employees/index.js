@@ -7,7 +7,7 @@ import {
 } from "reactstrap";
 
 import EmployeesList from "../employees/employeesList/employees";
-import { GetEmployeesList } from "../../../../redux/actions/employeesActions";
+import { GetEmployeesListEx } from "../../../../redux/actions/employeesActions";
 import { GetCompaniesList } from "../../../../redux/actions/companiesActions";
 import { GetDepartmentsList } from "../../../../redux/actions/departmentsActions";
 import { GetProjectsList } from "../../../../redux/actions/projectsActions";
@@ -42,7 +42,7 @@ const Index = (props) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getEmployees: () => dispatch(GetEmployeesList()),
+    getEmployees: () => dispatch(GetEmployeesListEx()),
     getCompanies: () => dispatch(GetCompaniesList()),
     getDepartments: () => dispatch(GetDepartmentsList()),
     getProjects: () => dispatch(GetProjectsList()),

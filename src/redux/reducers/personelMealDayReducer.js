@@ -8,7 +8,17 @@ const initialState = {
   currentMonthSelectedMeals: [],
   asftDayMealsStatistics: [],
   companysDayMealsStatistics: [],
+  sectionDayMealsStatistics: null,
+  departmentDayMealsStatistics: null,
+  projectDayMealsStatistics: null,
   contractorMonthlyMealsStatistics: [],
+  contractorSectionsDailyMealsStatistics: [],
+  todayMealsNames: [],
+  todayMealsTotalNo: [],
+  datesList: [],
+  personelWhoDidnotSelectNextMonthMeals: [],
+  sectionNames: [],
+  sectionName: '',
   personelMealDayInfo: null,
   isModalOpen: false,
   personelMealDayInEditStage: null
@@ -21,6 +31,16 @@ const reducer = (state = initialState, actions) => {
         ...state,
         personelMealDays: actions.payload
       };    
+    case types.GET_MEALSSTATISTICSDATESLIST_LIST:
+      return {
+        ...state,
+        datesList: actions.payload
+      }; 
+    case types.GET_SECTION_NAME:
+      return {
+        ...state,
+        sectionName: actions.payload
+      }
     case types.GET_MEALSDAILY_LIST:
       return {
         ...state,
@@ -56,11 +76,52 @@ const reducer = (state = initialState, actions) => {
         ...state,
         companysDayMealsStatistics: actions.payload
       }
+    case types.GET_SECTIONDAYMEALSSTATISTICS_LIST:
+      return {
+        ...state,
+        sectionDayMealsStatistics: actions.payload
+      }    
+    case types.GET_DEPARTMENTDAYMEALSSTATISTICS_LIST:
+      return {
+        ...state,
+        departmentDayMealsStatistics: actions.payload
+      };
+    case types.GET_PROJECTDAYMEALSSTATISTICS_LIST:
+      return {
+        ...state,
+        projectDayMealsStatistics: actions.payload
+      } ;             
+
     case types.GET_CONTRACTORMONTHLYMEALSSTATISTICS_LIST:
-      return{
+      return {
         ...state,
         contractorMonthlyMealsStatistics: actions.payload
       }
+    case types.GET_SECTION_NAMES:
+      return {
+        ...state,
+        sectionNames: actions.payload
+      }
+    case types.GET_CONTRACTORSECTIONSDAILYMEALSSTATISTICS_LIST:
+      return {
+        ...state,
+        contractorSectionsDailyMealsStatistics: actions.payload
+      }
+    case types.GET_TODAYMEALSNAMES_LIST:
+      return {
+        ...state,
+        todayMealsNames: actions.payload
+      }
+    case types.GET_PERSONELWHODIDNOTSELECTNEXTMONTHMEALS_LIST:
+      return {
+        ...state,
+        personelWhoDidnotSelectNextMonthMeals: actions.payload
+      }      
+    case types.GET_TODAYMEALSTOTALNO_LIST:
+      return {
+        ...state,
+        todayMealsTotalNo: actions.payload
+      }      
     case types.LOAD_RELATED_PERSONELMEALDAY_INFO_CARD:
       return {
         ...state,

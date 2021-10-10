@@ -5,28 +5,30 @@ import {
   Container,
   Row,
 } from "reactstrap";
-import MealsDailyList from "../mealsDailyList/mealsDailyList";
-import { GetCompaniesList } from "../../../../redux/actions/companiesActions";
-import { GetDepartmentsList } from "../../../../redux/actions/departmentsActions";
-import { GetProjectsList } from "../../../../redux/actions/projectsActions";
+import SectionMealsDailyList from "./sectionMealsDailyList";
+import { 
+  GetSectionName,
+  GetSectionsMealsDailyList,
+  GetSectionDayMealsStatistics,
+} from "../../../../redux/actions/personelMealDayActions";
 
 
 
 const Index = (props) => {
   useEffect(() => {
-    props.getCompanysList();
-    props.getDepartmentsList();
-    props.getProjectsList();
+    const employeeId = Number(sessionStorage.getItem("employeeid"))
+    props.getSectionDayMealsStatistics(employeeId);
+    props.getSectionsMealsDailyList(employeeId);
+    props.getSectionName(employeeId);
   }, []);
 
 // class Index extends Component {
 //   render(){
   return (
     <Container className="p-0">
-      {/* <h1 className="h3 mb-3">غذا</h1> */}
       <Row>
         <Col >
-          <MealsDailyList/>
+          <SectionMealsDailyList/>
         </Col>
       </Row>
     </Container>
@@ -36,9 +38,9 @@ const Index = (props) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getCompanysList: () => dispatch(GetCompaniesList()),
-    getDepartmentsList: () => dispatch(GetDepartmentsList()),
-    getProjectsList: () => dispatch(GetProjectsList()),    
+    getSectionName: (employeeId) => dispatch(GetSectionName(employeeId)),
+    getSectionsMealsDailyList: (employeeId) => dispatch(GetSectionsMealsDailyList(employeeId)),
+    getSectionDayMealsStatistics: (employeeId) => dispatch(GetSectionDayMealsStatistics(employeeId)),
   }
 }
 

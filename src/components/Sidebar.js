@@ -125,7 +125,6 @@ class Sidebar extends React.Component {
 
   render() {
     const { sidebar, layout } = this.props;
-
     return (
       <nav
         className={
@@ -397,7 +396,7 @@ class Sidebar extends React.Component {
                         badgeText={route.badgeText}
                       /> : ''
                     ))}
-                   </SidebarCategory>    
+                   </SidebarCategory> 
                     : JSON.parse(sessionStorage.getItem('restaurantDepartmentSecretery')).some(permission => sessionStorage.getItem('permissions').includes(permission)) && category.name === 'رستوران' ?
                     <SidebarCategory 
                     name={category.name}
@@ -407,10 +406,11 @@ class Sidebar extends React.Component {
                     to={category.path}
                     isOpen={this.state[index]}
                     onClick={() => this.toggle(index)}
-                  >
+                  >                    
+{/* route.name === "انتخاب غذای مهمان" ||  */}
                     {category.children.map((route, index) => (
-                      // 
-                        (route.name === "اصلاح غذاهای ماه جاری" || route.name === "انتخاب غذاهای ماه بعد" || route.name === "مشاهده غذاهای انتخابی") ?
+                        (route.name === "اصلاح غذاهای ماه جاری" || route.name === "انتخاب غذاهای ماه بعد" || 
+                        route.name === "مشاهده غذاهای انتخابی" || route.name === "لیست غذاهای روزانه") ?
                         <SidebarItem
                         key={index}
                         name={route.name}

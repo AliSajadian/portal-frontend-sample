@@ -36,6 +36,7 @@ class EmployeeModal extends Component {
       jobPosition: 1,
       project: 1,
       projectCheck: false,
+      is_active: true,
       isFormValid: true,
       flag: true,
       flag2: true
@@ -79,6 +80,7 @@ class EmployeeModal extends Component {
             jobPosition: this.props.EmployeeInEditStage.jobPosition ? this.props.EmployeeInEditStage.jobPosition : this.state.jobPosition,
             project: this.props.EmployeeInEditStage.project ? this.props.EmployeeInEditStage.project : this.state.project,
             projectCheck: this.props.EmployeeInEditStage.project? true: false,
+            is_active: this.props.EmployeeInEditStage.is_active,
             flag: false,
             flag2: true
           });
@@ -98,6 +100,7 @@ class EmployeeModal extends Component {
           jobPosition: 1,
           project: 1,
           projectCheck: false,
+          is_active: true,
           flag: true
         });        
       }
@@ -150,8 +153,13 @@ class EmployeeModal extends Component {
         this.setState({
           email: event.target.value
         });
+        return;
+      case 'is_active':
+        this.setState({
+          is_active: !this.state.is_active
+        });
         return;          
-      default:
+      default:      
         return;
     }
   };
@@ -170,7 +178,7 @@ class EmployeeModal extends Component {
   submitFormHandler = event => {
     event.preventDefault();
 
-    const { personel_code, first_name, last_name, picture, email, phone, department, jobPosition, project, gender, projectCheck } = this.state;
+    const { personel_code, first_name, last_name, picture, email, phone, department, jobPosition, project, gender, projectCheck, is_active } = this.state;
 
     if (!this.props.EmployeeInEditStage) {
       if(picture && picture.name){
@@ -181,6 +189,7 @@ class EmployeeModal extends Component {
         employee_add.append('picture', picture, picture.name)
         employee_add.append('phone', phone);
         employee_add.append('email', email);
+        employee_add.append('is_active', is_active);
         if(!projectCheck){
           employee_add.append('department', department);
         }
@@ -203,7 +212,8 @@ class EmployeeModal extends Component {
           'department': !projectCheck ? department : null,
           'jobPosition': jobPosition,
           'project': projectCheck ? project : null,
-          'gender': gender
+          'gender': gender,
+          'is_active': is_active,
           }
           this.props.addEmployee(employee_add);  
       }
@@ -217,6 +227,7 @@ class EmployeeModal extends Component {
         employee_edit.append('picture', picture , picture.name)
         employee_edit.append('phone', phone);
         employee_edit.append('email', email);
+        employee_edit.append('is_active', is_active);
         if(!projectCheck){
           employee_edit.append('department', department);
         }
@@ -242,7 +253,8 @@ class EmployeeModal extends Component {
         'department': !projectCheck ? department : null,
         'jobPosition': jobPosition,
         'project': projectCheck ? project : null,
-        'gender': gender
+        'gender': gender,
+        'is_active': is_active,
         }
         this.props.editEmployee(employee_edit);        
         this.setState({
@@ -265,11 +277,12 @@ class EmployeeModal extends Component {
       jobPosition: 1,
       project: 1,
       projectCheck: false,
+      is_active: true,
       flag: false
     });
   };
 
-  onCancelHandler = () => {console.log('###onCancelHandler###')
+  onCancelHandler = () => {
     this.setState({
       personel_code: "",
       first_name: "",
@@ -284,13 +297,14 @@ class EmployeeModal extends Component {
       jobPosition: 1,
       project: 1,
       projectCheck: false,
+      is_active: true,
       flag: false
     });
     this.props.modalToggleHandler();
   }
 
   render = () => {
-    const { personel_code, first_name, last_name, gender, email, phone, company, department, jobPosition, project, projectCheck, isFormValid } = this.state;
+    const { personel_code, first_name, last_name, gender, email, phone, company, department, jobPosition, project, projectCheck, is_active, isFormValid } = this.state;
     return (
       <Modal style={{direction:'rtl'}}
         size="sm"
@@ -324,7 +338,7 @@ class EmployeeModal extends Component {
                     type="checkbox"
                     name="project_check"
                     checked={projectCheck}
-                    onChange={this.onChangeHandler}
+                    onChange={(e) => this.onChangeHandler(e)}
                   />
                   <span>   </span>
                 </label>
@@ -365,13 +379,23 @@ class EmployeeModal extends Component {
                 </select>
                 <br/>
                 <br/>
+                <label>
+                <input 
+                    type="checkbox"
+                    name="is_active"
+                    checked={is_active}
+                    onChange={(e) => this.onChangeHandler(e)}
+                  />
+                  <span>پرسنل فعال است</span>
+                </label>
+                <br/>                
                 <label>کد پرسنلی</label>
                 <input
                   className="form-control"
                   type="text"
                   name="personel_code"
                   value={personel_code}
-                  onChange={this.onChangeHandler}
+                  onChange={(e) => this.onChangeHandler(e)}
                 ></input>
                 <br/>
                 <label>نام</label>
@@ -380,7 +404,7 @@ class EmployeeModal extends Component {
                   type="text"
                   name="first_name"
                   value={first_name}
-                  onChange={this.onChangeHandler}
+                  onChange={(e) => this.onChangeHandler(e)}
                 ></input>
                 <br/>
                 <label>نام خانوادگی</label>
@@ -389,7 +413,7 @@ class EmployeeModal extends Component {
                   type="text"
                   name="last_name"
                   value={last_name}
-                  onChange={this.onChangeHandler}
+                  onChange={(e) => this.onChangeHandler(e)}
                 ></input>
                 <br/>
                 <label>جنیست</label>
@@ -406,7 +430,7 @@ class EmployeeModal extends Component {
                   type="text"
                   name="email"
                   value={email}
-                  onChange={this.onChangeHandler}
+                  onChange={(e) => this.onChangeHandler(e)}
                 ></input>
                 <br/>
                 <label>تلفن</label>
@@ -415,7 +439,7 @@ class EmployeeModal extends Component {
                   type="text"
                   name="phone"
                   value={phone}
-                  onChange={this.onChangeHandler}
+                  onChange={(e) => this.onChangeHandler(e)}
                 ></input>
                 <br/>
                 <label>عکس</label>
@@ -424,7 +448,7 @@ class EmployeeModal extends Component {
                   type="file"
                   name="picture"
                   // value={picture}
-                  onChange={this.onChangeHandler}
+                  onChange={(e) => this.onChangeHandler(e)}
                 ></input>
                 <br/>
                 <Button

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Button,
   Modal,
@@ -17,119 +17,93 @@ import {
 
 
 
-class ProjectModal extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      name: "",
-      company: 1,
-      isFormValid: true,
-      flag: true,
-      flag2: true
-    };
-  }
+const ProjectModal = (props) => {
+  const [name, setName] = useState('')
+  const [company, setCompany] = useState(null)
+  const [isFormValid, setIsFormValid] = useState(false)
 
-  componentDidUpdate() {
-    if(this.props.isOpen){
-      if (this.props.ProjectInEditStage){
-        if(this.state.flag2 && this.props.ProjectInEditStage.name !== this.state.name) { 
-          this.setState({
-            name: this.props.ProjectInEditStage.name,
-            company: this.props.ProjectInEditStage.company,
-            flag: false,
-            flag2: true
-          });
-        }
-      }
-      else if(!this.state.flag && this.state.name !== ''){
-        this.setState({
-          name: '',
-          company: 1,
-          flag: true
-        });        
-      }
+
+  useEffect(() => {
+    if (props.companies && props.companies.length > 0){
+      setCompany(props.companies[0].id)
     }
-  }
+  },[props.companies])
 
-  InputChangeHandler = event => {
-    this.setState({
-      name: event.target.value, 
-      flag2: this.props.ProjectInEditStage ? false : true
-    });
+  useEffect(() => {
+    if (props.ProjectInEditStage){
+      setName(props.ProjectInEditStage.name)
+      setCompany(props.ProjectInEditStage.company)
+    }
+  },[props.ProjectInEditStage])
+
+  const InputChangeHandler = (event) => {
+    setName(event.target.value)
+    setIsFormValid(true)
   };
 
-  SubmitFormHandler = event => {
+  const SubmitFormHandler = event => {
     event.preventDefault();
 
-    const { name, company } = this.state;
-    const project_Add = { name, company};
+    const project_Add = {name, company};
 
-    if (!this.props.ProjectInEditStage) {
-      this.props.addProject(project_Add);
-      this.setState({
-        name: ""
-      });
+    if (!props.ProjectInEditStage) {
+      props.addProject(project_Add);
+      setName('')
+      setCompany(props.companies && props.companies.length > 0 ? props.companies[0].id : null)
     } else {
-      const id = this.props.ProjectInEditStage.id
+      const id = props.ProjectInEditStage.id
       const project_Edit = { id, name, company};
 
-      this.props.editProject(project_Edit);
-      this.setState({
-        flag2: true
-      });
+      props.editProject(project_Edit);
     }
   };
-
-  render = () => {
-    const { company, name, isFormValid } = this.state;
-    return (
-      <Modal style={{direction:'rtl'}}
-        size="sm"
-        centered
-        isOpen={this.props.isOpen}
-        toggle={this.props.modalToggleHandler}
-      >
-        <ModalHeader style={{direction:'ltr'}} toggle={this.props.modalToggleHandler} className="card-header">
-          ویرایش پروژه
-        </ModalHeader>
-        <ModalBody style={{ textAlign: "center" }} className="modal-body">
-          <Card>
-            <CardBody>
-              <Form onSubmit={this.SubmitFormHandler}>
-              <label>شرکت</label>
-                <br/>
-                <select value={company?company:(this.props.companies && this.props.companies.length > 0) ? this.props.companies[0].id: null} 
-                onChange={(e) => this.setState({ company: e.target.value })}>
-                {(this.props.companies && this.props.companies.length > 0) ? (
-                    this.props.companies.map(company => <option key={company.id} value={company.id}>{company.name}</option>
-                    )) : (
-                      <div>not found</div>
-                    )}                    
-                </select>
-                <br/>
-                <br/>
-                <input
-                  type="text"
-                  name="name"
-                  value={this.state.name}
-                  onChange={this.InputChangeHandler}
-                ></input>
-                <br/>
-                <br/>                                
-                <Button
-                  disabled={!this.state.isFormValid}
-                  type="submit"
-                  color="success"
-                >
-                  تائید
-                </Button>
-              </Form>
-            </CardBody>
-          </Card>
-        </ModalBody>
-      </Modal>
-    );
-  };
+  return (
+    <Modal style={{direction:'rtl'}}
+      size="sm"
+      centered
+      isOpen={props.isOpen}
+      toggle={props.modalToggleHandler}
+    >
+      <ModalHeader style={{direction:'ltr'}} toggle={props.modalToggleHandler} className="card-header">
+        ویرایش پروژه
+      </ModalHeader>
+      <ModalBody style={{ textAlign: "center" }} className="modal-body">
+        <Card>
+          <CardBody>
+            <Form onSubmit={SubmitFormHandler}>
+            <label>شرکت</label>
+              <br/>
+              <select value={company ? company:(props.companies && props.companies.length > 0) ? props.companies[0].id: null} 
+              onChange={(e) => setCompany(e.target.value)}>
+              {(props.companies && props.companies.length > 0) ? (
+                  props.companies.map(company => <option key={company.id} value={company.id}>{company.name}</option>
+                  )) : (
+                    <div>not found</div>
+                  )}                    
+              </select>
+              <br/>
+              <br/>
+              <input
+                type="text"
+                name="name"
+                value={name}
+                onChange={InputChangeHandler}
+              ></input>
+              <br/>
+              <br/>                                
+              <Button
+                disabled={!isFormValid}
+                type="submit"
+                color="success"
+              >
+                تائید
+              </Button>
+            </Form>
+          </CardBody>
+        </Card>
+      </ModalBody>
+    </Modal>
+  );
 }
 
 const mapStateToProps = state => {

@@ -582,7 +582,7 @@ class GuestMealDayList extends Component {
             <Row>
               <Col xl="4"></Col>
               <Col xl="1">
-                <select style={{width:'7em', backgroundColor: "whitesmoke"}} value={day}
+                <select className='combobox' value={day}
                 onChange={(e) => this.handleDayChange(e)}>
                   <option value={1}>1</option>
                   <option value={2}>2</option>
@@ -618,7 +618,7 @@ class GuestMealDayList extends Component {
                 </select>
                 </Col>
               <Col xl="1">
-                <select style={{width:'7em', backgroundColor: "whitesmoke"}} value={month}
+                <select className='combobox' value={month}
                 onChange={this.handleMonthChange()}>
                   <option value={1}>فروردین</option>
                   <option value={2}>اردیبهشت</option>
@@ -635,7 +635,7 @@ class GuestMealDayList extends Component {
                 </select>
                 </Col>
               <Col xl="1">
-                <select style={{width:'7em', backgroundColor: "whitesmoke"}} value={year}
+                <select className='combobox' value={year}
                 onChange={(e) => this.handleYearChange(e)}>
                   <option value={1400}>1400</option>
                   <option value={1401}>1401</option>
@@ -654,14 +654,14 @@ class GuestMealDayList extends Component {
             <Row>
               <Col xl="3"></Col>
               <Col xl="2">
-                <select value={company} style={{backgroundColor: "whitesmoke"}} onChange={(e) => this.setState({ company: Number(e.target.value)} )}>
+                <select value={company} className='combobox-long' onChange={(e) => this.setState({ company: Number(e.target.value)} )}>
                   {this.props.companys ? this.props.companys.map((company) => 
                     <option key={company.id} value={company.id}>{company.name}</option>
                   ) : ''}
                 </select>
               </Col>
               <Col xl="2">
-                <select value={department} style={{backgroundColor: "whitesmoke"}} disabled={projectCheck}
+                <select value={department} className='combobox-long' disabled={projectCheck}
                   // onChange={this.handleDepartmentEdit(this.state.guestMealsDay && this.state.guestMealsDay.length > 0 ? Number(this.state.guestMealsDay[0]['id']) : 0)}
                   onChange={(e) => this.setState({ department: Number(e.target.value)} )}>
                   {this.props.departments ? this.props.departments.filter(department => department.company === company).map((department) => 
@@ -679,14 +679,14 @@ class GuestMealDayList extends Component {
                   />
                   <span>   </span>
                 </label>
-                <select value={project ? project : ""} style={{backgroundColor: "whitesmoke"}} disabled={!projectCheck}
+                <select value={project ? project : ""} className='combobox-long' disabled={!projectCheck}
                   onChange={(e) => this.setState({project: Number(e.target.value)} )}>
                   {this.props.projects ? this.props.projects.filter(project => project.company === company).map((project) => 
                     <option key={project.id} value={project.id}>{project.name}</option>
                   ) : ''}
                 </select>
               </Col>              
-              <Col xl="3"></Col>
+              <Col xl="2"></Col>
             </Row>
             <Row>
               <Col xl="12" style={{testAlign:'center'}}>
@@ -697,7 +697,8 @@ class GuestMealDayList extends Component {
           <Card>
           {this.state.mealsDay && this.state.mealsDay.length > 0 ? 
             (
-              this.state.mealsDay.map((mealDay, index) =>
+              this.state.mealsDay.filter(mealDay => mealDay.resturaunt_meal__name !== 'عدم انتخاب' && 
+                                         mealDay.resturaunt_meal__name !== 'عدم حضور').map((mealDay, index) =>
               <Row key={index}>
                 <Col xl="8">
                   {/* {console.log('*** mealDay.resturaunt_meal__name: ', mealDay.resturaunt_meal__name)} */}

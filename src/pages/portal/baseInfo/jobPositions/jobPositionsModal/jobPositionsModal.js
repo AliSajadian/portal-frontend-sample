@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Button,
   Modal,
@@ -17,102 +17,70 @@ import {
 
 
 
-class JobPositionModal extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      name: "",
-      isFormValid: true,
-      flag1: true,
-      flag2: true
-    };
-  }
+const JobPositionModal = (props) => {
+  const [name, setName] = useState('')
+  const [isFormValid, setIsFormValid] = useState(false)
 
-  componentDidUpdate() {
-    if(this.props.isOpen){
-      if (this.props.JobPositionInEditStage){
-        if(this.state.flag2 && this.props.JobPositionInEditStage.name !== this.state.name) { 
-          this.setState({
-            name: this.props.JobPositionInEditStage.name, 
-            flag1: false,
-            flag2: true
-          });
-        }
-      }
-      else if(!this.state.flag1 && this.state.name !== ''){
-        this.setState({
-          name: '',
-          flag1: true,
-        });        
-      }
+  useEffect(() => {
+    if (props.JobPositionInEditStage){
+        setName(props.JobPositionInEditStage.name)
     }
-  }
+  },[props.JobPositionInEditStage])
 
-  InputChangeHandler = event => {
-    this.setState({
-      name: event.target.value, 
-      flag2: this.props.JobPositionInEditStage ? false : true
-    });
+  const InputChangeHandler = (event) => {
+    setName(event.target.value)
+    setIsFormValid(true)
   };
 
-  SubmitFormHandler = event => {
+  const SubmitFormHandler = event => {
     event.preventDefault();
 
-    const { name } = this.state;
     const jobPosition_Add = { name};
 
-    if (!this.props.JobPositionInEditStage) {
-      this.props.addJobPosition(jobPosition_Add);
-      this.setState({
-        name: ""
-      });
+    if (!props.JobPositionInEditStage) {
+      props.addJobPosition(jobPosition_Add);
+      setName('')
     } else {
-      const id = this.props.JobPositionInEditStage.id
+      const id = props.JobPositionInEditStage.id
       const jobPosition_Edit = { id, name};
 
-      this.props.editJobPosition(jobPosition_Edit);
-
-      this.setState({
-        flag2: true
-      });
+      props.editJobPosition(jobPosition_Edit);
     }
   };
 
-  render = () => {
-    return (
-      <Modal style={{direction:'rtl'}}
-        size="sm"
-        centered
-        isOpen={this.props.isOpen}
-        toggle={this.props.modalToggleHandler}
-      >
-        <ModalHeader style={{direction:'ltr'}} toggle={this.props.modalToggleHandler} className="card-header">
-          ویرایش عنوان شغلی
-        </ModalHeader>
-        <ModalBody style={{ textAlign: "center" }} className="modal-body">
-          <Card>
-            <CardBody>
-              <Form onSubmit={this.SubmitFormHandler}>
-                <input
-                  type="text"
-                  name="name"
-                  value={this.state.name}
-                  onChange={this.InputChangeHandler}
-                ></input>
-                <Button
-                  disabled={!this.state.isFormValid}
-                  type="submit"
-                  color="success"
-                >
-                  تائید
-                </Button>
-              </Form>
-            </CardBody>
-          </Card>
-        </ModalBody>
-      </Modal>
-    );
-  };
+  return (
+    <Modal style={{direction:'rtl'}}
+      size="sm"
+      centered
+      isOpen={props.isOpen}
+      toggle={props.modalToggleHandler}
+    >
+      <ModalHeader style={{direction:'ltr'}} toggle={props.modalToggleHandler} className="card-header">
+        ویرایش عنوان شغلی
+      </ModalHeader>
+      <ModalBody style={{ textAlign: "center" }} className="modal-body">
+        <Card>
+          <CardBody>
+            <Form onSubmit={SubmitFormHandler}>
+              <input
+                type="text"
+                name="name"
+                value={name}
+                onChange={InputChangeHandler}
+              ></input>
+              <Button
+                disabled={!isFormValid}
+                type="submit"
+                color="success"
+              >
+                تائید
+              </Button>
+            </Form>
+          </CardBody>
+        </Card>
+      </ModalBody>
+    </Modal>
+  );
 }
 
 const mapStateToProps = state => {

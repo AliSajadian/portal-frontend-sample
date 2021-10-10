@@ -1,0 +1,26 @@
+.card3D{
+    box-shadow: -10px 0px 15px 0px rgba(18, 18, 19, 0.336);
+    border-radius: .3em;
+}
+.dataNumbers{
+    font-size: 1em;
+}
+
+@media print {
+    body {
+       -webkit-print-color-adjust: exact;
+    }
+ }
+ 
+tr:nth-child(even) {
+    background-color: rgb(220, 230, 247) !important;
+    }
+
+   /* tr:nth-child(even) {
+    background-color: lightpink !important;
+    } */
+
+th {
+    background-color: rgb(172, 208, 240)!important;
+} 
+

@@ -36,12 +36,13 @@ import {
 
 import { Log_Out} from "../redux/actions/authActions";
 import "./component.css"
-import AsftLinksModal from './AsftLinksModal'
-import BahavandLinksModal from './BahavandLinksModal'
-import EhdasLinksModal from './EhdasLinksModal'
-import AstoLinksModal from './AstoLinksModal'
-import FalatparsLinksModal from './FalatparsLinksModal'
-import AvijesanatLinksModal from './AvijesanatLinksModal'
+import AsftLinksModal from './companys/AsftLinksModal'
+import BahavandLinksModal from './companys/BahavandLinksModal'
+import EhdasLinksModal from './companys/EhdasLinksModal'
+import AstoLinksModal from './companys/AstoLinksModal'
+import FalatparsLinksModal from './companys/FalatparsLinksModal'
+import AvijesanatLinksModal from './companys/AvijesanatLinksModal'
+import VariaTarhModal from './companys/VariaTarhModal'
 import Icon from 'react-icons-kit';
 import { right } from 'react-icons-kit/iconic/right';
 import {
@@ -289,7 +290,7 @@ const NavbarComponent = ({ toggleSidebar, user, logOut , notifications, getFilte
               );
             })}
           </NavbarDropdown> */}
-
+          <div style={{marginTop:'.8em', marginRight:'.4em', cursor:'pointer'}}><VariaTarhModal dialogClassName='dialogClassName'></VariaTarhModal></div>
           <div style={{marginTop:'.8em', marginRight:'.4em', cursor:'pointer'}}><AvijesanatLinksModal dialogClassName='dialogClassName'></AvijesanatLinksModal></div>
           <div style={{marginTop:'.8em', marginRight:'.4em', cursor:'pointer'}}><FalatparsLinksModal dialogClassName='dialogClassName'></FalatparsLinksModal></div>
           <div style={{marginTop:'.8em', marginRight:'.4em', cursor:'pointer'}}><AstoLinksModal dialogClassName='dialogClassName'></AstoLinksModal></div>

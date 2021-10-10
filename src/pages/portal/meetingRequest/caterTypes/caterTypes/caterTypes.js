@@ -97,7 +97,7 @@ const mapStateToProps = store => {
 const mapDispatchToProps = dispatch => {
   return {
     removeCaterType: id => {
-      if (window.confirm("آیا مطمئن هستید ?")) {
+      if (window.confirm("آیا از حذف رکورد مورد نظر مطمئن هستید ?")) {
         dispatch(RemoveCaterType(id));
       }
     },

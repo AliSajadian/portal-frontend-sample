@@ -14,14 +14,14 @@ import {
     CardImg
 } from "reactstrap";
 import Container from "reactstrap/lib/Container";
-import "./component.css"
-import logo from "../assets/img/logos/logo.png";
-import website from "../assets/img/links_images/asftwebsite.png"
-import pmrs from "../assets/img/links_images/pmrs.png"
-import pmis from "../assets/img/links_images/pmis.png"
-import chargoon from "../assets/img/links_images/chargoon.png"
-import webcloud from "../assets/img/links_images/webcloud.png"
-import mail from "../assets/img/links_images/mail.PNG"
+import "../component.css"
+import logo from "../../assets/img/logos/logo.png";
+import website from "../../assets/img/links_images/asftwebsite.png"
+import pmrs from "../../assets/img/links_images/pmrs.png"
+import pmis from "../../assets/img/links_images/pmis.png"
+import chargoon from "../../assets/img/links_images/chargoon.png"
+import webcloud from "../../assets/img/links_images/webcloud.png"
+import mail from "../../assets/img/links_images/mail.PNG"
 
 
 

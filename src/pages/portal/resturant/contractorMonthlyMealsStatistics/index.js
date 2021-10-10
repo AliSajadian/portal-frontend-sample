@@ -5,15 +5,17 @@ import {
   Container,
   Row,
 } from "reactstrap";
-import ContractorDailyMealsStatisticsList from "./contractorMonthlyMealsStatistics";
-import { GetContractorMonthlyMealsStatistics } from "../../../../redux/actions/personelMealDayActions";
-import { GetCurrentMonthDates } from "../../../../redux/actions/mealsDayActions";
+import ContractorMonthlyMealsStatisticsList from "./contractorMonthlyMealsStatistics";
+import { 
+  GetMealsStatisticsDatesList,
+  GetContractorMonthlyMealsStatistics
+ } from "../../../../redux/actions/personelMealDayActions";
 
 
 
 const Index = (props) => {
   useEffect(() => {
-    props.getCurrentMonthDates(true);
+    props.getMealsStatisticsDatesList();
     props.getContractorMonthlyMealsStatistics();
   }, []);
 
@@ -21,9 +23,9 @@ const Index = (props) => {
 //   render(){
   return (
     <Container className="p-0">
-      <Row>
+      <Row> 
         <Col >
-          <ContractorDailyMealsStatisticsList/>
+          <ContractorMonthlyMealsStatisticsList/>
         </Col>
       </Row>
     </Container>
@@ -33,8 +35,8 @@ const Index = (props) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    getMealsStatisticsDatesList: () => dispatch(GetMealsStatisticsDatesList()),
     getContractorMonthlyMealsStatistics: () => dispatch(GetContractorMonthlyMealsStatistics()),
-    getCurrentMonthDates: (isCurrentMonth) => dispatch(GetCurrentMonthDates(isCurrentMonth)),  
   }
 }
 

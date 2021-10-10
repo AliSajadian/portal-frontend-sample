@@ -14,8 +14,8 @@ import DepartmentModal from "../departments/departmentsModal/deparmentsModal";
 const Index = (props) => {
 
   useEffect(() => {
-    props.getDepartments();
     props.getCompanies();
+    props.getDepartments();
   }, []);
 
   return (

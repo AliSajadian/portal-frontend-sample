@@ -15,10 +15,9 @@ import { GetCurrentMonthDates } from "../../../../redux/actions/mealsDayActions"
 const Index = (props) => {
   useEffect(() => {
     const employee_id = sessionStorage.getItem('employeeid');
-    console.log('employee_id: ', employee_id)
+    props.getMealDaysNextMonthList();
     props.getPersonelMealDaysNextMonthList(employee_id);
     props.getCurrentMonthDates(false);
-    props.getMealDaysNextMonthList();
     props.getMealsList();
   }, []);
 

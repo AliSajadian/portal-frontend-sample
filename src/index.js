@@ -7,4 +7,5 @@ import ReactDOM from "react-dom";
 // import Favicon from 'react-favicon';
 import App from "./App";
 import store from "../src/redux/store/index";
+
 ReactDOM.render(<Provider store={store} ><BrowserRouter><App/></BrowserRouter></Provider>, document.getElementById("root"));

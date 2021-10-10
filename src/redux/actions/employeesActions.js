@@ -10,8 +10,23 @@ export const GetEmployeesList = () => {
         axios.get('http://portalapi.asft.co/api/employees/')
         .then((response) => {
             dispatch({
-                type : types.GET_EMPLOYEES_LIST , 
-                employees : response.data
+                type : types.GET_EMPLOYEES_LIST, 
+                payload : response.data
+            })
+        })
+        .catch(() => {
+            toastr.error('Fail!');
+        })
+    }
+}
+
+export const GetEmployeesListEx = () => {
+    return dispatch => {
+        axios.get('http://portalapi.asft.co/api/employeesex/')
+        .then((response) => {
+            dispatch({
+                type : types.GET_EMPLOYEES_LISTEX, 
+                payload : response.data
             })
         })
         .catch(() => {
@@ -26,7 +41,7 @@ export const GetEmployeeCodesList = () => {
         .then((response) => {
             dispatch({
                 type : types.GET_EMPLOYEE_CODES_LIST , 
-                employeeCodes : response.data
+                payload : response.data
             })
         })
         .catch(() => {
@@ -41,7 +56,7 @@ export const GetDoctorEmployeesList = () => {
         .then((response) => {
             dispatch({
                 type : types.GET_EMPLOYEES_LIST , 
-                employees : response.data
+                payload : response.data
             })
         })
         .catch(() => {
@@ -56,7 +71,7 @@ export const LoadRelatedEmployeeInfoCard = (employeeId) => {
         .then((response) => {
             dispatch({
                 type : types.LOAD_RELATED_EMPLOYEE_INFO_CARD , 
-                employeeInfo : response.data
+                payload : response.data
             })
         }).catch (() => {
             toastr.error('Fail!');
@@ -147,8 +162,8 @@ export const AddEmployee = employee => {
 } 
 
 // EDIT Employee
-export const EditEmployee = employee => {      console.log("employee.id: ", employee.id)
-
+export const EditEmployee = employee => {      
+    // console.log("employee.id: ", employee.id)
     return dispatch => {
         axios.put(`http://portalapi.asft.co/api/employees/${employee.id}/`, employee)
             .then(resonse => {

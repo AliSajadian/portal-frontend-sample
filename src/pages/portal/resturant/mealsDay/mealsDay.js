@@ -20,7 +20,7 @@ import {
     AddMealDay,
     EditMealDay,
     RemoveMealDay,
-    ActivatePersonelMealDaySelection
+    ActivatePersonelMealDaySelection,
 } from "../../../../redux/actions/mealsDayActions";
 
 import '../restaurant.css'
@@ -206,7 +206,7 @@ const MealsDayList = (props) => {
     let nmonth = Number(e.target.value)
  
     const date = getGregorianDateEx(nyear, nmonth, 10)
-    // console.log('date: ', date)
+    console.log('___date: ', date)
     props.getMealDaysExList(date)
     props.getGregorianMonthDates(nyear, nmonth)
 
@@ -847,7 +847,7 @@ const MealsDayList = (props) => {
 const mapStateToProps = store => {
     return {
       meals: store.meals.meals,
-      mealsDays: store.mealsDays.mealsDays,
+      mealsDays: store.mealsDays.mealsDaysEx,
       currentMonthDates: store.currentMonthDates.currentMonthDates
     };
 };

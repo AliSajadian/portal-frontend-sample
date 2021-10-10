@@ -14,18 +14,16 @@ import {
     CardImg
 } from "reactstrap";
 import Container from "reactstrap/lib/Container";
-import "./component.css"
-import logo from "../assets/img/logos/Logo_fp.jpg";
-import website from "../assets/img/links_images/falatparswebsite.png"
-import mail from "../assets/img/links_images/mail.PNG"
+import "../component.css"
+import logo from "../../assets/img/logos/Logo_VT.jpeg";
+import website from "../../assets/img/links_images/vaiatarh.png"
 
 
 
 // const ModalEx = (props) => {
 //   const [isOpen, setIsOpen] = useState(false);
-
 //   const toggle = () => setIsOpen(!isOpen);
-const BahavandLinkModal = (props) => {
+const VariaTarhModal = (props) => {
   const {
     dialogClassName
   } = props;
@@ -52,12 +50,12 @@ const BahavandLinkModal = (props) => {
             <Card className="link-card" dir="rtl">
               <CardHeader className="card-header">
                 <CardTitle tag="h5" className='link-card-header'>
-                  وب سایت فلات پارس
+                  وب سایت وریا طرح
                 </CardTitle>
               </CardHeader>
               <CardImg top width="100px" src={website} alt="Card image cap" />
               <CardBody>
-                <a href="http://falatepars.com/" target="_blank" rel="noopener noreferrer" style={{textDecoration:"none"}}>
+                <a href="http://www.variatp.com//" target="_blank" rel="noopener noreferrer" style={{textDecoration:"none"}}>
                   <div className="button">
                   <span >ورود</span>
                   </div>
@@ -65,27 +63,8 @@ const BahavandLinkModal = (props) => {
               </CardBody>
             </Card>
           </Col>
-          <Col sm={{ size: 'auto', offset: 1 }}>
-            <Card className="link-card" dir="rtl">
-              <CardHeader className="card-header">
-                <CardTitle tag="h5" className='link-card-header'>
-                  سامانه پست الکترونیک
-                </CardTitle>
-              </CardHeader>
-              <CardImg top width="100px" src={mail} alt="Card image cap" />
-              <CardBody>
-              <a href="http://mail.falatepars.ir" target="_blank" rel="noopener noreferrer" style={{textDecoration:"none"}}>
-                  <div className="button">
-                  <span >ورود</span>
-                  </div>
-                </a>                   
-              </CardBody>
-            </Card>
-          </Col>          
         </Row>
       </Container>
-
-
         </ModalBody> 
         {/* <ModalFooter>
           <Button color="primary" onClick={toggle}>Do Something</Button>{' '}
@@ -97,4 +76,4 @@ const BahavandLinkModal = (props) => {
   );
 }
 
-export default BahavandLinkModal;
+export default VariaTarhModal;

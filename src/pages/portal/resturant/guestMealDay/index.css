@@ -1,3 +1,7 @@
-.x{
-background-color: #dce6f8;
+.combobox-long{
+    text-align: center;
+    background-color: #e1eafa;
+    margin-left: .2em;
+    width: 10em; 
+    border-radius: .3em;    
 }

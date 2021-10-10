@@ -14,10 +14,10 @@ import {
     CardImg
 } from "reactstrap";
 import Container from "reactstrap/lib/Container";
-import "./component.css"
-import logo from "../assets/img/logos/Logo_asto.png";
-import website from "../assets/img/links_images/astowebsite.png"
-import mail from "../assets/img/links_images/mail.PNG"
+import "../component.css"
+import logo from "../../assets/img/logos/Logo_asto.png";
+import website from "../../assets/img/links_images/astowebsite.png"
+import mail from "../../assets/img/links_images/mail.PNG"
 
 
 

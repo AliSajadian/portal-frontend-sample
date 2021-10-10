@@ -202,12 +202,18 @@ const ModifyPersonelMealsDay = async(() => import("../pages/portal/resturant/mod
 const AsftDayMealsStatistics = async(() => import("../pages/portal/resturant/asftDayMealsStatistics/index"));
 // CompanysTodayMealsStatisticsRoutes
 const CompanysDayMealsStatistics = async(() => import("../pages/portal/resturant/companysDayMealsStatistics/index"))
-// ContractorDailyMealsStatisticsRoutes
+//PersonelWhoDidnotSelectNextMonthMeals
+const PersonelWhoDidnotSelectNextMonthMeals = async(() => import('../pages/portal/resturant/personelWhoDidnotSelectNextMonthMeals/index'))
+// ContractorMonthlyMealsStatistics
 const ContractorMonthlyMealsStatistics = async(() => import("../pages/portal/resturant/contractorMonthlyMealsStatistics/index"))
+// ContractorDailySectionsMealsStatistics
+const ContractorDailySectionsMealsStatistics = async(() => import("../pages/portal/resturant/contractorDailySectionsMealsStatistics/index"))
 // CurrentMonthSelectedMealsRoutes
 const CurrentMonthSelectedMeals = async(() => import("../pages/portal/resturant/currentMonthSelectedMeals/index"));
 // MealsDailyListRoutes
 const MealsDailyList = async(() => import("../pages/portal/resturant/mealsDailyList/index"));
+// SectionsMealsDailyListRoutes
+const SectionsMealsDailyList = async(() => import("../pages/portal/resturant/sectionMealsDailyList/index"));
 
 // const mealSelectedMonthlyList = async(() => import("../pages/portal/resturant/"));
 // GuestMealsDayRoutes
@@ -809,10 +815,16 @@ const HomeRoutes = {
       },
       {
         path: "/restaurant/mealsdailyList",
-        name: "لیست غذاهای روزانه",
+        name: "لیستهای غذاهای روزانه",
         icon: SlidersIcon,
         component: MealsDailyList
-      },         
+      },        
+      {
+        path: "/restaurant/sectionmealsdailyList",
+        name: "لیست غذاهای روزانه",
+        icon: SlidersIcon,
+        component: SectionsMealsDailyList
+      },        
       {
         path: "/restaurant/asfttodaymealsstatistics",
         name: "آمار غذای روزانه آسفالت طوس",
@@ -826,10 +838,22 @@ const HomeRoutes = {
         component: CompanysDayMealsStatistics
       }, 
       {
-        path: "/restaurant/contractordailymealsstatistics",
-        name: "آمار کل غذاهای ماهانه",
+        path: "/restaurant/personelwhodidnotselectnextmonthmeals",
+        name: "کسانی که غذا انتخاب نکرده اند",
+        icon: SlidersIcon,
+        component: PersonelWhoDidnotSelectNextMonthMeals
+      }, 
+      {
+        path: "/restaurant/contractormonthlymealsstatistics",
+        name: "آمار کلی غذاهای ماهانه",
         icon: SlidersIcon,
         component: ContractorMonthlyMealsStatistics,
+      },
+      {
+        path: "/restaurant/contractordailysectionmealsstatistics",
+        name: "آمار غذاهای روزانه بخشها",
+        icon: SlidersIcon,
+        component: ContractorDailySectionsMealsStatistics,
       },
       {
         path: "/restaurant/currentmonthselectedmeals",

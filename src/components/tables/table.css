@@ -1,0 +1,48 @@
+.card3D{
+    box-shadow: -10px 0px 15px 0px rgba(18, 18, 19, 0.336);
+    border-radius: .3em;
+} 
+
+.card-body{
+    background-color: #eff3fa;
+}
+
+table {
+    font-family: 'B Nazanin';
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  table tr:nth-child(even){background-color: #d9e4ee;}
+  
+  table tr:hover {background-color: rgb(196, 202, 207);}
+  
+  table td, table th {
+    border: 1px solid rgb(212, 213, 214);
+    text-align: center;
+    padding-top: .4em;
+    padding-bottom: .4em;
+  }
+
+  table th {
+    padding-top: .7em;
+    padding-bottom: .7em;
+    text-align: center;
+    background-color: #a0c4f1;
+    color: rgb(7, 7, 7);
+  }
+
+  /* border: 2px dashed #8f1257; */
+  .text-search{
+      text-align: center;
+      background-color: #e1eafa;
+      width: 8em; 
+      border-radius: .3em;    
+  }
+
+  .selection-search{
+      text-align: center;
+      background-color: #e1eafa;
+      width: 8em; 
+      border-radius: .3em;    
+  }

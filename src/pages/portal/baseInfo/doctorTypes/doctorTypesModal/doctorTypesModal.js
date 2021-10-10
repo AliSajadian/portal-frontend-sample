@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Button,
   Modal,
@@ -17,101 +17,72 @@ import {
 
 
 
-class DoctorTypeModal extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      name: "",
-      isFormValid: true,
-      flag: true,
-      flag2: true
-    };
-  }
+const DoctorTypeModal = (props) => {
+  const [name, setName] = useState('')
+  const [isFormValid, setIsFormValid] = useState(false)
 
-  componentDidUpdate() {
-    if(this.props.isOpen){
-      if (this.props.DoctorTypeInEditStage){
-        if(this.state.flag2 && this.props.DoctorTypeInEditStage.name !== this.state.name) { 
-          this.setState({
-            name: this.props.DoctorTypeInEditStage.name,
-            flag: false,
-            flag2: true
-          });
-        }
+  useEffect(() => {
+      if (props.DoctorTypeInEditStage){
+        setName(props.DoctorTypeInEditStage.name)
       }
-      else if(!this.state.flag && this.state.name !== ''){
-        this.setState({
-          name: '',
-          flag: true
-        });        
-      }
-    }
-  }
+  },[props.DoctorTypeInEditStage])
 
-  InputChangeHandler = event => {
-    this.setState({
-      name: event.target.value, 
-      flag2: this.props.DoctorTypeInEditStage ? false : true
-    });
+
+  const InputChangeHandler = (event) => {
+    setName(event.target.value)
+    setIsFormValid(true)
   };
 
-  SubmitFormHandler = event => {
+  const SubmitFormHandler = event => {
     event.preventDefault();
 
-    const { name } = this.state;
     const doctorType_Add = { name};
 
-    if (!this.props.DoctorTypeInEditStage) {
-      this.props.addDoctorType(doctorType_Add);
-      this.setState({
-        name: ""
-      });
+    if (!props.DoctorTypeInEditStage) {
+      props.addDoctorType(doctorType_Add);
+      setName('')
+
     } else {
-      const id = this.props.DoctorTypeInEditStage.id
+      const id = props.DoctorTypeInEditStage.id
       const doctorType_Edit = { id, name};
 
-      this.props.editDoctorType(doctorType_Edit);
-      this.setState({
-        flag2: true
-      });
+      props.editDoctorType(doctorType_Edit);
     }
   };
 
-  render = () => {
-    return (
-      <Modal style={{direction:'rtl'}}
-        size="sm"
-        centered
-        isOpen={this.props.isOpen}
-        toggle={this.props.modalToggleHandler}
-      >
-        <ModalHeader style={{direction:'ltr'}} toggle={this.props.modalToggleHandler} className="card-header">
-          ویرایش نوع پزشک
-        </ModalHeader>
-        <ModalBody style={{ textAlign: "center" }} className="modal-body">
-          <Card>
-            <CardBody>
-              <Form onSubmit={this.SubmitFormHandler}>
-                <input
-                  type="text"
-                  name="name"
-                  value={this.state.name}
-                  onChange={this.InputChangeHandler}
-                ></input>
-                <Button
-                  disabled={!this.state.isFormValid}
-                  type="submit"
-                  color="success"
-                >
-                  تائید
-                </Button>
-              </Form>
-            </CardBody>
-          </Card>
-        </ModalBody>
-      </Modal>
-    );
-  };
+  return (
+    <Modal style={{direction:'rtl'}}
+      size="sm"
+      centered
+      isOpen={props.isOpen}
+      toggle={props.modalToggleHandler}
+    >
+      <ModalHeader style={{direction:'ltr'}} toggle={props.modalToggleHandler} className="card-header">
+        ویرایش نوع پزشک
+      </ModalHeader>
+      <ModalBody style={{ textAlign: "center" }} className="modal-body">
+        <Card>
+          <CardBody>
+            <Form onSubmit={SubmitFormHandler}>
+              <input
+                type="text"
+                name="name"
+                value={name}
+                onChange={InputChangeHandler}
+              ></input>
+              <Button
+                disabled={!isFormValid}
+                type="submit"
+                color="success"
+              >
+                تائید
+              </Button>
+            </Form>
+          </CardBody>
+        </Card>
+      </ModalBody>
+    </Modal>
+  );
 }
 
 const mapStateToProps = state => {

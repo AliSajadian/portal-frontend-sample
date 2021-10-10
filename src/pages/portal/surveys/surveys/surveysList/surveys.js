@@ -179,7 +179,7 @@ const mapStateToProps = store => {
 const mapDispatchToProps = dispatch => {
     return {
         removeSurvey: id => {
-            if (window.confirm("آیا مطمئن هستید ?")) {
+            if (window.confirm("آیا از حذف رکورد مورد نظر مطمئن هستید ?")) {
                 dispatch(RemoveSurvey(id));
             }
         },
@@ -193,7 +193,7 @@ const mapDispatchToProps = dispatch => {
         dispatch(AddSurveyModal())},
 
         removeSurveyDepartment: id => {
-            if (window.confirm("آیا مطمئن هستید ?")) {
+            if (window.confirm("آیا از حذف رکورد مورد نظر مطمئن هستید ?")) {
                 dispatch(RemoveSurveyDepartment(id));
             }
         },

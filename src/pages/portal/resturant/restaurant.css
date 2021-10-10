@@ -4,6 +4,7 @@
 }
 .card-header{
     background-color: #94bdf1;
+    height:'4em'
 }
 .modal-body{
     background-color: #eff3fa;
@@ -78,6 +79,8 @@
     background-color: #ffd2d2;
     border-radius: .3em;
     /* margin-right: 2em; */
+    /* font-size:small; */
+
  }
  .select-style{
     width: 50%;

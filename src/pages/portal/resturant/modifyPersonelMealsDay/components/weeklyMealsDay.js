@@ -9,7 +9,44 @@ import {
 
 
 export default function WeeklyMealsDay(props) {
-    const {currentMonthDate, index, persianMonth, next3DaysDate, meals, mealsDays, personelMealDays, selectedMealDays, onChanged} = props;
+    const {currentMonthDate, index, persianMonth, next3DaysDate, meals, mealsDays, personelMealDays, selectedMealDays, setSelectedMealDays} = props;
+
+    const onChanged = (e, date) => {
+        let _selectedMealDays = selectedMealDays
+    
+        if(mealsDays.filter(md => Number(md.resturaunt_meal) === Number(e.target.value) && String(md.date) === String(date)) &&
+          mealsDays.filter(md => Number(md.resturaunt_meal) === Number(e.target.value) && String(md.date) === String(date)).length > 0){
+            const resturaunt_day_meal = mealsDays.filter(md => Number(md.resturaunt_meal) === Number(e.target.value) && String(md.date) === String(date))[0].id
+            let selectedMealDay = null;
+            const filteredMealDay = mealsDays.filter(md => String(md.date) === String(date))
+            const filteredPersonelMealDay = _selectedMealDays.filter(smd => filteredMealDay.filter(md => md.id === smd.resturaunt_day_meal).length > 0)[0]
+            // console.log('filteredMealDay: ', filteredMealDay)
+            // console.log('selectedMealDays: ', _selectedMealDays)
+            // console.log('filteredPersonelMealDay: ', filteredPersonelMealDay)
+            if(filteredPersonelMealDay){
+              if(personelMealDays && personelMealDays.length > 0){
+                  selectedMealDay = {
+                      id: filteredPersonelMealDay.id,
+                      employee: Number(sessionStorage.getItem('employeeid')),
+                      resturaunt_day_meal: resturaunt_day_meal,
+                  };
+    
+                  _selectedMealDays = _selectedMealDays.filter(smd => (smd.resturaunt_day_meal !== filteredPersonelMealDay.resturaunt_day_meal)).concat(selectedMealDay)
+              }
+              else{
+                  selectedMealDay = {
+                      employee: Number(sessionStorage.getItem('employeeid')),
+                      resturaunt_day_meal: resturaunt_day_meal,
+                  };
+    
+                  _selectedMealDays = _selectedMealDays.filter(smd => (smd.resturaunt_day_meal !== filteredPersonelMealDay.resturaunt_day_meal)).concat(selectedMealDay)
+              }
+              // console.log('changed _selectedMealDays: ', _selectedMealDays)
+              setSelectedMealDays(_selectedMealDays)
+            }
+        }
+      }
+
     return (
         <Card key={index} className="card-inner-color"> 
             <Container>

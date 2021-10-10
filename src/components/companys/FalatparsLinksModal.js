@@ -14,15 +14,16 @@ import {
     CardImg
 } from "reactstrap";
 import Container from "reactstrap/lib/Container";
-import "./component.css"
-import logo from "../assets/img/logos/Logo_avije.png";
-import website from "../assets/img/links_images/avijewebsite.png"
-import mail from "../assets/img/links_images/mail.PNG"
+import "../component.css"
+import logo from "../../assets/img/logos/Logo_fp.jpg";
+import website from "../../assets/img/links_images/falatparswebsite.png"
+import mail from "../../assets/img/links_images/mail.PNG"
 
 
 
 // const ModalEx = (props) => {
 //   const [isOpen, setIsOpen] = useState(false);
+
 //   const toggle = () => setIsOpen(!isOpen);
 const BahavandLinkModal = (props) => {
   const {
@@ -51,12 +52,12 @@ const BahavandLinkModal = (props) => {
             <Card className="link-card" dir="rtl">
               <CardHeader className="card-header">
                 <CardTitle tag="h5" className='link-card-header'>
-                  وب سایت آویژه صنعت
+                  وب سایت فلات پارس
                 </CardTitle>
               </CardHeader>
               <CardImg top width="100px" src={website} alt="Card image cap" />
               <CardBody>
-                <a href="https://www.avijeh-sanat.com/" target="_blank" rel="noopener noreferrer" style={{textDecoration:"none"}}>
+                <a href="http://falatepars.com/" target="_blank" rel="noopener noreferrer" style={{textDecoration:"none"}}>
                   <div className="button">
                   <span >ورود</span>
                   </div>
@@ -73,7 +74,7 @@ const BahavandLinkModal = (props) => {
               </CardHeader>
               <CardImg top width="100px" src={mail} alt="Card image cap" />
               <CardBody>
-              <a href="http://mail.ategco.com/" target="_blank" rel="noopener noreferrer" style={{textDecoration:"none"}}>
+              <a href="http://mail.falatepars.ir" target="_blank" rel="noopener noreferrer" style={{textDecoration:"none"}}>
                   <div className="button">
                   <span >ورود</span>
                   </div>
@@ -83,6 +84,8 @@ const BahavandLinkModal = (props) => {
           </Col>          
         </Row>
       </Container>
+
+
         </ModalBody> 
         {/* <ModalFooter>
           <Button color="primary" onClick={toggle}>Do Something</Button>{' '}

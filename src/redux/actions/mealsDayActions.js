@@ -615,7 +615,7 @@ export const GetMealDaysExList = (date) => {
       axios.get(`http://portalapi.asft.co/api/mealdaysex/${date}`)
       .then((response) => {
           dispatch({
-              type : types.GET_MEALDAYS_LIST , 
+              type : types.GET_MEALDAYSEX_LIST , 
               mealsDays : response.data
           })
       })
@@ -764,7 +764,7 @@ export const EditMealDay = mealDay => {
       axios.get(`http://portalapi.asft.co/api/activatepersonelmealdayselection/${date}`)
           .then(resonse => {
               dispatch({
-                type: types.GET_MEALDAYS_LIST,
+                type: types.GET_MEALDAYSEX_LIST,
                 payload: resonse.data
               });
               toastr.success("Activation done succesfuly")
@@ -774,5 +774,5 @@ export const EditMealDay = mealDay => {
               console.log(error);
           });
     }
-  };
+  }
 

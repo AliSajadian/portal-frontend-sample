@@ -15,9 +15,9 @@ import DoctorModal from "../doctors/doctorsModal/doctorsModal";
 const Index = (props) => {
 
   useEffect(() => {
+    props.getDoctorTypes();
     props.getDoctorEmployeesList();
     props.getDoctors();
-    props.getDoctorTypes();
   }, []);
 
   return (

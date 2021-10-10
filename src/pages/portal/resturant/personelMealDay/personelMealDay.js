@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Card,
   CardBody,
@@ -13,68 +13,61 @@ import { connect } from "react-redux";
 import {
   EditPersonelMealDay,
   AddPersonelMealDay,
-  BulkAddPersonelMealDays,
-  BulkEditPersonelMealDays,
+  BulkNextMonthAddPersonelMealDays,
+  BulkNextMonthEditPersonelMealDays,
 } from "../../../../redux/actions/personelMealDayActions";
 import WeeklyMealsDay from "./components/weeklyMealsDay"
 import '../restaurant.css'
 
 
 
-class PrsonelMealDayList extends Component {
-  constructor(props){
-    super(props)
-    const currentDate = new Date();
-    let y = currentDate.getFullYear(); 
-    let month = currentDate.getMonth();
-    let day = currentDate.getDate();
-    
-    this.state = {
-      isSaved: false,
-      flag: true,
-      selectedMealDays: [],
-      next3DaysDate: new Date(y, month, day + 3)
-    };
-  }
+const PrsonelMealDayList = (props) => {
+  const currentDate = new Date();
+  const y = currentDate.getFullYear(); 
+  const month = currentDate.getMonth();
+  let day = currentDate.getDate();
+  const next3DaysDate = new Date(y, month, day + 3)
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.personelMealDays && nextProps.personelMealDays.length > 0 && 
-        nextProps.personelMealDays !== this.props.personelMealDays) {
-        this.setState({
-            selectedMealDays: nextProps.personelMealDays
-        });
+  const [selectedMealDays, setSelectedMealDays] = useState([])
+
+  useEffect(() => {
+    if (props.personelMealDays && props.personelMealDays.length > 0) {
+      setSelectedMealDays(props.personelMealDays)        
     }
+    else{
+      let selectedMealDays = [];
+      if(props.currentMonthDates && props.currentMonthDates.length > 0 && 
+        props.mealsDays && props.mealsDays.length > 0 && 
+        (props.personelMealDays && props.personelMealDays.length === 0) &&
+        (selectedMealDays && selectedMealDays.length === 0)){
 
-    let selectedMealDays = [];
-    if(nextProps.personelMealDays && nextProps.personelMealDays.length === 0 && 
-        this.props.currentMonthDates && this.props.currentMonthDates.length > 0 && 
-        this.props.mealsDays && this.props.mealsDays.length > 0 && this.state.selectedMealDays && 
-         (this.props.personelMealDays && this.props.personelMealDays.length === 0)){
-
-        this.props.currentMonthDates.filter(cmd => this.state.next3DaysDate < cmd.date).map(cmd => (
-          (this.props.mealsDays.filter(md => (md.date === cmd.date.toLocaleDateString('pt-br').split( '/' ).reverse( ).join( '-' )
+          // console.log('----------------------------------------------------------')
+        props.currentMonthDates.filter(cmd => next3DaysDate < cmd.date).map(cmd => (
+          (props.mealsDays.filter(md => (md.date === cmd.date.toLocaleDateString('pt-br').split( '/' ).reverse( ).join( '-' )
           )) ? (
-            this.props.mealsDays.filter(md => (md.date === cmd.date.toLocaleDateString('pt-br').split( '/' ).reverse( ).join( '-' )
+            props.mealsDays.filter(md => (md.date === cmd.date.toLocaleDateString('pt-br').split( '/' ).reverse( ).join( '-' )
             )).map((md, index) => (index === 0) ? (
-
+              // console.log('props.mealsDays.id: ', md.id),
               selectedMealDays.push({
                 employee: Number(sessionStorage.getItem('employeeid')),
                 resturaunt_day_meal: md.id,
-              })
+              }) 
+              // : ''
 
             ) : "")
           ) : "")
         ));
-          this.setState({
-            selectedMealDays: selectedMealDays,
-          })        
+        // console.log('----------------------------------------------------------')
+        // console.log('selectedMealDays: ', selectedMealDays)
+        setSelectedMealDays(selectedMealDays)        
+      }
+      // console.log('=======================================================')
     }
+  }, [props.personelMealDays, props.currentMonthDates, props.mealsDays])
 
-    // console.log('selectedMealDays: ', selectedMealDays)
-  }
 
-  getPersianMonthWeekNo = date => {
-    const day = this.getPersianDay(date)
+  const getPersianMonthWeekNo = date => {
+    const day = getPersianDay(date)
     const weekDay = date.getDay()
     switch(weekDay)
     {
@@ -169,7 +162,7 @@ class PrsonelMealDayList extends Component {
       default:
     }
   }
-  getPersianDay = date => {
+  const getPersianDay = date => {
     let month = date.getUTCMonth()+1; 
     let day = date.getUTCDate()+1;
     switch(month){
@@ -261,7 +254,7 @@ class PrsonelMealDayList extends Component {
     }
   };
 
-  getPersianWeekDay = date => {
+  const getPersianWeekDay = date => {
     var weekday = new Array(7);
     weekday[0] = "یکشنبه";
     weekday[1] = "دوشنبه";
@@ -272,10 +265,10 @@ class PrsonelMealDayList extends Component {
     weekday[6] = "شنبه";
     return weekday[date.getDay()];
   }
-  getPersianMonth = date => {
+  const getPersianMonth = date => {
     let month = date.getUTCMonth()+1; 
     let day = date.getUTCDate()+1;
-    const weekDay = this.getPersianWeekDay(date);
+    const weekDay = getPersianWeekDay(date);
     switch(month){
         case 1:
             if(day < 21){
@@ -365,195 +358,161 @@ class PrsonelMealDayList extends Component {
     }
   };
 
-  onChanged = (e, date) => {
-    const {mealsDays, personelMealDays} = this.props
-    let selectedMealDays = this.state.selectedMealDays
-
-    if(mealsDays.filter(md => Number(md.resturaunt_meal) === Number(e.target.value) && String(md.date) === String(date)) &&
-      mealsDays.filter(md => Number(md.resturaunt_meal) === Number(e.target.value) && String(md.date) === String(date)).length > 0){
-        const resturaunt_day_meal = mealsDays.filter(md => Number(md.resturaunt_meal) === Number(e.target.value) && String(md.date) === String(date))[0].id
-        let selectedMealDay = null;
-        const filteredMealDay = mealsDays.filter(md => String(md.date) === String(date))
-        const filteredPersonelMealDay = this.state.selectedMealDays.filter(smd => filteredMealDay.filter(md => md.id === smd.resturaunt_day_meal).length > 0)[0]
-        if(filteredPersonelMealDay !== null){
-          if(personelMealDays && personelMealDays.length > 0){
-              selectedMealDay = {
-                  id: filteredPersonelMealDay.id,
-                  employee: Number(sessionStorage.getItem('employeeid')),
-                  resturaunt_day_meal: resturaunt_day_meal,
-              };
-
-              selectedMealDays = selectedMealDays.filter(smd => (smd.resturaunt_day_meal !== filteredPersonelMealDay.resturaunt_day_meal)).concat(selectedMealDay)
-          }
-          else{
-              selectedMealDay = {
-                  employee: Number(sessionStorage.getItem('employeeid')),
-                  resturaunt_day_meal: resturaunt_day_meal,
-              };
-
-              selectedMealDays = selectedMealDays.filter(smd => (smd.resturaunt_day_meal !== filteredPersonelMealDay.resturaunt_day_meal)).concat(selectedMealDay)
-          }
-          this.setState({
-              selectedMealDays
-          })
-        }
-    }
-  }
-
-  save = () => {
+  const save = () => {
     if (window.confirm("آیا از ذخیره اطلاعات اطمینان دارید؟")) {
+      const mealsDaysLength = mealsDays.filter(md => md.date > next3DaysDate.toLocaleDateString('pt-br').split( '/' ).reverse( ).join( '-' )).length
+      const firstMealsDays = mealsDays[0]
+      const aDayMealsNo = mealsDays.filter(md => md.date === firstMealsDays.date).length
+      const selectedMealDaysCount = mealsDaysLength / aDayMealsNo
 
-      if (this.props.personelMealDays && this.props.personelMealDays.length === 0) {
-        console.log('add this.state.selectedMealDays: ', this.state.selectedMealDays)
-        this.props.bulkAddPersonelMealDays(this.state.selectedMealDays)
+      if(selectedMealDays.length < selectedMealDaysCount){
+        window.alert("انتخاب غذاها ناقص بوده است، در صورت تکرار خطا با راهبر سیستم تماس بگیرید.");
+        return
+      }
+      if (props.personelMealDays && props.personelMealDays.length === 0) {
+        // console.log('add state.selectedMealDays: ', selectedMealDays)
+        props.bulkAddPersonelMealDays(selectedMealDays)
       }
       else{
-        console.log('edit this.state.selectedMealDays: ', this.state.selectedMealDays)
-        this.props.bulkEditPersonelMealDays(this.state.selectedMealDays)
+        // console.log('edit state.selectedMealDays: ', selectedMealDays)
+        props.bulkEditPersonelMealDays(selectedMealDays)
       }
-      window.alert("اطلاعات با موفقیت ذخیره شد.");
+      // window.alert("اطلاعات با موفقیت ذخیره شد.");
     }
   }
-
-  render() {
-    const currentDate = new Date();
-    let y = currentDate.getFullYear(); 
-    let month = currentDate.getMonth();
-    let day = currentDate.getDate();
-    const next3DaysDate = new Date(y, month, day + 3)
-
-    const {currentMonthDates} = this.props
-    return (
-      <Card style={{direction:'rtl'}} className='card3D'>
-        <CardHeader>
-            <CardTitle tag="h5">
-               انتخاب ماهیانه غذا  
-            </CardTitle>
-        </CardHeader>
-        <CardBody>
-        <Container>
-          <Card className="card-res-week">
-          {currentMonthDates && currentMonthDates.length > 0 ? 
-          currentMonthDates.filter(currentMonthDate => (Number(this.getPersianMonthWeekNo(currentMonthDate.date)) === 1))
-                                      .map((currentMonthDate, index) => (
-                                        <WeeklyMealsDay   
-                                        key={index}
-                                        index={index}
-                                        currentMonthDate={currentMonthDate}  
-                                        persianMonth={this.getPersianMonth(currentMonthDate.date)} 
-                                        next3DaysDate={next3DaysDate}
-                                        meals={this.props.meals} 
-                                        mealsDays={this.props.mealsDays} 
-                                        personelMealDays={this.props.personelMealDays} 
-                                        selectedMealDays={this.state.selectedMealDays}
-                                        onChanged={this.onChanged}
-                                      />
-             )) : ""}
-            </Card>
-          <Card className="card-res-week">
-          {currentMonthDates && currentMonthDates.length > 0 ? 
-          currentMonthDates.filter(currentMonthDate => (Number(this.getPersianMonthWeekNo(currentMonthDate.date)) === 2))
-                                      .map((currentMonthDate, index) => (
-                                        <WeeklyMealsDay   
-                                        key={index}
-                                        index={index}
-                                        currentMonthDate={currentMonthDate}  
-                                        persianMonth={this.getPersianMonth(currentMonthDate.date)} 
-                                        next3DaysDate={next3DaysDate}
-                                        meals={this.props.meals} 
-                                        mealsDays={this.props.mealsDays} 
-                                        personelMealDays={this.props.personelMealDays} 
-                                        selectedMealDays={this.state.selectedMealDays}
-                                        onChanged={this.onChanged}
-                                      />         
-          )) : ""}
+  const {meals, mealsDays, currentMonthDates} = props
+  return (
+    (meals && meals.length > 0 && mealsDays && mealsDays.length > 0 && currentMonthDates && currentMonthDates.length > 0) ? (        
+    <Card style={{direction:'rtl', width:'80%'}} className='card3D'>
+      <CardHeader style={{height:'4em'}}>
+          <CardTitle >
+              <span style={{fontSize:'1.3em', fontWeight:'bold', padding:'auto', marginTop:'0'}}>
+                انتخاب ماهیانه غذا  
+              </span>            
+          </CardTitle>
+      </CardHeader>
+      <CardBody>
+      <Container>
+        <Card className="card-res-week">
+        {currentMonthDates && currentMonthDates.length > 0 ? 
+        currentMonthDates.filter(currentMonthDate => (Number(getPersianMonthWeekNo(currentMonthDate.date)) === 1))
+                                    .map((currentMonthDate, index) => (
+                                      <WeeklyMealsDay   
+                                      key={index}
+                                      index={index}
+                                      currentMonthDate={currentMonthDate}  
+                                      persianMonth={getPersianMonth(currentMonthDate.date)} 
+                                      next3DaysDate={next3DaysDate}
+                                      meals={props.meals} 
+                                      mealsDays={props.mealsDays} 
+                                      personelMealDays={props.personelMealDays} 
+                                      selectedMealDays={selectedMealDays}
+                                      setSelectedMealDays={setSelectedMealDays}
+                                    />
+            )) : ""}
           </Card>
-          <Card className="card-res-week">
-          {currentMonthDates && currentMonthDates.length > 0 ? 
-          currentMonthDates.filter(currentMonthDate => (Number(this.getPersianMonthWeekNo(currentMonthDate.date)) === 3))
-                                      .map((currentMonthDate, index) => (
-                                        <WeeklyMealsDay   
-                                        key={index}
-                                        index={index}
-                                        currentMonthDate={currentMonthDate}  
-                                        persianMonth={this.getPersianMonth(currentMonthDate.date)} 
-                                        next3DaysDate={next3DaysDate}
-                                        meals={this.props.meals} 
-                                        mealsDays={this.props.mealsDays} 
-                                        personelMealDays={this.props.personelMealDays} 
-                                        selectedMealDays={this.state.selectedMealDays}
-                                        onChanged={this.onChanged}
-                                      />       
-          )) : ""}
-          </Card>
-          <Card className="card-res-week">
-          {currentMonthDates && currentMonthDates.length > 0 ? 
-          currentMonthDates.filter(currentMonthDate => (Number(this.getPersianMonthWeekNo(currentMonthDate.date)) === 4))
-                                      .map((currentMonthDate, index) => (
-                                        <WeeklyMealsDay   
-                                        key={index}
-                                        index={index}
-                                        currentMonthDate={currentMonthDate}  
-                                        persianMonth={this.getPersianMonth(currentMonthDate.date)} 
-                                        next3DaysDate={next3DaysDate}
-                                        meals={this.props.meals} 
-                                        mealsDays={this.props.mealsDays} 
-                                        personelMealDays={this.props.personelMealDays} 
-                                        selectedMealDays={this.state.selectedMealDays}
-                                        onChanged={this.onChanged}
-                                      />         
-          )) : ""}
-          </Card>
-          <Card className="card-res-week">
-          {currentMonthDates && currentMonthDates.length > 0 ? 
-          currentMonthDates.filter(currentMonthDate => (Number(this.getPersianMonthWeekNo(currentMonthDate.date)) === 5))
-                                      .map((currentMonthDate, index) => (
-                                        <WeeklyMealsDay   
-                                        key={index}
-                                        index={index}
-                                        currentMonthDate={currentMonthDate}  
-                                        persianMonth={this.getPersianMonth(currentMonthDate.date)} 
-                                        next3DaysDate={next3DaysDate}
-                                        meals={this.props.meals} 
-                                        mealsDays={this.props.mealsDays} 
-                                        personelMealDays={this.props.personelMealDays} 
-                                        selectedMealDays={this.state.selectedMealDays}
-                                        onChanged={this.onChanged}
-                                      />         
-          )) : ""}
-          </Card>
-          <Card className="card-res-week">
-          {currentMonthDates && currentMonthDates.length > 0 ? 
-          currentMonthDates.filter(currentMonthDate => (Number(this.getPersianMonthWeekNo(currentMonthDate.date)) === 6))
-                                      .map((currentMonthDate, index) => (
-                                        <WeeklyMealsDay   
-                                        key={index}
-                                        index={index}
-                                        currentMonthDate={currentMonthDate}  
-                                        persianMonth={this.getPersianMonth(currentMonthDate.date)} 
-                                        next3DaysDate={next3DaysDate}
-                                        meals={this.props.meals} 
-                                        mealsDays={this.props.mealsDays} 
-                                        personelMealDays={this.props.personelMealDays} 
-                                        selectedMealDays={this.state.selectedMealDays}
-                                        onChanged={this.onChanged}
-                                      />         
-          )) : ""}
-          </Card>
-          <Card className="card-res-bottom">
-              <Row>
-                <Col style={{textAlign:'center', width:'150px'}}>
-                    <Button color="primary" style={{margin:"1em auto 1em auto", width:'100px'}} onClick={() => this.save()} >ذخیره</Button>
-                </Col>
-              </Row>
-          </Card>
-          </Container>
-        </CardBody>
-      </Card>
-          // ):''
-    )
-
-  }
+        <Card className="card-res-week">
+        {currentMonthDates && currentMonthDates.length > 0 ? 
+        currentMonthDates.filter(currentMonthDate => (Number(getPersianMonthWeekNo(currentMonthDate.date)) === 2))
+                                    .map((currentMonthDate, index) => (
+                                      <WeeklyMealsDay   
+                                      key={index}
+                                      index={index}
+                                      currentMonthDate={currentMonthDate}  
+                                      persianMonth={getPersianMonth(currentMonthDate.date)} 
+                                      next3DaysDate={next3DaysDate}
+                                      meals={props.meals} 
+                                      mealsDays={props.mealsDays} 
+                                      personelMealDays={props.personelMealDays} 
+                                      selectedMealDays={selectedMealDays}
+                                      setSelectedMealDays={setSelectedMealDays}
+                                    />         
+        )) : ""}
+        </Card>
+        <Card className="card-res-week">
+        {currentMonthDates && currentMonthDates.length > 0 ? 
+        currentMonthDates.filter(currentMonthDate => (Number(getPersianMonthWeekNo(currentMonthDate.date)) === 3))
+                                    .map((currentMonthDate, index) => (
+                                      <WeeklyMealsDay   
+                                      key={index}
+                                      index={index}
+                                      currentMonthDate={currentMonthDate}  
+                                      persianMonth={getPersianMonth(currentMonthDate.date)} 
+                                      next3DaysDate={next3DaysDate}
+                                      meals={props.meals} 
+                                      mealsDays={props.mealsDays} 
+                                      personelMealDays={props.personelMealDays} 
+                                      selectedMealDays={selectedMealDays}
+                                      setSelectedMealDays={setSelectedMealDays}
+                                    />       
+        )) : ""}
+        </Card>
+        <Card className="card-res-week">
+        {currentMonthDates && currentMonthDates.length > 0 ? 
+        currentMonthDates.filter(currentMonthDate => (Number(getPersianMonthWeekNo(currentMonthDate.date)) === 4))
+                                    .map((currentMonthDate, index) => (
+                                      <WeeklyMealsDay   
+                                      key={index}
+                                      index={index}
+                                      currentMonthDate={currentMonthDate}  
+                                      persianMonth={getPersianMonth(currentMonthDate.date)} 
+                                      next3DaysDate={next3DaysDate}
+                                      meals={props.meals} 
+                                      mealsDays={props.mealsDays} 
+                                      personelMealDays={props.personelMealDays} 
+                                      selectedMealDays={selectedMealDays}
+                                      setSelectedMealDays={setSelectedMealDays}
+                                    />         
+        )) : ""}
+        </Card>
+        <Card className="card-res-week">
+        {currentMonthDates && currentMonthDates.length > 0 ? 
+        currentMonthDates.filter(currentMonthDate => (Number(getPersianMonthWeekNo(currentMonthDate.date)) === 5))
+                                    .map((currentMonthDate, index) => (
+                                      <WeeklyMealsDay   
+                                      key={index}
+                                      index={index}
+                                      currentMonthDate={currentMonthDate}  
+                                      persianMonth={getPersianMonth(currentMonthDate.date)} 
+                                      next3DaysDate={next3DaysDate}
+                                      meals={props.meals} 
+                                      mealsDays={props.mealsDays} 
+                                      personelMealDays={props.personelMealDays} 
+                                      selectedMealDays={selectedMealDays}
+                                      setSelectedMealDays={setSelectedMealDays}
+                                    />         
+        )) : ""}
+        </Card>
+        <Card className="card-res-week">
+        {currentMonthDates && currentMonthDates.length > 0 ? 
+        currentMonthDates.filter(currentMonthDate => (Number(getPersianMonthWeekNo(currentMonthDate.date)) === 6))
+                                    .map((currentMonthDate, index) => (
+                                      <WeeklyMealsDay   
+                                      key={index}
+                                      index={index}
+                                      currentMonthDate={currentMonthDate}  
+                                      persianMonth={getPersianMonth(currentMonthDate.date)} 
+                                      next3DaysDate={next3DaysDate}
+                                      meals={props.meals} 
+                                      mealsDays={props.mealsDays} 
+                                      personelMealDays={props.personelMealDays} 
+                                      selectedMealDays={selectedMealDays}
+                                      setSelectedMealDays={setSelectedMealDays}
+                                    />         
+        )) : ""}
+        </Card>
+        <Card className="card-res-bottom">
+            <Row>
+              <Col style={{textAlign:'center', width:'150px'}}>
+                  <Button color="primary" style={{margin:"1em auto 1em auto", width:'100px'}} onClick={() => save()} >ذخیره</Button>
+              </Col>
+            </Row>
+        </Card>
+        </Container>
+      </CardBody>
+    </Card>
+      ):''
+  )
 };
 
 const mapStateToProps = store => {
@@ -568,13 +527,13 @@ const mapStateToProps = store => {
 const mapDispatchToProps = dispatch => {
   return {
     bulkEditPersonelMealDays: (personelMealDays) => {
-        dispatch(BulkEditPersonelMealDays(personelMealDays))
+        dispatch(BulkNextMonthEditPersonelMealDays(personelMealDays))
     },
     editPersonelMealDay: (model) => {
       dispatch(EditPersonelMealDay(model))
     }, 
     bulkAddPersonelMealDays: (personelMealDays) => {
-        dispatch(BulkAddPersonelMealDays(personelMealDays))
+        dispatch(BulkNextMonthAddPersonelMealDays(personelMealDays))
     },
     addPersonelMealDay: (model) => {
       dispatch(AddPersonelMealDay(model))}

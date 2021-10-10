@@ -10,7 +10,7 @@ import { GetCompaniesList } from "../../../../redux/actions/companiesActions";
 import CompanyModal from "../companies/companiesModal/companiesModal";
 
 
-const Index = (props) => {console.log('==CompaniesList Index==')
+const Index = (props) => {
 
   useEffect(() => {
     props.getCompanies();

@@ -2,10 +2,11 @@ import * as types from "../constants";
 
 const initialState = {
   mealsDays: [],
+  mealsDaysEx: [],
   MealsDay: [],
   mealDayInfo: null,
   mealDayInEditStage: null,
-  currentMonthDates: null
+  currentMonthDates: null,
 };
 
 const reducer = (state = initialState, actions) => {
@@ -15,6 +16,11 @@ const reducer = (state = initialState, actions) => {
         ...state,
         mealsDays: actions.mealsDays
       };
+    case types.GET_MEALDAYSEX_LIST:
+      return {
+        ...state,
+        mealsDaysEx: actions.mealsDays
+      };      
     case types.GET_MEALSDAY_LIST:
       return {
         ...state,
@@ -22,6 +28,7 @@ const reducer = (state = initialState, actions) => {
       };      
     case types.GET_CURRENTMONTHDATES:
       return {
+        ...state,
         currentMonthDates: actions.payload
       };
     case types.LOAD_RELATED_MEALDAY_INFO_CARD:

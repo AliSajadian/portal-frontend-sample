@@ -1,12 +1,11 @@
-import React, { Component } from "react";
+import React from "react";
 import {
   Card,
   CardBody,
   CardHeader,
   CardTitle,
-  Table
 } from "reactstrap";
-import { Edit2, Trash, PlusCircle } from "react-feather";
+import { PlusCircle } from "react-feather";
 import { connect } from "react-redux";
 import {
   RemoveDoctorType,
@@ -14,12 +13,20 @@ import {
   AddDoctorTypeModel
 } from "../../../../../redux/actions/doctorTypesActions";
 import * as types from "../../../../../redux/constants";
+import { BaseTable } from "../../../../../components/tables/BaseTable";
 import '../../baseInfo.css'
 
- 
 
-class doctorTypesList extends Component {
-  render = () => {
+const columnList = [
+    {
+        Header: 'نوع پزشک',
+        accessor: 'name',
+        maxWidth: '90%',
+        minWidth: '80%',
+        width: '85%',
+    },
+]
+const doctorTypesList = (props) => {
     return (
       <Card>
         <CardHeader className="card3D">
@@ -28,51 +35,15 @@ class doctorTypesList extends Component {
           </CardTitle>
         </CardHeader>
         <CardBody className="card-body">
-          <Table style={{direction:'rtl'}} hover striped responsive>
-            <thead id="th">
-              <tr id="tr">
-                <th >#</th>
-                <th style={{ width: "100%", textAlign:'center' }}>نوع</th>
-                <th />
-                <th />
-              </tr>
-            </thead>
-            <tbody id="tb">
-              {this.props.doctorTypes.length > 0 ? (
-                this.props.doctorTypes.map((doctorType, index) => {
-                  return ( 
-                    <tr key={index}>
-                      <td style={{ width: "4%" }}>{index+1}</td>
-                      <td style={{ width: "100%", textAlign:'center' }}>{doctorType.name}</td>
-                      <td style={{ width: "3%" }} className="table-action">
-                        <Edit2
-                          onClick={() =>
-                            this.props.getDoctorTypesModal(doctorType.id)
-                          }
-                          className="align-middle mr-1"
-                          size={18}
-                        />
-                      </td>
-                      <td style={{ width: "3%" }} className="table-action">
-                        <Trash
-                          onClick={() =>
-                            this.props.removeDoctorType(doctorType.id)
-                          }
-                          className="align-middle "
-                          size={18}
-                        />
-                      </td>
-                    </tr>
-                  );
-                })
-              ) : (
-                <tr><td>not found</td></tr>
-              )}
-            </tbody>
-          </Table>
+          <BaseTable
+          dataRecords={props.doctorTypes}
+          columnList={columnList}
+          editRecord={props.getDoctorTypesModal}
+          removeRecord={props.removeDoctorType}
+          />
           <PlusCircle
               onClick={() =>
-                this.props.addDoctorTypeModel()
+                props.addDoctorTypeModel()
               }
               className="align-middle"
               size={18}
@@ -80,7 +51,6 @@ class doctorTypesList extends Component {
         </CardBody>
       </Card>
     );
-  };
 }
 
 const mapStateToProps = store => {
@@ -92,7 +62,7 @@ const mapStateToProps = store => {
 const mapDispatchToProps = dispatch => {
   return {
     removeDoctorType: id => {
-      if (window.confirm("آیا مطمئن هستید ?")) {
+      if (window.confirm("آیا از حذف رکورد مورد نظر مطمئن هستید ?")) {
         dispatch(RemoveDoctorType(id));
       }
     },

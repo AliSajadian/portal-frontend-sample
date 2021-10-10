@@ -851,7 +851,7 @@ const mapStateToProps = store => {
 const mapDispatchToProps = dispatch => {
   return {
     removePatientFile: id => {
-      if (window.confirm("آیا مطمئن هستید ?")) {
+      if (window.confirm("آیا از حذف رکورد مورد نظر مطمئن هستید ?")) {
         dispatch(RemovePatientFile(id));
       }
     },
@@ -860,7 +860,7 @@ const mapDispatchToProps = dispatch => {
     addPatientFile: model => {
       dispatch(AddPatientFile(model))},
     removeDocAppointment: id => {
-      if (window.confirm("آیا مطمئن هستید ?")) {
+      if (window.confirm("آیا از حذف رکورد مورد نظر مطمئن هستید ?")) {
         dispatch(RemoveDocAppointment(id));
       }
     },

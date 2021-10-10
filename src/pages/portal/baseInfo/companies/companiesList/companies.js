@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 
 import {
   Card,
@@ -6,9 +6,8 @@ import {
   CardHeader,
   CardTitle,
   CardFooter,
-  Table
 } from "reactstrap";
-import { Edit2, Trash, PlusCircle } from "react-feather";
+import { PlusCircle } from "react-feather";
 import { connect } from "react-redux";
 import {
   RemoveCompany,
@@ -16,30 +15,20 @@ import {
   AddCompanyModel
 } from "../../../../../redux/actions/companiesActions";
 import * as types from "../../../../../redux/constants";
+import { BaseTable } from "../../../../../components/tables/BaseTable";
 import '../../baseInfo.css'
 
- 
 
-class CompaniesList extends Component {
-  // generateCode = () => {
-  //   let text = "QWERTYUIOPASDFGHJKLZXCVBNM123456789QWERTYUIOPASDFGHJKLZXCVBNM123456789"
-  //   let code = ''
-
-  //   for(var i=0; i<6; i++){
-  //     let start = Math.floor(Math.random() * text.length + 1)  
-  //     console.log('Math.random(): ', Math.random());
-  //     console.log('text.Length: ', text.length);
-  //     console.log('start: ', start);
-
-  //     let one_char = text.substring(start, start + 1);
-  //     console.log('one_char: ', one_char);
-
-  //     code += one_char;
-  //     console.log('========================');
-  //   }
-  //   console.log('security code: ', code);
-  // }
-  render = () => {
+const columnList = [
+  {
+      Header: 'نام شرکت',
+      accessor: 'name',
+      maxWidth: '90%',
+      minWidth: '80%',
+      width: '85%',
+  },
+]
+const CompaniesList = (props) => {
     return (
       <Card className="card3D">
         <CardHeader>
@@ -48,54 +37,17 @@ class CompaniesList extends Component {
           </CardTitle>
         </CardHeader>
         <CardBody >
-          <Table style={{direction:'rtl'}} hover striped responsive>
-            <thead id="th">
-              <tr id="tr">
-                <th >#</th>
-                <th style={{ width: "100%", textAlign:'center' }}>نام شرکت</th>
-                <th />
-                <th />
-              </tr>
-            </thead>
-            <tbody id="tb">
-              {this.props.companies && this.props.companies.length > 0 ? (
-                this.props.companies.map((company, index) => {
-                  return ( 
-                    <tr key={index}>
-                      <td style={{ width: "4%"}}>{index+1}</td>
-                      <td style={{ width: "90%", textAlign:'center' }}>{company.name}</td>
-                      <td style={{ width: "3%"}} className="table-action">
-                        <Edit2
-                          onClick={() =>
-                            this.props.getCompaniesModal(company.id)
-                          }
-                          className="align-middle mr-1"
-                          size={18}
-                        />
-                      </td>
-                      <td style={{ width: "3%"}} className="table-action">
-                        <Trash
-                          onClick={() =>
-                            this.props.removeCompany(company.id)
-                          }
-                          className="align-middle "
-                          size={18}
-                        />
-                      </td>
-                    </tr>
-                  );
-                })
-              ) : (
-                <tr><td>not found</td></tr>
-              )}
-            </tbody>
-          </Table>
+        <BaseTable
+          dataRecords={props.companies}
+          columnList={columnList}
+          editRecord={props.getCompaniesModal}
+          removeRecord={props.removeCompany}
+          />
         </CardBody>
         <CardFooter>
           <PlusCircle
                 onClick={() =>
-                  this.props.addCompanyModel()
-                  // this.generateCode()
+                  props.addCompanyModel()
                 }
                 className="align-middle"
                 size={18}
@@ -103,7 +55,6 @@ class CompaniesList extends Component {
         </CardFooter>
       </Card>
     );
-  };
 }
 
 const mapStateToProps = store => {
@@ -115,7 +66,7 @@ const mapStateToProps = store => {
 const mapDispatchToProps = dispatch => {
   return {
     removeCompany: id => {
-      if (window.confirm("آیا مطمئن هستید ?")) {
+      if (window.confirm("آیا از حذف رکورد مورد نظر مطمئن هستید ?")) {
         dispatch(RemoveCompany(id));
       }
     },

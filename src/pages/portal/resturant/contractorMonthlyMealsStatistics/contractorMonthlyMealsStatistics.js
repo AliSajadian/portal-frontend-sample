@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Card,
   CardHeader,
@@ -32,7 +32,7 @@ const ContractorMonthlyMealsStatisticsList = (props) => {
     //   console.log(new Date(date))
       date = new Date(date)
       let month = date.getUTCMonth()+1; 
-      let day = date.getUTCDate()+1;
+      let day = date.getUTCDate();
       const weekDay = getPersianWeekDay(date);
     // console.log('+++date: ', date)
     // console.log('+++weekDay: ', this.getPersianWeekDay(date))
@@ -127,26 +127,28 @@ const ContractorMonthlyMealsStatisticsList = (props) => {
     };
 
     return(
-        <Card className='card3D'>
-            <CardHeader>
-                <CardTitle tag="h2">
-                    آمار غذاهای ماهانه  
+        <Card className='card3D' style={{width:'80%', margin:'auto', fontSize:'1em'}}>
+            <CardHeader style={{height:'4em'}}>
+                <CardTitle>
+                    <span style={{fontSize:'1.3em', fontWeight:'bold', padding:'auto', marginTop:'0'}}>
+                        آمار کلی غذاهای ماهانه                      
+                    </span>                    
                 </CardTitle>
             </CardHeader>
             <CardBody>
                 <Card className="card-res-week">
                 {props.contractorMonthlyMealsStatistics && props.contractorMonthlyMealsStatistics.length > 0 ? 
                 (
-                    props.currentMonthDates.map((cmd, index) => {
+                    props.datesList.map((date, index) => {
                         return(
                             <Container  key={index} style={{backgroundColor:'#c9dcf8', borderRadius:'.5em', marginBottom:'1em', paddingTop:'.5em', paddingBottom:'.5em'}}>
-                            <Row key={index} style={{backgroundColor:'#dce6f8'}}>
+                            <Row key={index} style={{backgroundColor:'#dce6f8', fontSize:'1.1em', fontWeight:'bold'}}>
                                 <Col style={{textAlign:'right'}} xl="12">    
-                                    <Label>{getPersianMonth(cmd.date)}</Label>
+                                    <Label>{getPersianMonth(date.date)}</Label>
                                 </Col>
                             </Row>
                             {props.contractorMonthlyMealsStatistics.filter(mealDay => 
-                                mealDay.date === cmd.date.toLocaleDateString('pt-br').split( '/' ).reverse( ).join( '-' )).map((mealDay, index) =>
+                                mealDay.date === date.date).map((mealDay, index) =>
                             (<Row key={index} style={{backgroundColor:'#eff3fa'}}>
                                 <Col xl="5" style={{textAlign:'right'}}>    
                                     <Label>{mealDay.meal_no}</Label>
@@ -160,7 +162,8 @@ const ContractorMonthlyMealsStatisticsList = (props) => {
                             }
                             </Container>
                         );
-                })):""}
+                    })
+                ):""}
                 </Card>
             </CardBody>      
         </Card>
@@ -170,8 +173,8 @@ const ContractorMonthlyMealsStatisticsList = (props) => {
 const mapStateToProps = store => {
   return {
     contractorMonthlyMealsStatistics: store.personelMealDays.contractorMonthlyMealsStatistics,
+    datesList: store.personelMealDays.datesList,
     persianDate: store.common.persianDate,
-    currentMonthDates: store.currentMonthDates.currentMonthDates,
   };
 };
 

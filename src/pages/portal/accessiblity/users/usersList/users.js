@@ -164,7 +164,7 @@ const mapStateToProps = store => {
 const mapDispatchToProps = dispatch => {
   return {
     removeUser: id => {
-      if (window.confirm("آیا مطمئن هستید ?")) {
+      if (window.confirm("آیا از حذف رکورد مورد نظر مطمئن هستید ?")) {
         dispatch(RemoveUser(id));
         // dispatch(RemoveEmployee(id));
       }

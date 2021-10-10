@@ -64,10 +64,24 @@ export const GetProjectsMealsDailyList = (project_id) => {
         })
     }
 }
-
-export const GetSectionMealsDailyList = (employee_id) => {
+export const GetSectionName = (employee_id) => {
     return dispatch => {
-        axios.get(`http://portalapi.asft.co/api/sectionmealsdailylist/${employee_id}`)
+        axios.get(`http://portalapi.asft.co/api/sectionname/${employee_id}`)
+        .then((response) => {
+            dispatch({
+                type : types.GET_SECTION_NAME , 
+                payload : response.data
+            })
+        })
+        .catch(() => {
+            toastr.error('Fail!');
+        })
+    }
+}
+
+export const GetSectionsMealsDailyList = (employee_id) => {
+    return dispatch => {
+        axios.get(`http://portalapi.asft.co/api/sectionsmealsdailylist/${employee_id}`)
         .then((response) => {
             dispatch({
                 type : types.GET_MEALSDAILY_LIST , 
@@ -78,6 +92,36 @@ export const GetSectionMealsDailyList = (employee_id) => {
             toastr.error('Fail!');
         })
     }
+}
+
+export const GetDepartmentDayMealsStatistics = (department_id) => {
+    return dispatch => {
+        axios.get(`http://portalapi.asft.co/api/departmentdaymealsstatistics/${department_id}`)        
+        .then((response) => {
+            dispatch({
+                type : types.GET_DEPARTMENTDAYMEALSSTATISTICS_LIST , 
+                payload : response.data
+            })
+        })
+        .catch(() => {
+            toastr.error('Fail!');
+        })
+    }
+}
+
+export const GetProjectDayMealsStatistics = (project_id) => {
+  return dispatch => {
+      axios.get(`http://portalapi.asft.co/api/projectdaymealsstatistics/${project_id}`)        
+      .then((response) => {
+          dispatch({
+              type : types.GET_PROJECTDAYMEALSSTATISTICS_LIST , 
+              payload : response.data
+          })
+      })
+      .catch(() => {
+          toastr.error('Fail!');
+      })
+  }
 }
 
 export const GetPersonelMealOneDayList  = () => {
@@ -170,12 +214,117 @@ export const GetCompanysDayMealsStatistics = (date) => {
     }
 }
 
+export const GetSectionDayMealsStatistics = (employee_id) => {
+    return dispatch => {
+        axios.get(`http://portalapi.asft.co/api/sectiondaymealsstatistics/${employee_id}`)        
+        .then((response) => {
+            dispatch({
+                type : types.GET_SECTIONDAYMEALSSTATISTICS_LIST , 
+                payload : response.data
+            })
+        })
+        .catch(() => {
+            toastr.error('Fail!');
+        })
+    }
+}
+
+export const GetMealsStatisticsDatesList = () => {
+    return dispatch => {
+        axios.get(`http://portalapi.asft.co/api/mealsstatisticsdateslist/`)        
+        .then((response) => {
+            dispatch({
+                type : types.GET_MEALSSTATISTICSDATESLIST_LIST, 
+                payload : response.data
+            })
+        })
+        .catch(() => {
+            toastr.error('Fail!');
+        })
+    }
+}
+
 export const GetContractorMonthlyMealsStatistics = () => {
     return dispatch => {
         axios.get(`http://portalapi.asft.co/api/contractormonthlymealsstatistics/`)        
         .then((response) => {
             dispatch({
-                type : types.GET_CONTRACTORMONTHLYMEALSSTATISTICS_LIST , 
+                type : types.GET_CONTRACTORMONTHLYMEALSSTATISTICS_LIST, 
+                payload : response.data
+            })
+        })
+        .catch(() => {
+            toastr.error('Fail!');
+        })
+    }
+}
+
+export const GetContractorSectionsDailyMealsStatistics = () => {
+    return dispatch => {
+        axios.get(`http://portalapi.asft.co/api/contractorsectionsdailymealsstatistics/`)        
+        .then((response) => {
+            dispatch({
+                type : types.GET_CONTRACTORSECTIONSDAILYMEALSSTATISTICS_LIST, 
+                payload : response.data
+            })
+        })
+        .catch(() => {
+            toastr.error('Fail!');
+        })
+    }
+}
+
+export const GetTodayMealsNames = () => {
+    return dispatch => {
+        axios.get(`http://portalapi.asft.co/api/todaymealsnames/`)        
+        .then((response) => {
+            dispatch({
+                type : types.GET_TODAYMEALSNAMES_LIST, 
+                payload : response.data
+            })
+        })
+        .catch(() => {
+            toastr.error('Fail!');
+        })
+    }
+}
+
+export const GetTodayMealsTotalNo = () => {
+    return dispatch => {
+        axios.get(`http://portalapi.asft.co/api/todaymealstotalno/`)        
+        .then((response) => {
+            dispatch({
+                type : types.GET_TODAYMEALSTOTALNO_LIST, 
+                payload : response.data
+            })
+        })
+        .catch(() => {
+            toastr.error('Fail!');
+        })
+    }
+}
+
+export const GetPersonelWhoDidnotSelectNextMonthMeals = () => {
+    return dispatch => {
+        axios.get(`http://portalapi.asft.co/api/personelwhodidnotselectnextmonthmeals/`)        
+        .then((response) => {
+            dispatch({
+                type : types.GET_PERSONELWHODIDNOTSELECTNEXTMONTHMEALS_LIST, 
+                payload : response.data
+            })
+        })
+        .catch(() => {
+            toastr.error('Fail!');
+        })
+    }
+}
+
+export const GetSectionNames = () => {
+    return dispatch => {
+        axios.get(`http://portalapi.asft.co/api/sectionnames/`)        
+        .then((response) => {
+            dispatch({
+                type : types.GET_SECTION_NAMES, 
                 payload : response.data
             })
         })
@@ -232,7 +381,7 @@ export const AddPersonelMealDay = personelMealDay => {
   };
 
   // Bulk ADD PERSONELMEALDAY
-  export const BulkAddPersonelMealDays = personelMealDays => {
+  export const BulkCurrentMonthAddPersonelMealDays = personelMealDays => {
     const config = {
         headers: {
             "Content-Type": "application/json"
@@ -243,25 +392,57 @@ export const AddPersonelMealDay = personelMealDay => {
         personelMealDays,
         editMood
     })
-    console.log('&&& body: ', body)
+    // console.log('&&& body: ', body)
 
     return dispatch => {
-        axios.post(`http://portalapi.asft.co/api/savebulkpersonelmealdays`, body, config)
+        axios.post(`http://portalapi.asft.co/api/savebulkcurrentmonthpersonelmealdays`, body, config)
+            .then(response => {
+                dispatch({
+                type: types.GET_PERSONELMEALDAYSEx_LIST,
+                payload: response.data
+                });
+                console.log(response.data)
+
+                toastr.success("اطلاعات با موفقیت ذخیره گردید")
+            })
+            .catch((error) => {
+                console.log(error);
+                toastr.error('ذخیره اطلاعات ناموفق بود!');
+            });
+    }
+  };
+
+  export const BulkNextMonthAddPersonelMealDays = personelMealDays => {
+    const config = {
+        headers: {
+            "Content-Type": "application/json"
+        }
+    };
+    const editMood = true;
+    const body = JSON.stringify({
+        personelMealDays,
+        editMood
+    })
+    // console.log('&&& body: ', body)
+
+    return dispatch => {
+        axios.post(`http://portalapi.asft.co/api/savebulknextmonthpersonelmealdays`, body, config)
             .then(resonse => {
                 dispatch({
                 type: types.GET_PERSONELMEALDAYSEx_LIST,
                 payload: resonse.data
                 });
-                toastr.success("Personel meals add succesfuly")
+                toastr.success("اطلاعات با موفقیت ذخیره گردید")
             })
             .catch((error) => {
                 console.log(error);
+                toastr.error('ذخیره اطلاعات ناموفق بود!');
             });
     }
   };
 
 // EDIT PERSONELMEALDAY
-export const EditPersonelMealDay = personelMealDay => {console.log('Edit personelMealDay: ', personelMealDay)
+export const EditPersonelMealDay = personelMealDay => {
     return dispatch => {
         axios.put(`http://portalapi.asft.co/api/personelmealdays/${personelMealDay.id}/`, personelMealDay)
             .then(resonse => {
@@ -278,7 +459,7 @@ export const EditPersonelMealDay = personelMealDay => {console.log('Edit persone
   };
 
   // Bulk EDIT PERSONELMEALDAY
-  export const BulkEditPersonelMealDays = personelMealDays => { 
+  export const BulkCurrentMonthEditPersonelMealDays = personelMealDays => { 
     const config = {
         headers: {
             "Content-Type": "application/json"
@@ -295,18 +476,53 @@ export const EditPersonelMealDay = personelMealDay => {console.log('Edit persone
     //     'editMood':editMood,
     // };
 
-    console.log('&&& body: ', body)
+    // console.log('&&& body: ', body)
     return dispatch => {
-        axios.post(`http://portalapi.asft.co/api/savebulkpersonelmealdays`, body, config)
+        axios.post(`http://portalapi.asft.co/api/savebulkcurrentmonthpersonelmealdays`, body, config)
+            .then(response => {
+                dispatch({
+                type: types.GET_PERSONELMEALDAYSEx_LIST,
+                payload: response.data
+                });
+                toastr.success("اطلاعات با موفقیت ذخیره گردید")
+            })
+            .catch((error) => {
+                console.log(error);
+                toastr.error('ذخیره اطلاعات ناموفق بود!');
+            });
+    }
+  };
+
+  export const BulkNextMonthEditPersonelMealDays = personelMealDays => { 
+    const config = {
+        headers: {
+            "Content-Type": "application/json"
+        }
+    };
+    const editMood = false;
+    const body = JSON.stringify({
+        personelMealDays,
+        editMood
+    })
+
+    // const data = {
+    //     'personelMealDays':personelMealDays,
+    //     'editMood':editMood,
+    // };
+
+    // console.log('&&& body: ', body)
+    return dispatch => {
+        axios.post(`http://portalapi.asft.co/api/savebulknextmonthpersonelmealdays`, body, config)
             .then(resonse => {
                 dispatch({
                 type: types.GET_PERSONELMEALDAYSEx_LIST,
                 payload: resonse.data
                 });
-                toastr.success("Personel meals edit succesfuly")
+                toastr.success("اطلاعات با موفقیت ذخیره گردید")
             })
             .catch((error) => {
                 console.log(error);
+                toastr.error('ذخیره اطلاعات ناموفق بود!');
             });
     }
   };

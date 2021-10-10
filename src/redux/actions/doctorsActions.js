@@ -70,7 +70,7 @@ export const AddDoctorModel = () => {
 }
 
 // ADD DOCTOR
-export const AddDoctor = doctor => {
+export const AddDoctor = doctor => {console.log('doctor: ', doctor)
     return dispatch => {
         axios.post("http://portalapi.asft.co/api/doctors/", doctor)
             .then(res => {

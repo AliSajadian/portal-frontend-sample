@@ -1,6 +1,41 @@
 .card3D{
     box-shadow: -10px 0px 15px 0px rgba(18, 18, 19, 0.336);
     border-radius: .3em;
+    width:100%;
+} 
+
+.card-body{
+    background-color: #eff3fa;
+}
+
+/* table {
+    font-family: 'B Nazanin';
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  table tr:nth-child(even){background-color: #d9e4ee;}
+  
+  table tr:hover {background-color: rgb(196, 202, 207);}
+  
+  table td, table th {
+    border: 1px solid rgb(212, 213, 214);
+    text-align: center;
+    padding-top: .4em;
+    padding-bottom: .4em;
+  }
+
+  table th {
+    padding-top: .7em;
+    padding-bottom: .7em;
+    text-align: center;
+    background-color: #a0c4f1;
+    color: rgb(7, 7, 7);
+  } */
+  
+  /* .card3D{
+    box-shadow: -10px 0px 15px 0px rgba(18, 18, 19, 0.336);
+    border-radius: .3em;
 }
 .card-header{
     background-color: #94bdf1;
@@ -24,12 +59,12 @@
 }
 #tb
 {
-    /* --scrollbarBG: #CFD8DC;
-    --thumbBG: #94bdf1; */
+    --scrollbarBG: #CFD8DC;
+    --thumbBG: #94bdf1; 
     scrollbar-width: thin;
     scrollbar-color: #93bff8 #cee0e7;
-    /* var(--thumbBG) var(--scrollbarBG); */
-/* width */
+    var(--thumbBG) var(--scrollbarBG); 
+    width
 
     display: block;
     width: 100%;
@@ -39,56 +74,49 @@
 }
 table tbody 
 {
-   /* overflow: auto; */
+   overflow: auto;
    overflow-y: auto;
    overflow-x: hidden;
    height: 500px;
-}
+} */
 
-#user-filter{
-    border-radius: .3em;
-}
 
-/* =================================================================== */
 /* width */
-/* ::-webkit-scrollbar {
-    width: 20px;
-} */
+    ::-webkit-scrollbar {
+        width: 10px;
+    }
   
-/* Track */
-/* ::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 5px grey;
-    border-radius: 10px;
-} */
-
-/* Handle */
-/* ::-webkit-scrollbar-thumb {
-    background: #93bff8;
-    border-radius: 10px;
-} */
-
-/* =================================================================== */
-/* width */
-::-webkit-scrollbar {
-    width: 10px;
-  }
-  
-  /* Track */
-  ::-webkit-scrollbar-track {
+    /* Track */
+    ::-webkit-scrollbar-track {
     background: #d7e2f0;
     box-shadow: inset 0 0 5px rgb(162, 178, 192);
     border-radius: 4px;
-  }
-  
-  /* Handle */
-  ::-webkit-scrollbar-thumb {
+    }
+
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
     background: #93bff8;
     border-radius: 4px;
-  }
-  
-  /* Handle on hover */
-  ::-webkit-scrollbar-thumb:hover {
+    }
+
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
     background: #699fe6;
-  }
+    }
 
      /* border: 2px dashed #8f1257; */
+    .combobox{
+        text-align: center;
+        background-color: #e1eafa;
+        margin-left: .2em;
+        width: 6.5em; 
+        border-radius: .3em;    
+    }
+
+    .combobox-long{
+        text-align: center;
+        background-color: #e1eafa;
+        margin-left: .2em;
+        width: 10em; 
+        border-radius: .3em;    
+    }

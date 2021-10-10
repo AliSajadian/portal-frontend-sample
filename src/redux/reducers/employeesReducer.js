@@ -2,6 +2,7 @@ import * as types from "../constants";
 
 const initialState = {
   employees: [],
+  employeesEx: [],  
   employeeCodes: [],
   employeeInfo: null,
   isModalOpen: false,
@@ -13,17 +14,22 @@ const reducer = (state = initialState, actions) => {
     case types.GET_EMPLOYEES_LIST:
       return {
         ...state,
-        employees: actions.employees
+        employees: actions.payload
       };
+    case types.GET_EMPLOYEES_LISTEX:
+      return {
+        ...state,
+        employeesEx: actions.payload
+      };      
     case types.GET_EMPLOYEE_CODES_LIST:
       return {
         ...state,
-        employeeCodes: actions.employeeCodes
+        employeeCodes: actions.payload
       };      
     case types.LOAD_RELATED_EMPLOYEE_INFO_CARD:
       return {
         ...state,
-        employeeInfo: actions.employeeInfo
+        employeeInfo: actions.payload
       };
     case types.START_EMPLOYEE_MODAL:
       return {
